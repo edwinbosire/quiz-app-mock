@@ -11,6 +11,7 @@
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
 		64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64ADD35A272CA9EF003F043D /* Assets.xcassets */; };
 		64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64ADD35D272CA9EF003F043D /* Preview Assets.xcassets */; };
+		64ADD365272DFA81003F043D /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD364272DFA81003F043D /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		64ADD358272CA9E9003F043D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		64ADD35A272CA9EF003F043D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64ADD35D272CA9EF003F043D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		64ADD364272DFA81003F043D /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */,
 				64ADD358272CA9E9003F043D /* ContentView.swift */,
+				64ADD364272DFA81003F043D /* Color.swift */,
 				64ADD35A272CA9EF003F043D /* Assets.xcassets */,
 				64ADD35C272CA9EF003F043D /* Preview Content */,
 			);
@@ -139,6 +142,7 @@
 			files = (
 				64ADD359272CA9E9003F043D /* ContentView.swift in Sources */,
 				64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */,
+				64ADD365272DFA81003F043D /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
