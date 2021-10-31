@@ -4,7 +4,7 @@ This is a simple SwiUI mock up of a quiz app landing page
 
 
 ## Preview 
-<img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/screenshot_1.png" width="300" height="650" />
+<img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/screenshot_1.png" width="600" >
 
 
 ## Lessons
