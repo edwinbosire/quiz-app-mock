@@ -8,6 +8,24 @@
 import SwiftUI
 
 extension Color {
+	static var paletteBlue: Color {
+		Color("primary")
+	}
+
+	static var paletteBlueDark: Color {
+		Color("primary_1")
+	}
+
+	static var paletteBlueSecondary: Color {
+		Color("secondary_1")
+	}
+
+	static var paletteBlueSecondaryDark: Color {
+		Color("secondary")
+	}
+}
+
+extension Color {
 	init(hex: String) {
 		let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
 		var int: UInt64 = 0

@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct QuizUp_MockApp: App {
+	@ObservedObject var viewModel = ExamViewModel.mock()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+			ExamView(viewModel: viewModel)
         }
     }
 }
