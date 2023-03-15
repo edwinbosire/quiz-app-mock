@@ -21,7 +21,6 @@ struct AnswerRow: View {
 	var selected: ((Answer) -> Void)?
 
 	@State var attempts: Int = 0
-//	@State var radialImage: String  = "circle"
 
 	init(answer: Answer, isLastRow: Bool = false, answerState: AnswerState, selected: ( (Answer) -> Void)? = nil) {
 		self.answer = answer
@@ -35,11 +34,12 @@ struct AnswerRow: View {
 			HStack {
 				Image(systemName: radialImage)
 					.symbolRenderingMode(.palette)
-					.foregroundStyle(Color.paletteBlue, Color.paletteBlueDark)
+					.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
+					.animation(.easeIn, value: radialImage)
 
 				Text(answer.title)
 					.font(.title3)
-					.foregroundColor(.paletteBlueSecondaryDark)
+					.foregroundColor(titleForegroundColor)
 					.padding(.vertical, 12)
 			}
 			.padding(.leading)
@@ -54,6 +54,40 @@ struct AnswerRow: View {
 //			}
 		}
 	}
+
+	var titleForegroundColor: Color {
+		switch answerState {
+			case .notAttempted:
+				return .paletteBlueSecondaryDark
+			case .correct:
+				return .white
+			case .wrong:
+				return .white
+		}
+	}
+
+	var radialImageBackgroundPrimary: Color {
+		switch answerState {
+			case .notAttempted:
+				return .paletteBlue
+			case .correct:
+				return .white
+			case .wrong:
+				return .white
+		}
+	}
+	var radialImageBackgroundSecondary: Color {
+		switch answerState {
+			case .notAttempted:
+				return .paletteBlue
+			case .correct:
+				return .white
+			case .wrong:
+				return .white
+		}
+	}
+
+
 
 	var radialImage: String {
 		switch answerState {

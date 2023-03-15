@@ -13,10 +13,10 @@ struct QuestionView: View {
 	@State private var selectedPage: Int = 0
 	var body: some View {
 		ZStack {
-			Color.black.opacity(0.1)
+			Color.gray.opacity(0.1)
 				.ignoresSafeArea()
 			VStack {
-				ProgressView(currentPage: $viewModel.progress)
+				ProgressView(currentPage: $viewModel.progress, pages: viewModel.questions.count)
 				TimerView()
 				QuestionCounter(progressTitle: viewModel.progressTitle)
 
@@ -77,16 +77,17 @@ struct TimerView: View {
 }
 
 struct ProgressView: View {
-	let width: Int = 25
 	@Binding var currentPage: Int
+	let pages: Int
 
 	var body: some View {
 		GeometryReader { reader in
 			HStack(spacing: 0) {
-				ForEach(0..<width, id:\.self) { i in
+				ForEach(0..<pages, id:\.self) { i in
 					Rectangle()
 						.fill( fillColor(at: i))
 						.border(.white.opacity(0.1))
+						.animation(.easeIn, value: i)
 				}
 			}
 
@@ -175,7 +176,7 @@ struct QuestionCounter: View {
 				.padding(.horizontal)
 				.padding(.vertical, 5.0)
 				.background(RoundedRectangle(cornerRadius: 50.0)
-					.fill(Color.paletteBlue)
+					.fill(Color.paletteBlue.gradient)
 					.shadow(color: Color.black.opacity(0.3), radius: 5, x: 2, y: 4)
 				)
 			Spacer()
