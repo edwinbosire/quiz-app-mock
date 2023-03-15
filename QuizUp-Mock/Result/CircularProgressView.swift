@@ -25,7 +25,7 @@ struct CircularProgressView: View {
 			Circle() // 2
 				.trim(from: 0, to: progress)
 				.stroke(
-					primaryColor,
+					AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center, startAngle: .zero, endAngle: .degrees(360)),
 					style: StrokeStyle(
 						lineWidth: secondaryLineWidth,
 						lineCap: .round
