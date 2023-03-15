@@ -26,6 +26,8 @@ struct Exam {
 
 extension Exam {
 	static func mock() -> Exam {
-		Exam(questions: [Question.mockQuestion1(), .mockQuestion2(), .mockQuestion3()], status: .unattempted)
+		let questionBank = QuestionDTO.loadAllQuestions()!
+		let exam = Array(questionBank[0..<5])
+		return Exam(questions: exam, status: .unattempted)
 	}
 }

@@ -77,6 +77,13 @@ class QuestionViewModel: ObservableObject, Identifiable {
 			answerState[answer] = .correct
 		}
 	}
+
+	func reset() {
+		options.forEach { answerState[$0] = .notAttempted }
+		selectedAnswers = [Answer]()
+		showHint = false
+		attempts = 0
+	}
 	static func mock() -> QuestionViewModel {
 		QuestionViewModel(question: Question.mockQuestion1())
 	}

@@ -30,20 +30,33 @@ class ExamViewModel: ObservableObject {
 
 	var score: Int {
 		var result = 0
-		availableQuestions.forEach { question in
-			question.answers.forEach{ answer in
-				if question.selectedAnswers.contains(answer) {
-					result += 1
+		for question in availableQuestions {
+			var questionWeight = 0
+			for answer in question.selectedAnswers {
+
+				if answer.isAnswer {
+					questionWeight += 1
 				}
 			}
+			if questionWeight == question.selectedAnswers.count {
+				result += 1
+			}
+			questionWeight = 0
 		}
 		return result
 	}
 
-	var scorePercentage: String {
-		"\(score / availableQuestions.count * 100) %"
+	var scorePercentage: Double {
+		(Double(score) / Double(availableQuestions.count) * 100)
 	}
 
+	var prompt: String {
+		if scorePercentage >= 75 {
+			return "Congratulation! You've passed the test"
+		} else {
+			return "Your score is below the 74% pass mark"
+		}
+	}
 	@Published var availableQuestions = [QuestionViewModel]()
 
 	init(exam: Exam) {
@@ -62,6 +75,16 @@ class ExamViewModel: ObservableObject {
 		}
 	}
 
+	func restartExam() {
+		for q in questions {
+			q.reset()
+		}
+		availableQuestions = [QuestionViewModel]()
+		progress = 0
+		progressTitle = ""
+		examStatus = .unattempted
+		prepareExam()
+	}
 
 }
 
@@ -96,6 +119,8 @@ extension ExamViewModel: QuestionOwner {
 extension ExamViewModel {
 	static func mock() -> ExamViewModel {
 		let exam = Exam.mock()
-		return ExamViewModel(exam: exam)
+		let viewModel = ExamViewModel(exam: exam)
+		viewModel.availableQuestions = viewModel.questions
+		return viewModel
 	}
 }

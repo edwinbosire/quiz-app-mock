@@ -37,6 +37,12 @@ struct QuestionView: View {
 			}
 
 		}
+		.onAppear {
+			selectedPage = viewModel.progress
+		}
+		.onChange(of: viewModel.progress) { newValue in
+			selectedPage = newValue
+		}
 	}
 }
 
