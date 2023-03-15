@@ -41,19 +41,17 @@ struct MenuButtons: View {
 		Button {
 
 		} label: {
-
-			Text(title)
-				.font(.title)
-				.bold()
-				.foregroundColor(foregroundColor)
-		}
-		.background(
 			RoundedRectangle(cornerRadius: 30)
 				.fill(backgroundColor.gradient)
 				.frame(height: 100)
 				.padding(.horizontal)
-
-		)
+				.overlay(
+					Text(title)
+						.font(.title)
+						.bold()
+						.foregroundColor(foregroundColor)
+				)
+		}
 
 
 	}

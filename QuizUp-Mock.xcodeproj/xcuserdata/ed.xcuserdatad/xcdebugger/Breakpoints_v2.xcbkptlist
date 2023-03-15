@@ -66,38 +66,6 @@
             endingLineNumber = "37"
             landmarkName = "loadAllQuestions()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A9EBCBDA-22BE-4D5E-B101-5BD2A5BE1EB3 - 6eee7f5a9bbee1f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "1552">
-               </Location>
-               <Location
-                  uuid = "A9EBCBDA-22BE-4D5E-B101-5BD2A5BE1EB3 - 6eee7f5a9bbee1f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "2632">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

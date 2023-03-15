@@ -13,6 +13,7 @@ struct QuizUp_MockApp: App {
     var body: some Scene {
         WindowGroup {
 			ExamView(viewModel: viewModel)
+//			MainMenu()
         }
     }
 }
