@@ -318,7 +318,7 @@ struct PopularTopics: View {
 
 			ScrollView(.horizontal, showsIndicators: false) {
 				LazyHGrid(rows: gridItems, spacing: 10) {
-					ForEach(0..<topics.count) { idx in
+					ForEach(0..<topics.count, id: \.self) { idx in
 
 						VStack {
 							Image(systemName: topics[idx].icon)
