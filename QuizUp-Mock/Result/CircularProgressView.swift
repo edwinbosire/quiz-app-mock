@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CircularProgressView: View {
 	@Binding var progress: Double
+	let score: String
 	var primaryColor: Color = .pink
 	var secondaryColor: Color = .pink.opacity(0.3)
 	var primaryLineWidth: Double = 30.0
@@ -36,20 +37,26 @@ struct CircularProgressView: View {
 //				.shadow(color: .black.opacity(0.4), radius: 1, x: 1, y: 1)
 
 
-			Text(String(format: "%.0f%%", min(self.progress, 1.0)*100.0))
-				.font(.largeTitle)
-				.monospacedDigit()
-				.bold()
+			VStack {
+				Text(String(format: "%.0f%%", min(self.progress, 1.0)*100.0))
+					.font(.largeTitle)
+					.monospacedDigit()
+					.bold()
 
+				Text(score)
+					.font(.caption)
+					.foregroundStyle(.secondary)
+			}
 		}
 	}
 }
 
 struct CircularProgressViewContainer: View {
 	@State var progress = 0.3
+	let score: String = "20/24"
 	var body: some View {
 		VStack {
-			CircularProgressView(progress: $progress)
+			CircularProgressView(progress: $progress, score: score)
 				.frame(width: 200)
 
 			Spacer()

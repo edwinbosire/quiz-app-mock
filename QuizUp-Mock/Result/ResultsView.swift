@@ -94,8 +94,8 @@ struct ResultsView: View {
 				Text("Congratulations on completing your exam")
 					.font(.title3)
 
-				CircularProgressView(progress: $ringProgress
-									 ,primaryColor: .pink)
+				CircularProgressView(progress: $ringProgress, score: 
+										"\(viewModel.score) / \(viewModel.availableQuestions.count)",primaryColor: .pink)
 					.frame(width: 200)
 					.padding()
 				Spacer()
