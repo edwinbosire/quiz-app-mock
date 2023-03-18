@@ -23,7 +23,7 @@ struct QuestionPageView: View {
 			PageCarouselView(pages: $pages, selectedPage: $selectedPage) { page in
 				VStack(spacing: 10) {
 
-					QuestionView(viewModel: viewModel)
+					QuestionView(viewModel: viewModel, route: .constant(.mockTest))
 						.frame(minWidth: 400)
 //					.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 

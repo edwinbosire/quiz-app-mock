@@ -15,7 +15,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
 	let index: Int
 
 	var title: String { question.title }
-	var hint: String { question.hint }
+	var hint: String { "This is a sample hint for a single question, it can be as long or short as one wishes, as a matter of fact, it can span multiple paragraphs "}// { question.hint }
 	var options: [Answer] { question.answers }
 	var answers: [Answer] { question.answers.compactMap { $0.isAnswer ? $0 : nil }}
 	var prompt: String {
@@ -34,6 +34,9 @@ class QuestionViewModel: ObservableObject, Identifiable {
 	@Published var showHint: Bool = false
 
 	var owner: QuestionOwner?
+	private var allQuesionsAnswered: Bool {
+		selectedAnswers.count == answers.count
+	}
 
 	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil) {
 		self.question = question
@@ -59,7 +62,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
 
 			if answers.contains(answer) {
 				answerState[answer] = .correct
-				if selectedAnswers.count == answers.count {
+				if allQuesionsAnswered {
 					owner?.progressToNextQuestions()
 				}
 			} else {

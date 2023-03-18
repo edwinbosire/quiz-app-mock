@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainMenu: View {
+	@Binding var route: Route
     var body: some View {
 		ZStack {
 			Color("Background").ignoresSafeArea()
@@ -19,11 +20,17 @@ struct MainMenu: View {
 
 	var content: some View {
 		VStack {
-			MenuButtons(title: "Mock Test", backgroundColor: .pastelBlue)
+			MenuButtons(title: "Mock Test", backgroundColor: .pastelBlue) {
+				route = .mockTest
+			}
 //				.background(mockTestBackground)
 //			MenuButtons(title: "Practice Test", backgroundColor: .paletteBlue)
-			MenuButtons(title: "Handbook", backgroundColor: .pastelBrown)
-			MenuButtons(title: "Question Bank", backgroundColor: .pastelLightBrow)
+			MenuButtons(title: "Handbook", backgroundColor: .pastelBrown) {
+				route = .handbook
+			}
+			MenuButtons(title: "Question Bank", backgroundColor: .pastelLightBrown){
+				route = .questionbank
+			}
 		}
 	}
 
@@ -37,9 +44,10 @@ struct MenuButtons: View {
 	let title: String
 	let backgroundColor: Color
 	var foregroundColor: Color = .white
+	var action: () -> Void
 	var body: some View {
 		Button {
-
+			action()
 		} label: {
 			RoundedRectangle(cornerRadius: 30)
 				.fill(backgroundColor.gradient)
@@ -58,7 +66,7 @@ struct MenuButtons: View {
 }
 struct MainMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MainMenu()
+		MainMenu(route: .constant(.mainMenu))
     }
 }
 
@@ -72,7 +80,7 @@ extension Color {
 	static var pastelThinBrown: Color {
 		Color(red: 0.941, green: 0.859, blue: 0.690, opacity: 1.000)
 	}
-	static var pastelLightBrow: Color {
+	static var pastelLightBrown: Color {
 		Color(red: 0.937, green: 0.714, blue: 0.502, opacity: 1.000)
 	}
 	static var pastelBrown: Color {

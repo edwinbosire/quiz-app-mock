@@ -9,14 +9,27 @@ import SwiftUI
 
 struct ResultsView: View {
 	@ObservedObject var viewModel: ExamViewModel
+	@Binding var route: Route
+	var body: some View {
+//		NavigationView {
+			ResultsViewContainer(viewModel: viewModel, route: $route)
+//		}
+	}
+}
+
+struct ResultsViewContainer: View {
+	@ObservedObject var viewModel: ExamViewModel
+	@Binding var route: Route
 	@State private var ringProgress = 0.0
 
 	var background: some View {
-		RadialGradient(gradient: Gradient(colors: [.yellow.opacity(0.3), .black.opacity(0.5)]), center: UnitPoint(x: 0.5, y: 0.8), startRadius: 0, endRadius: 650)
+		RadialGradient(gradient: Gradient(colors: [.pastelBrown, .pastelLightBrown, .pastelThinBrown]), center: UnitPoint(x: 0.5, y: 0.8), startRadius: 0, endRadius: 650)
 	}
 	var body: some View {
 		ZStack {
-			Color.yellow.opacity(0.01)
+//			Color.yellow.opacity(0.01)
+			Color("Background")
+				.opacity(0.8)
 				.ignoresSafeArea()
 			ScrollView {
 				VStack {
@@ -33,7 +46,7 @@ struct ResultsView: View {
 			}
 
 			ZStack {
-				Circle()
+				Rectangle()
 					.fill(Color.blue)
 					.frame(width: 12, height: 12)
 					.modifier(ParticlesModifier())
@@ -72,15 +85,23 @@ struct ResultsView: View {
 
 	fileprivate func resultsHeader() -> some View {
 		return ZStack {
-			background
+			Color("Background")
 				.ignoresSafeArea()
 				.padding(.top, -450)
+				.offset(y: -100)
+
+			Color("Background")
+				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 40))
+				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
+
+
 			VStack {
 				HStack {
 					Spacer()
 
 					Button {
 						viewModel.restartExam()
+						route = .mainMenu
 					} label: {
 						Image(systemName: "xmark")
 							.font(.title)
@@ -94,7 +115,7 @@ struct ResultsView: View {
 				Text("Congratulations on completing your exam")
 					.font(.title3)
 
-				CircularProgressView(progress: $ringProgress, score: 
+				CircularProgressView(progress: $ringProgress, score:
 										"\(viewModel.score) / \(viewModel.availableQuestions.count)",primaryColor: .pink)
 					.frame(width: 200)
 					.padding()
@@ -143,13 +164,12 @@ struct ResultsView: View {
 			}
 		}
 	}
-
 }
 
 
 struct ResultsView_Previews: PreviewProvider {
 	static var previews: some View {
 		let examViewModel = ExamViewModel.mock()
-		ResultsView(viewModel: examViewModel)
+		ResultsView(viewModel: examViewModel, route: .constant(.mockTest))
 	}
 }

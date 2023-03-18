@@ -14,6 +14,7 @@ enum AnswerState {
 }
 
 struct AnswerRow: View {
+	@Environment(\.colorScheme) var colorScheme
 	@State var selectedAnswer: Answer?
 	let answer: Answer
 	let isLastRow: Bool
@@ -103,7 +104,7 @@ struct AnswerRow: View {
 	var background: Color {
 		switch answerState {
 			case .notAttempted:
-				return .white
+				return Color("RowBackground2")
 			case .correct:
 				return .green
 			case .wrong:

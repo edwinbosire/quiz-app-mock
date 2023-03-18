@@ -23,7 +23,7 @@ class ExamViewModel: ObservableObject {
 	}
 	@Published var progressTitle: String
 	@Published var examStatus: ExamStatus
-
+	@Published var bookmarked: Bool = false
 	lazy var questions: [QuestionViewModel] = {
 		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
 	}()
@@ -98,7 +98,9 @@ extension ExamViewModel: QuestionOwner {
 				self?.progress += 1
 			}
 		} else {
-			examStatus = .finished
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+				self?.examStatus = .finished
+			}
 		}
 	}
 

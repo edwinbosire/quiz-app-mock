@@ -51,7 +51,7 @@ struct FireworkParticlesGeometryEffect : GeometryEffect {
 struct ParticlesModifier_Previews: PreviewProvider {
 	static var previews: some View {
 		ZStack {
-			Circle()
+			Rectangle()
 				.fill(Color.blue)
 				.frame(width: 12, height: 12)
 				.modifier(ParticlesModifier())
