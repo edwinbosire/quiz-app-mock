@@ -18,13 +18,41 @@ struct MonitizationView: View {
 						.frame(width: proxy.size.width / 3)
 					InAppPurchasePriceCard(title: "Monthly", subTitle: "", price: "£4.99")
 						.frame(width: proxy.size.width / 3)
-					InAppPurchasePriceCard(title: "Annual", subTitle: "", price: "£9.99")
+					InAppPurchasePriceCard(title: "3 Months", subTitle: "", price: "£9.99")
 						.frame(width: proxy.size.width / 3)
 				}
 				.frame(height: 150)
-				.padding(.top, 50)
+				.padding(.top, 40)
 			}
 			.frame(height: 200)
+
+
+//			Spacer()
+			VStack {
+				Button(action: {}) {
+					Text("£19.99 unlimitted access")
+				}
+				.padding()
+				.foregroundColor(.white)
+				.frame(maxWidth: .infinity)
+				.background(RoundedRectangle(cornerRadius: 20)
+					.fill(.blue)
+					.padding(.horizontal)
+				)
+
+				Button(action: {}) {
+					Text("Restore")
+				}
+				.padding()
+				.frame(maxWidth: .infinity)
+				.background(RoundedRectangle(cornerRadius: 20)
+					.stroke(Color.blue)
+					.padding(.horizontal)
+				)
+
+			}
+			.padding(.top, 40)
+//			Spacer()
 
 			VStack(alignment: .leading, spacing: 10) {
 				Text("You can cancel your subscription anytime through your Apple Store account settings, or it will automattivally renew.")
@@ -33,48 +61,35 @@ struct MonitizationView: View {
 
 				Text("By continuing, you agree to our EULA and Privacy Policy")
 			}
+			.font(.footnote)
 			.foregroundStyle(.secondary)
 			.padding(.horizontal)
 			.padding(.vertical)
-
-			Spacer()
-			Button(action: {}) {
-				Text("£9.99 unlimitted access")
-			}
-			.padding()
-			.foregroundColor(.white)
-			.frame(maxWidth: .infinity)
-			.background(RoundedRectangle(cornerRadius: 20)
-				.fill(.blue)
-				.padding(.horizontal)
-			)
-
 			Spacer()
 
-			Button(action: {}) {
-				Text("Restore")
-			}
-
-//			Spacer()
 		}
 		.background(Color("Background"))
 	}
 
 	func header() -> some View {
 		VStack {
-			HStack {
-				Spacer()
-				Button {route = .mainMenu } label: {
-					Image(systemName: "xmark")
-						.font(.largeTitle)
-				}
-				.padding()
-			}
+			ZStack(alignment: .center) {
+				Text("Go Pro!")
+					.font(.largeTitle)
+					.bold()
 
-			Text("Go Pro!")
-				.font(.largeTitle)
-				.bold()
-				.padding(.bottom, 20)
+				HStack(alignment: .firstTextBaseline) {
+					Spacer()
+					Button {route = .mainMenu } label: {
+						Image(systemName: "xmark")
+							.font(.largeTitle)
+					}
+					.padding()
+				}
+			}
+			.padding(.bottom, 20)
+
+
 
 			VStack(alignment: .leading) {
 				HStack {
@@ -106,7 +121,7 @@ struct MonitizationView: View {
 		.padding(.bottom, 30)
 		.background(
 			Color("Background")
-				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 20))
+				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
 		)
 

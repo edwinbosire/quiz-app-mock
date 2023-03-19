@@ -85,7 +85,7 @@ struct ResultsViewContainer: View {
 				.offset(y: -100)
 
 			Color("Background")
-				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 40))
+				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
 
 
