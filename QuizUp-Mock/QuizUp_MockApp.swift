@@ -40,6 +40,7 @@ struct QuizUp_MockApp: App {
 							}else {
 								isShowingProgressReport = false
 								isShowingSettings = false
+								isShowingMonitizationPage = false
 							}
 						}
 				case .mockTest:

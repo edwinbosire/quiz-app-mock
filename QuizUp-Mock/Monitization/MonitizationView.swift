@@ -80,7 +80,7 @@ struct MonitizationView: View {
 
 				HStack(alignment: .firstTextBaseline) {
 					Spacer()
-					Button {route = .mainMenu } label: {
+					Button { route = .mainMenu } label: {
 						Image(systemName: "xmark")
 							.font(.largeTitle)
 					}
