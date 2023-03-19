@@ -11,50 +11,50 @@ import SwiftUI
 struct QuizUp_MockApp: App {
 	@ObservedObject var viewModel = ExamViewModel.mock()
 	@State var route: Route = .mainMenu
-    var body: some Scene {
+	@State var isShowingProgressReport = false
+	@State var isShowingSettings = false
+	@Namespace var namespace
+
+	var body: some Scene {
         WindowGroup {
 			switch route {
-				case .mainMenu:
-					MainMenu(route: $route)
+				case .mainMenu, .progressReport, .settings:
+					MainMenu(route: $route, namespace: namespace)
+						.sheet(isPresented: $isShowingProgressReport) {
+							ProgressReport(route: $route)
+						}
+						.sheet(isPresented: $isShowingSettings) {
+							SettingsView(route: $route)
+						}
+
+						.onChange(of: route) { newValue in
+							if route == .progressReport {
+								isShowingProgressReport = true
+							} else if route == .settings {
+								isShowingSettings = true
+							} else {
+								isShowingProgressReport = false
+								isShowingSettings = false
+							}
+						}
 				case .mockTest:
-					ExamView(viewModel: viewModel, route: $route)
+					ExamView(viewModel: viewModel, route: $route, namespace: namespace)
 				case .handbook:
-					PlaceHolder(route: $route)
+					HanbookMainMenu(route: $route)
 				case .questionbank:
-					PlaceHolder(route: $route)
+					QuestionBankView(route: $route)
 			}
+
 
         }
     }
 }
 
-enum Route {
+enum Route: Equatable {
 	case mainMenu
-	case mockTest
-	case handbook
+	case mockTest(testId: Int)
+	case handbook(chapter: Int)
 	case questionbank
+	case progressReport
+	case settings
 }
-
-struct PlaceHolder: View {
-	@Binding var route: Route
-	var body: some View {
-		VStack {
-			HStack {
-				Spacer()
-				Button {route = .mainMenu} label: {
-					Image(systemName: "xmark")
-				}
-			}
-			VStack {
-				Text("Under construction")
-			}
-			.frame(maxHeight: .infinity)
-		}
-	}
-}
-
-//struct PlaceHolder_Previews: PreviewProvider {
-//	static var previews: some View {
-//		PlaceHolder()
-//	}
-//}

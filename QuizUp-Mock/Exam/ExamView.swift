@@ -10,11 +10,20 @@ import SwiftUI
 struct ExamView: View {
 	@ObservedObject var viewModel: ExamViewModel
 	@Binding var route: Route
+	var namespace: Namespace.ID
+	@State var scale = 0.9
+
     var body: some View {
 		Group {
 			switch viewModel.examStatus {
 				case .unattempted:
-					 QuestionView(viewModel: viewModel,route: $route)
+					 QuestionView(viewModel: viewModel,route: $route, namespace: namespace)
+//						.scaleEffect(scale)
+//						.onAppear{
+//							withAnimation(.easeIn) {
+//								scale = 1.0
+//							}
+//						}
 				case .finished:
 					ResultsView(viewModel: viewModel, route: $route)
 				case .attempted:
@@ -31,8 +40,9 @@ struct ExamView: View {
 }
 
 struct ExamView_Previews: PreviewProvider {
+	@Namespace static var namespace
     static var previews: some View {
 		let examViewModel = ExamViewModel.mock()
-		ExamView(viewModel: examViewModel, route: .constant(.mockTest))
+		ExamView(viewModel: examViewModel, route: .constant(.mockTest(testId: 0)), namespace: namespace)
     }
 }

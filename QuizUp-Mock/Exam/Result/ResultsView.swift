@@ -11,9 +11,7 @@ struct ResultsView: View {
 	@ObservedObject var viewModel: ExamViewModel
 	@Binding var route: Route
 	var body: some View {
-//		NavigationView {
-			ResultsViewContainer(viewModel: viewModel, route: $route)
-//		}
+		ResultsViewContainer(viewModel: viewModel, route: $route)
 	}
 }
 
@@ -22,12 +20,8 @@ struct ResultsViewContainer: View {
 	@Binding var route: Route
 	@State private var ringProgress = 0.0
 
-	var background: some View {
-		RadialGradient(gradient: Gradient(colors: [.pastelBrown, .pastelLightBrown, .pastelThinBrown]), center: UnitPoint(x: 0.5, y: 0.8), startRadius: 0, endRadius: 650)
-	}
 	var body: some View {
 		ZStack {
-//			Color.yellow.opacity(0.01)
 			Color("Background")
 				.opacity(0.8)
 				.ignoresSafeArea()
@@ -170,6 +164,6 @@ struct ResultsViewContainer: View {
 struct ResultsView_Previews: PreviewProvider {
 	static var previews: some View {
 		let examViewModel = ExamViewModel.mock()
-		ResultsView(viewModel: examViewModel, route: .constant(.mockTest))
+		ResultsView(viewModel: examViewModel, route: .constant(.mockTest(testId: 0)))
 	}
 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct QuestionView: View {
 	@ObservedObject var viewModel: ExamViewModel
 	@Binding var route: Route
+	var namespace: Namespace.ID
+
 	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
 	var body: some View {
@@ -19,7 +21,7 @@ struct QuestionView: View {
 					.opacity(0.9)
 					.ignoresSafeArea()
 				VStack {
-					ProgressView(currentPage: $viewModel.progress, pages: viewModel.questions.count)
+					ExamProgressView(currentPage: $viewModel.progress, pages: viewModel.questions.count)
 					HStack(alignment: .firstTextBaseline) {
 						QuestionCounter(progressTitle: viewModel.progressTitle)
 						Spacer()
@@ -54,6 +56,7 @@ struct QuestionView: View {
 			.toolbar {
 				ToolbarItem(placement: .navigationBarLeading) {
 					Text("Mock Test")
+						.matchedGeometryEffect(id: "mockTestTitle-0", in: namespace)
 						.font(.title3)
 						.bold()
 				}
@@ -119,7 +122,7 @@ struct TimerView: View {
 	}
 }
 
-struct ProgressView: View {
+struct ExamProgressView: View {
 	@Binding var currentPage: Int
 	let pages: Int
 
@@ -244,8 +247,10 @@ struct QuestionCounter: View {
 
 
 struct QuestionView_Previews: PreviewProvider {
+	@Namespace static var namespace
 	static var previews: some View {
 		let viewModel = ExamViewModel.mock()
-		QuestionView(viewModel: viewModel, route: .constant(.mockTest))
+
+		QuestionView(viewModel: viewModel, route: .constant(.mockTest(testId: 0)), namespace: namespace)
 	}
 }
