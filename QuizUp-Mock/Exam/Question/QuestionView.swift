@@ -15,7 +15,6 @@ struct QuestionView: View {
 	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
 	var body: some View {
-		NavigationView {
 			ZStack {
 				Color("Background")
 					.opacity(0.9)
@@ -83,7 +82,7 @@ struct QuestionView: View {
 
 				])
 			}
-		}
+
 
 
 	}

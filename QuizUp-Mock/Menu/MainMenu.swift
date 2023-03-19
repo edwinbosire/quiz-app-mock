@@ -46,6 +46,7 @@ struct WelcomeBackHeaderView: View {
 	@Binding var route: Route
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
+	@State private var searchText = ""
 
 	var body: some View {
 		VStack {
@@ -66,6 +67,8 @@ struct WelcomeBackHeaderView: View {
 
 			Text("British Citizenship Exam Preparation")
 				.foregroundStyle(.secondary)
+
+			SearchBar(text: $searchText)
 		}
 		.padding()
 	}
@@ -84,7 +87,7 @@ struct SummaryView: View {
 	var body: some View {
 		VStack {
 			Spacer()
-				.frame(height: 100)
+				.frame(height: 150)
 			HStack {
 				Button(action: {route = .progressReport}) {
 					VStack {
