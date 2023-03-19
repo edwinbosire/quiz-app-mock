@@ -13,12 +13,13 @@ struct QuizUp_MockApp: App {
 	@State var route: Route = .mainMenu
 	@State var isShowingProgressReport = false
 	@State var isShowingSettings = false
+	@State var isShowingMonitizationPage = false
 	@Namespace var namespace
 
 	var body: some Scene {
         WindowGroup {
 			switch route {
-				case .mainMenu, .progressReport, .settings:
+				case .mainMenu, .progressReport, .settings, .monetization:
 					MainMenu(route: $route, namespace: namespace)
 						.sheet(isPresented: $isShowingProgressReport) {
 							ProgressReport(route: $route)
@@ -26,13 +27,17 @@ struct QuizUp_MockApp: App {
 						.sheet(isPresented: $isShowingSettings) {
 							SettingsView(route: $route)
 						}
-
+						.sheet(isPresented: $isShowingMonitizationPage, content: {
+							MonitizationView(route: $route)
+						})
 						.onChange(of: route) { newValue in
 							if route == .progressReport {
 								isShowingProgressReport = true
 							} else if route == .settings {
 								isShowingSettings = true
-							} else {
+							} else if route == .monetization {
+								isShowingMonitizationPage = true
+							}else {
 								isShowingProgressReport = false
 								isShowingSettings = false
 							}
@@ -57,4 +62,5 @@ enum Route: Equatable {
 	case questionbank
 	case progressReport
 	case settings
+	case monetization
 }

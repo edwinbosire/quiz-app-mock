@@ -243,7 +243,15 @@ struct PracticeExamList: View {
 
 					LazyVStack {
 						ForEach((0..<100), id: \.self) { quiz in
-							Button(action: {route = .mockTest(testId: quiz)}) {
+							Button(action: {
+								if quiz < 3 {
+									route = .mockTest(testId: quiz)
+								} else {
+									route = .monetization
+								}
+
+
+							}) {
 								VStack {
 									HStack {
 										Image(systemName: quiz > 2 ? "lock.slash" : "lock.open")
