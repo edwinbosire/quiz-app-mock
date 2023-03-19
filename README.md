@@ -9,9 +9,15 @@ This repository contains the entire code for the Life in the UK test app. This i
 
 |- Menu -|- Question Page -|- Results -|
 |--------|-----------------|-----------|
-| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/main_menu.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/QuestionPage.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/results_page.png" width="300" >|
+| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/main_menu-light.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/QuestionPage.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/results_page.png" width="300" >|
 | - | - | - |
 | <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/main_menu-dark.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/QuestionPage-dark.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/results_page-dark.png" width="300" >|
+
+|- In App Purchase -|- Handbook -|- Settings -|
+|--------|-----------------|-----------|
+| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/inAppPurchase-light.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/handbook-light.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/settings-light.png" width="300" >|
+| - | - | - |
+| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/inAppPurchase-dark.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/handbook-dark.png" width="300" >| <img src="https://github.com/edwinbosire/quiz-app-mock/blob/main/Assets/settings-dark.png" width="300" >|
 
 ### Exam session 
 
