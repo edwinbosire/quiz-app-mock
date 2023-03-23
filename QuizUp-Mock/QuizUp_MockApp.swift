@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct QuizUp_MockApp: App {
 	@ObservedObject var viewModel = ExamViewModel.mock()
+	@StateObject var menuViewModel = MenuViewModel()
 	@State var route: Route = .mainMenu
 	@State var isShowingProgressReport = false
 	@State var isShowingSettings = false
@@ -20,7 +21,7 @@ struct QuizUp_MockApp: App {
         WindowGroup {
 			switch route {
 				case .mainMenu, .progressReport, .settings, .monetization:
-					MainMenu(route: $route, namespace: namespace)
+					MainMenu(menuViewModel: menuViewModel, route: $route, namespace: namespace)
 						.sheet(isPresented: $isShowingProgressReport) {
 							ProgressReport(route: $route)
 						}
@@ -46,7 +47,7 @@ struct QuizUp_MockApp: App {
 				case .mockTest:
 					ExamView(viewModel: viewModel, route: $route, namespace: namespace)
 				case .handbook:
-					HanbookMainMenu(route: $route)
+					HanbookMainMenu(chapter: "This should never be displayed")
 				case .questionbank:
 					QuestionBankView(route: $route)
 			}

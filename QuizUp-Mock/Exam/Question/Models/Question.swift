@@ -87,78 +87,9 @@ class QuestionViewModel: ObservableObject, Identifiable {
 		showHint = false
 		attempts = 0
 	}
+
 	static func mock() -> QuestionViewModel {
-		QuestionViewModel(question: Question.mockQuestion1())
+		let mockExam = ExamRepository.mockExam(questions: 5)
+		return QuestionViewModel(question: mockExam.questions[0])
 	}
-}
-
-struct Question {
-	let title: String
-	let hint: String
-	let answers: [Answer]
-
-	init(title: String, hint: String = "", options: [Answer]) {
-		self.title = title
-		self.hint = hint
-		self.answers = options
-	}
-}
-
-struct Answer: Hashable {
-	let title: String
-	let isAnswer: Bool
-
-	init(title: String, isAnswer: Bool = false) {
-		self.title = title
-		self.isAnswer = isAnswer
-	}
-}
-
-extension Question {
-	static func mockQuestion1() -> Question {
-		let answers = [
-			"Treating others with fairness",
-			"Looking after yourself and family",
-			"Looking after the environment",
-			"Driving a car"
-		]
-		let options = answers.enumerated().map { index, value in Answer(title: value, isAnswer: index == 3)}
-		let hint = "Driving a car is NOT one of the fundamental principles of British life."
-
-		return Question(title: "What is not a fundamental principle of British life?",
-						hint: hint,
-						options: options)
-	}
-
-	static func mockQuestion2() -> Question {
-		let answers = [
-			"The Prime Minister",
-			"The Monarch",
-			"The Shadow Cabinet",
-			"The Speaker"
-		]
-		let options = answers.enumerated().map { index, value in Answer(title: value, isAnswer: index == 1 )}
-		let hint = "Life peers are appointed by the monarch on the advice of the Prime Minister.."
-
-		return Question(title: "Who appoints “Life peers”?",
-						hint: hint,
-						options: options)
-	}
-
-	static func mockQuestion3() -> Question {
-		let answers = [
-			"Leonardo DiCaprio",
-			"Colin Firth",
-			"Tilda Swinton",
-			"Jacky Stewart"
-		]
-
-		let options = answers.enumerated().map { index, value in Answer(title: value, isAnswer: (index == 1 || index == 2))}
-		let hint = "Recent British actors to have won Oscars include Colin Firth, Sir Anthony Hopkins, Dame Judi Dench, Kate Winslet and Tilda Swinton."
-
-		return Question(title: "Which Two British film actors have recently won Oscars?",
-						hint: hint,
-						options: options)
-	}
-
 }

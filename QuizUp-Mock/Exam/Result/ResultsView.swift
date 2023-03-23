@@ -16,6 +16,8 @@ struct ResultsView: View {
 }
 
 struct ResultsViewContainer: View {
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
 	@ObservedObject var viewModel: ExamViewModel
 	@Binding var route: Route
 	@State private var ringProgress = 0.0
@@ -95,7 +97,7 @@ struct ResultsViewContainer: View {
 
 					Button {
 						viewModel.restartExam()
-						route = .mainMenu
+						presentationMode.wrappedValue.dismiss()
 					} label: {
 						Image(systemName: "xmark")
 							.font(.title)

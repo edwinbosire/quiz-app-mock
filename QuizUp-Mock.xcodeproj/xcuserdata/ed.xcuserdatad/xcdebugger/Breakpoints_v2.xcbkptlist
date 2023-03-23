@@ -7,145 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C34AE492-54A5-4794-A7BA-25C54644B8E8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Resources/questionDTO.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "loadAllQuestions()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C34AE492-54A5-4794-A7BA-25C54644B8E8 - 6eee7f5a9bbec2e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "168">
-               </Location>
-               <Location
-                  uuid = "C34AE492-54A5-4794-A7BA-25C54644B8E8 - 6eee7f5a9bbec2e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "424">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A9EBCBDA-22BE-4D5E-B101-5BD2A5BE1EB3"
+            uuid = "193C4231-DA9B-41E6-85A4-869B0E405148"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Resources/questionDTO.swift"
+            filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "loadAllQuestions()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C5A76209-BDCA-4D6C-8226-655CAAD51926"
+            uuid = "CA9F3CDC-3D8D-49D4-ADCA-4DED8D46F077"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Resources/questionDTO.swift"
+            filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "loadAllQuestions()"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "parseJSONData()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FBE31845-BA7B-47B5-A56F-1878090B7B16"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Resources/questionDTO.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "loadAllQuestions()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A127D6AF-ECC4-4E5D-99B6-34C683931117"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Resources/questionDTO.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "loadAllQuestions()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A127D6AF-ECC4-4E5D-99B6-34C683931117 - 6eee7f5a9bbedd5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31"
-                  offsetFromSymbolStart = "1356">
-               </Location>
-               <Location
-                  uuid = "A127D6AF-ECC4-4E5D-99B6-34C683931117 - e39e1e669881c51b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (QuizUp_Mock.QuestionDTO) -&gt; QuizUp_Mock.Question in static QuizUp_Mock.QuestionDTO.loadAllQuestions() -&gt; Swift.Optional&lt;Swift.Array&lt;QuizUp_Mock.Question&gt;&gt;"
-                  moduleName = "QuizUp-Mock"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Resources/questionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

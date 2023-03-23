@@ -8,27 +8,18 @@
 import SwiftUI
 
 struct HanbookMainMenu: View {
-	@Binding var route: Route
+	let chapter: String
 	var body: some View {
 		VStack {
-			HStack {
-				Spacer()
-				Button {route = .mainMenu} label: {
-					Image(systemName: "xmark")
-						.font(.largeTitle)
-				}
-				.padding()
-			}
-			VStack {
-				Text("Handbook Under construction")
-			}
-			.frame(maxHeight: .infinity)
+			Text("Handbook Under construction")
 		}
+		.frame(maxHeight: .infinity)
+		.navigationTitle(chapter)
 	}
 }
 
 struct HanbookMainMenu_Previews: PreviewProvider {
     static var previews: some View {
-		HanbookMainMenu(route: .constant(.handbook(chapter: 0)))
+		HanbookMainMenu(chapter: "Test chapter")
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct QuestionView: View {
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
 	@ObservedObject var viewModel: ExamViewModel
 	@Binding var route: Route
 	var namespace: Namespace.ID
@@ -77,7 +79,7 @@ struct QuestionView: View {
 				ActionSheet(title: Text(""), message: nil, buttons: [
 					.default(Text("Report Issue")),
 					.default(Text("Restart Test")),
-					.default(Text("Quit Test")){ route = .mainMenu},
+					.default(Text("Quit Test")){ presentationMode.wrappedValue.dismiss()},
 					.cancel()
 
 				])

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExamStatus {
+enum ExamStatus: Equatable {
 	case attempted
 	case unattempted
 	case started
@@ -16,7 +16,8 @@ enum ExamStatus {
 	case finished
 }
 
-struct Exam {
+struct Exam: Hashable {
+	let id: Int
 	let questions: [Question]
 	let status: ExamStatus
 	var score: Int = 0
@@ -26,8 +27,6 @@ struct Exam {
 
 extension Exam {
 	static func mock() -> Exam {
-		let questionBank = QuestionDTO.loadAllQuestions()!
-		let exam = Array(questionBank[0..<5])
-		return Exam(questions: exam, status: .unattempted)
+		ExamRepository.mockExam(questions: 5)
 	}
 }

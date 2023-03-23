@@ -36,6 +36,8 @@ struct ExamView: View {
 					 Text("Exam was not finished")
 			}
 		}
+		.navigationBarBackButtonHidden()
+
     }
 }
 

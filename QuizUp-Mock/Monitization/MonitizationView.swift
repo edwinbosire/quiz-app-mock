@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MonitizationView: View {
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
 	@Binding var route: Route
 	var body: some View {
 		VStack {
@@ -80,7 +82,10 @@ struct MonitizationView: View {
 
 				HStack(alignment: .firstTextBaseline) {
 					Spacer()
-					Button { route = .mainMenu } label: {
+					Button {
+						route = .mainMenu
+						presentationMode.wrappedValue.dismiss()
+					} label: {
 						Image(systemName: "xmark")
 							.font(.largeTitle)
 					}
