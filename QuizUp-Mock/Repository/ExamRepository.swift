@@ -8,7 +8,9 @@
 import Foundation
 
 enum ExamRepositoryErrors: Error {
-	case UnableToLoadJSONFile
+	case UnableToLoadQuestionsJSONFile
+	case UnableToLoadExplanationJSONFile
+	case UnableToDecodeJSONFile
 }
 
 class ExamRepository {
@@ -53,17 +55,32 @@ class ExamRepository {
 
 extension ExamRepository {
 	static func parseJSONData() throws -> [Question] {
-		guard let jsonURL = Bundle.main.url(forResource: "questions", withExtension: "json") else {
-			throw ExamRepositoryErrors.UnableToLoadJSONFile
+		guard let questionsJSONURL = Bundle.main.url(forResource: "questions", withExtension: "json") else {
+			throw ExamRepositoryErrors.UnableToLoadQuestionsJSONFile
 		}
 
+		guard let explanationJSONURL = Bundle.main.url(forResource: "explanation", withExtension: "json") else {
+			throw ExamRepositoryErrors.UnableToLoadExplanationJSONFile
+		}
+
+
 		do {
-			let jsonData = try Data(contentsOf: jsonURL, options: .alwaysMapped)
-			let questionData = try JSONDecoder().decode(QuestionData.self, from: jsonData)
-			return questionData.data.map { $0.toModel() }
+			let explanationsJSON = try Data(contentsOf: explanationJSONURL, options: .alwaysMapped)
+			let explanations = try JSONDecoder().decode(ExplanationsDTOWrapper.self, from: explanationsJSON)
+
+			let questionsJSON = try Data(contentsOf: questionsJSONURL, options: .alwaysMapped)
+			let questions = try JSONDecoder().decode(QuestionData.self, from: questionsJSON)
+
+			return questions.data.map { question in
+				if let explanationDTO = explanations.data.first(where: { $0.id == Int(question.bookSectionId)}) {
+					return question.toModel(with: explanationDTO.explanation)
+				}
+				return question.toModel(with: nil)
+
+			}
 		} catch {
 			print("Error decoding JSON data: \(error.localizedDescription)")
-			throw ExamRepositoryErrors.UnableToLoadJSONFile
+			throw ExamRepositoryErrors.UnableToDecodeJSONFile
 		}
 	}
 }

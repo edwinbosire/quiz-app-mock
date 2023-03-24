@@ -15,7 +15,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
 	let index: Int
 
 	var title: String { question.title }
-	var hint: String { "This is a sample hint for a single question, it can be as long or short as one wishes, as a matter of fact, it can span multiple paragraphs "}// { question.hint }
+	var hint: String { question.hint ?? ""}
 	var options: [Answer] { question.answers }
 	var answers: [Answer] { question.answers.compactMap { $0.isAnswer ? $0 : nil }}
 	var prompt: String {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		641C198529C553F00018EE3D /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641C198429C553F00018EE3D /* Playground.swift */; };
 		641C198729C613160018EE3D /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641C198629C613160018EE3D /* View+Extension.swift */; };
+		642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642205D929CD2FD900BD663D /* HTMLView.swift */; };
 		6455B0D929BA7841008B6F39 /* AutoInflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0D829BA7841008B6F39 /* AutoInflection.swift */; };
 		6455B0DB29BA7F32008B6F39 /* QuestionPageViewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DA29BA7F32008B6F39 /* QuestionPageViewScrollView.swift */; };
 		6455B0DD29BBABCB008B6F39 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DC29BBABCB008B6F39 /* QuestionView.swift */; };
@@ -18,7 +19,7 @@
 		6455B0E729BDFBAA008B6F39 /* Exam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0E629BDFBAA008B6F39 /* Exam.swift */; };
 		6455B0E929BDFBBF008B6F39 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0E829BDFBBF008B6F39 /* Question.swift */; };
 		6455B0EB29BE7C00008B6F39 /* ExamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0EA29BE7C00008B6F39 /* ExamView.swift */; };
-		6455B0EE29BF25CD008B6F39 /* book_index.json in Resources */ = {isa = PBXBuildFile; fileRef = 6455B0EC29BF25CD008B6F39 /* book_index.json */; };
+		6455B0EE29BF25CD008B6F39 /* explanation.json in Resources */ = {isa = PBXBuildFile; fileRef = 6455B0EC29BF25CD008B6F39 /* explanation.json */; };
 		6455B0EF29BF25CD008B6F39 /* questions.json in Resources */ = {isa = PBXBuildFile; fileRef = 6455B0ED29BF25CD008B6F39 /* questions.json */; };
 		6455B0F229BF25FA008B6F39 /* QuestionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F129BF25FA008B6F39 /* QuestionDTO.swift */; };
 		6455B0F429BF3EB8008B6F39 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F329BF3EB8008B6F39 /* ResultsView.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		641C198429C553F00018EE3D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 		641C198629C613160018EE3D /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		642205D929CD2FD900BD663D /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		6455B0D829BA7841008B6F39 /* AutoInflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInflection.swift; sourceTree = "<group>"; };
 		6455B0DA29BA7F32008B6F39 /* QuestionPageViewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPageViewScrollView.swift; sourceTree = "<group>"; };
 		6455B0DC29BBABCB008B6F39 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
@@ -53,7 +55,7 @@
 		6455B0E629BDFBAA008B6F39 /* Exam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exam.swift; sourceTree = "<group>"; };
 		6455B0E829BDFBBF008B6F39 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		6455B0EA29BE7C00008B6F39 /* ExamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamView.swift; sourceTree = "<group>"; };
-		6455B0EC29BF25CD008B6F39 /* book_index.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = book_index.json; sourceTree = "<group>"; };
+		6455B0EC29BF25CD008B6F39 /* explanation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = explanation.json; sourceTree = "<group>"; };
 		6455B0ED29BF25CD008B6F39 /* questions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = questions.json; sourceTree = "<group>"; };
 		6455B0F129BF25FA008B6F39 /* QuestionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDTO.swift; sourceTree = "<group>"; };
 		6455B0F329BF3EB8008B6F39 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				6455B0DC29BBABCB008B6F39 /* QuestionView.swift */,
+				642205D929CD2FD900BD663D /* HTMLView.swift */,
 				6455B0E129BD00B2008B6F39 /* AnswerRow.swift */,
 				6455B0E529BDFB97008B6F39 /* Models */,
 			);
@@ -111,7 +114,7 @@
 		6455B0F029BF25D2008B6F39 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				6455B0EC29BF25CD008B6F39 /* book_index.json */,
+				6455B0EC29BF25CD008B6F39 /* explanation.json */,
 				6455B0ED29BF25CD008B6F39 /* questions.json */,
 				6455B0F129BF25FA008B6F39 /* QuestionDTO.swift */,
 				64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */,
@@ -316,7 +319,7 @@
 				64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */,
 				6455B0EF29BF25CD008B6F39 /* questions.json in Resources */,
 				64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */,
-				6455B0EE29BF25CD008B6F39 /* book_index.json in Resources */,
+				6455B0EE29BF25CD008B6F39 /* explanation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +348,7 @@
 				64B7EDEF29C6C4B3001F6717 /* SearchBar.swift in Sources */,
 				6455B0E929BDFBBF008B6F39 /* Question.swift in Sources */,
 				6455B0F729C13559008B6F39 /* CircularProgressView.swift in Sources */,
+				642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */,
 				6455B0EB29BE7C00008B6F39 /* ExamView.swift in Sources */,
 				64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */,
 				64B7EDE629C6A186001F6717 /* ProgressReport.swift in Sources */,

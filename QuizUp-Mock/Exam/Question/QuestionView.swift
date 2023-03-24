@@ -209,18 +209,59 @@ struct QuestionPageContent: View {
 
 
 						if showHint {
-							Text(viewModel.hint)
-								.font(.callout)
-								.foregroundStyle(.tertiary)
-								.padding(.horizontal)
-								.opacity(showHint ? 1 : 0)
-								.animation(.easeInOut(duration: 10), value: showHint)
+							// add text here with an option to show more for content that spans 3 or more lines. This will present a sheet showing more details
+//							HTMLView(htmlContent: viewModel.hint, font: UIFont.systemFont(ofSize: 16), foregroundColor: UIColor(Color.paletteBlueDark))
+//								.padding(.horizontal)
+//								.transition(.asymmetric(insertion: .scale, removal: .opacity))
 						}
 					}
 					.frame(minHeight: geometry.size.height)
 				} //ScrollView
 			}// GeometryReader
-	} // Body
+			.sheet(isPresented: $showHint) {
+				VStack {
+					HStack {
+						Button(action: {showHint.toggle()}) {
+							Image(systemName: "chevron.down")
+								.font(.title)
+						}
+
+						Spacer()
+						Text("Explanation")
+							.font(.title3)
+							.bold()
+						Spacer()
+						Button(action: {
+							withAnimation {
+								showHint.toggle()
+								viewModel.owner?.progressToNextQuestions()
+							}
+
+						}) {
+							Image(systemName: "arrow.right")
+								.font(.title)
+						}
+					}
+					.padding()
+
+					Spacer()
+//					HTMLView(htmlContent: viewModel.hint,
+//							 font: UIFont.systemFont(ofSize: 18),
+//							 foregroundColor: UIColor(Color.paletteBlueDark))
+//					.padding(.horizontal)
+//					.presentationDetents([.medium, .large])
+					ScrollView {
+						Text(viewModel.hint)
+							.font(.callout)
+							.foregroundStyle(.primary)
+							.padding(.horizontal)
+							.presentationDetents([.height(150), .medium, .large])
+						Spacer()
+					}
+
+				}
+			}
+	}
 }
 
 struct QuestionCounter: View {

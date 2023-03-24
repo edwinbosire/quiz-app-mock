@@ -44,55 +44,17 @@ struct QuestionDTO: Codable {
 		case correct
 		case explanation
 	}
-
-//	init(from decoder: Decoder) throws {
-//		do {
-//			let container = try decoder.container(keyedBy: CodingKeys.self)
-//			let questionId = try container.decode(String.self, forKey: .questionId)
-//			let bookSectionId = try container.decode(String.self, forKey: .bookSectionId)
-//			let category = try container.decode(String.self, forKey: .category)
-//			let question = try container.decode(String.self, forKey: .question)
-//			let year = try container.decodeIfPresent(String.self, forKey: .year)
-//			let choices = try container.decode([String].self, forKey: .choices)
-//			let correct = try container.decode([String].self, forKey: .correct)
-//			let explanation = try container.decode(Explanation.self, forKey: .explanation)
-//
-//
-//			self.questionId = questionId
-//			self.bookSectionId = bookSectionId
-//			self.category = category
-//			self.question = question
-//			self.year = year
-//			self.choices = choices
-//			self.correct = correct
-//			self.explanation = explanation
-//
-//return
-//		} catch {
-//			print("error")
-//		}
-//
-//		self.questionId = "questionId"
-//		self.bookSectionId = "bookSectionId"
-//		self.category = "category"
-//		self.question = "question"
-//		self.year = "year"
-//		self.choices = ["choices"]
-//		self.correct = ["1"]
-//		self.explanation = Explanation(link: "")
-//
-//	}
 }
 
 extension QuestionDTO {
-	func toModel() -> Question {
+	func toModel(with explanationText: String?) -> Question {
 		let correctAnswers = self.correct.compactMap { Int($0) }
 		let answers = self.choices.enumerated().map { index, answer in Answer(title: answer, isAnswer: correctAnswers.contains(index))}
 
 		return Question(id: questionId,
 						sectionId: bookSectionId,
 						title: question,
-						hint: self.explanation.link,
+						hint: explanationText,
 						answers: answers)
 	}
 }
@@ -124,3 +86,17 @@ struct Answer: Hashable {
 		self.isAnswer = isAnswer
 	}
 }
+
+struct ExplanationsDTOWrapper: Codable {
+	let data: [ExplanationsDTO]
+}
+
+struct ExplanationsDTO: Codable {
+	let id: Int
+	let explanation: String
+}
+
+//struct ExplanationData {
+//	let id: Int
+//	let explanation: String
+//}
