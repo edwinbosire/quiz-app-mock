@@ -94,6 +94,7 @@
 		64B7EDE829C6AD01001F6717 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		64B7EDEA29C6B5A8001F6717 /* MonitizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitizationView.swift; sourceTree = "<group>"; };
 		64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Life-In-The-UK-Prep-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +212,7 @@
 		64ADD34A272CA9E9003F043D = {
 			isa = PBXGroup;
 			children = (
+				64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */,
 				64ADD355272CA9E9003F043D /* QuizUp-Mock */,
 				64ADD354272CA9E9003F043D /* Products */,
 			);
@@ -535,6 +537,7 @@
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Life-In-The-UK-Prep-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Life In The UK Prep";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -569,6 +572,7 @@
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Life-In-The-UK-Prep-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Life In The UK Prep";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
