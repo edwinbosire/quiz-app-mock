@@ -34,6 +34,7 @@
 		64AB585A29CF7DEA000B8ECC /* chapter_4.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585429CF7DEA000B8ECC /* chapter_4.html */; };
 		64AB585B29CF7DEA000B8ECC /* chapter_3.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585529CF7DEA000B8ECC /* chapter_3.html */; };
 		64AB585E29CF8624000B8ECC /* book.css in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585D29CF8624000B8ECC /* book.css */; };
+		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
 		64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64ADD35A272CA9EF003F043D /* Assets.xcassets */; };
@@ -78,6 +79,7 @@
 		64AB585529CF7DEA000B8ECC /* chapter_3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_3.html; sourceTree = "<group>"; };
 		64AB585C29CF861A000B8ECC /* debug.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = debug.css; sourceTree = "<group>"; };
 		64AB585D29CF8624000B8ECC /* book.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = book.css; sourceTree = "<group>"; };
+		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
 		64ADD358272CA9E9003F043D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				6455B0DC29BBABCB008B6F39 /* QuestionView.swift */,
 				642205D929CD2FD900BD663D /* HTMLView.swift */,
 				6455B0E129BD00B2008B6F39 /* AnswerRow.swift */,
+				64AB585F29CF9290000B8ECC /* HintView.swift */,
 				6455B0E529BDFB97008B6F39 /* Models */,
 			);
 			path = Question;
@@ -369,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64ADD359272CA9E9003F043D /* ContentView.swift in Sources */,
+				64AB586029CF9290000B8ECC /* HintView.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,
 				6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */,
 				6455B0E729BDFBAA008B6F39 /* Exam.swift in Sources */,

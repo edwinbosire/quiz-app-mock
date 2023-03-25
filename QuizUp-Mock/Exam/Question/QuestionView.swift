@@ -219,47 +219,7 @@ struct QuestionPageContent: View {
 				} //ScrollView
 			}// GeometryReader
 			.sheet(isPresented: $showHint) {
-				VStack {
-					HStack {
-						Button(action: {showHint.toggle()}) {
-							Image(systemName: "chevron.down")
-								.font(.title)
-						}
-
-						Spacer()
-						Text("Explanation")
-							.font(.title3)
-							.bold()
-						Spacer()
-						Button(action: {
-							withAnimation {
-								showHint.toggle()
-								viewModel.owner?.progressToNextQuestions()
-							}
-
-						}) {
-							Image(systemName: "arrow.right")
-								.font(.title)
-						}
-					}
-					.padding()
-
-					Spacer()
-//					HTMLView(htmlContent: viewModel.hint,
-//							 font: UIFont.systemFont(ofSize: 18),
-//							 foregroundColor: UIColor(Color.paletteBlueDark))
-//					.padding(.horizontal)
-//					.presentationDetents([.medium, .large])
-					ScrollView {
-						Text(viewModel.hint)
-							.font(.callout)
-							.foregroundStyle(.primary)
-							.padding(.horizontal)
-							.presentationDetents([.height(150), .medium, .large])
-						Spacer()
-					}
-
-				}
+				HintView(viewModel: viewModel, isPresented: $showHint)
 			}
 	}
 }
