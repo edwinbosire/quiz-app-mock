@@ -1,0 +1,25 @@
+body {
+    background-color: #ffe0c2;
+}
+section {
+    background-color: springgreen;
+}
+section > section {
+    background-color: #8cff3b;
+}
+section > section > section {
+    background-color: #86fdff;
+}
+section > section > section > section {
+    background-color: #2c8cff;
+}
+section > section > section > section > section {
+    background-color: #1b47ff;
+}
+section > section > section > section > section > section {
+    background-color: #ff4dea;
+}
+section > section > section > section > section > section > section {
+    background-color: #ff1212;
+}
+

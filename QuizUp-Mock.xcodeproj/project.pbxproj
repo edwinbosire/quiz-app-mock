@@ -27,6 +27,13 @@
 		6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F829C1401D008B6F39 /* Confetti.swift */; };
 		6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0FD29C241AE008B6F39 /* MainMenu.swift */; };
 		6455B10129C38A84008B6F39 /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */; };
+		64AB585629CF7DEA000B8ECC /* summary.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585029CF7DE9000B8ECC /* summary.html */; };
+		64AB585729CF7DEA000B8ECC /* chapter_5.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585129CF7DEA000B8ECC /* chapter_5.html */; };
+		64AB585829CF7DEA000B8ECC /* chapter_2.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585229CF7DEA000B8ECC /* chapter_2.html */; };
+		64AB585929CF7DEA000B8ECC /* chapter_1.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585329CF7DEA000B8ECC /* chapter_1.html */; };
+		64AB585A29CF7DEA000B8ECC /* chapter_4.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585429CF7DEA000B8ECC /* chapter_4.html */; };
+		64AB585B29CF7DEA000B8ECC /* chapter_3.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585529CF7DEA000B8ECC /* chapter_3.html */; };
+		64AB585E29CF8624000B8ECC /* book.css in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585D29CF8624000B8ECC /* book.css */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
 		64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64ADD35A272CA9EF003F043D /* Assets.xcassets */; };
@@ -63,6 +70,14 @@
 		6455B0F829C1401D008B6F39 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		6455B0FD29C241AE008B6F39 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
+		64AB585029CF7DE9000B8ECC /* summary.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = summary.html; sourceTree = "<group>"; };
+		64AB585129CF7DEA000B8ECC /* chapter_5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_5.html; sourceTree = "<group>"; };
+		64AB585229CF7DEA000B8ECC /* chapter_2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_2.html; sourceTree = "<group>"; };
+		64AB585329CF7DEA000B8ECC /* chapter_1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_1.html; sourceTree = "<group>"; };
+		64AB585429CF7DEA000B8ECC /* chapter_4.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_4.html; sourceTree = "<group>"; };
+		64AB585529CF7DEA000B8ECC /* chapter_3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_3.html; sourceTree = "<group>"; };
+		64AB585C29CF861A000B8ECC /* debug.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = debug.css; sourceTree = "<group>"; };
+		64AB585D29CF8624000B8ECC /* book.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = book.css; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
 		64ADD358272CA9E9003F043D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +129,7 @@
 		6455B0F029BF25D2008B6F39 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				64AB584F29CF7DDA000B8ECC /* Book */,
 				6455B0EC29BF25CD008B6F39 /* explanation.json */,
 				6455B0ED29BF25CD008B6F39 /* questions.json */,
 				6455B0F129BF25FA008B6F39 /* QuestionDTO.swift */,
@@ -172,6 +188,21 @@
 				64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		64AB584F29CF7DDA000B8ECC /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				64AB585329CF7DEA000B8ECC /* chapter_1.html */,
+				64AB585229CF7DEA000B8ECC /* chapter_2.html */,
+				64AB585529CF7DEA000B8ECC /* chapter_3.html */,
+				64AB585429CF7DEA000B8ECC /* chapter_4.html */,
+				64AB585129CF7DEA000B8ECC /* chapter_5.html */,
+				64AB585029CF7DE9000B8ECC /* summary.html */,
+				64AB585C29CF861A000B8ECC /* debug.css */,
+				64AB585D29CF8624000B8ECC /* book.css */,
+			);
+			path = Book;
 			sourceTree = "<group>";
 		};
 		64ADD34A272CA9E9003F043D = {
@@ -316,10 +347,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64AB585B29CF7DEA000B8ECC /* chapter_3.html in Resources */,
+				64AB585929CF7DEA000B8ECC /* chapter_1.html in Resources */,
+				64AB585A29CF7DEA000B8ECC /* chapter_4.html in Resources */,
 				64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */,
+				64AB585829CF7DEA000B8ECC /* chapter_2.html in Resources */,
 				6455B0EF29BF25CD008B6F39 /* questions.json in Resources */,
+				64AB585729CF7DEA000B8ECC /* chapter_5.html in Resources */,
 				64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */,
+				64AB585E29CF8624000B8ECC /* book.css in Resources */,
 				6455B0EE29BF25CD008B6F39 /* explanation.json in Resources */,
+				64AB585629CF7DEA000B8ECC /* summary.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,11 +531,13 @@
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Life In The UK Prep";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -525,11 +565,13 @@
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Life In The UK Prep";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

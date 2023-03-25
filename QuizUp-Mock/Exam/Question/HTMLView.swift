@@ -6,28 +6,38 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct HTMLView: UIViewRepresentable {
-	let htmlContent: String
-	let font: UIFont
-	let foregroundColor: UIColor
-	var shouldResizeToFit: Bool = true
+	let html: String
 
-	func makeUIView(context: Context) -> UITextView {
-		let textView = UITextView()
-		textView.isEditable = false
-		textView.attributedText = htmlContent.htmlToAttributedString(font: font, foregroundColor: foregroundColor)
-		textView.sizeToFit()
-		return textView
+	func makeUIView(context: Context) -> WKWebView {
+		let webView = WKWebView()
+		return webView
 	}
 
-	func updateUIView(_ uiView: UITextView, context: Context) {
-		uiView.attributedText = htmlContent.htmlToAttributedString(font: font, foregroundColor: foregroundColor)
-		if shouldResizeToFit {
-			uiView.sizeToFit()
+	func updateUIView(_ uiView: WKWebView, context: Context) {
+		uiView.loadHTMLString(html, baseURL: nil)
+	}
+
+	func makeCoordinator() -> Coordinator {
+		Coordinator()
+	}
+
+	class Coordinator: NSObject, UIScrollViewDelegate {
+		func scrollViewDidScroll(_ scrollView: UIScrollView) {
+			if let h1Tags = scrollView.subviews.first?.subviews.filter({ $0 is UILabel && $0.frame.height == 44 }) {
+				for h1 in h1Tags {
+					let h1Y = h1.frame.origin.y
+					if scrollView.contentOffset.y >= h1Y && scrollView.contentOffset.y <= h1Y + h1.frame.height {
+						scrollView.setContentOffset(CGPoint(x: 0, y: h1Y), animated: false)
+					}
+				}
+			}
 		}
 	}
 }
+
 
 extension String {
 	func htmlToAttributedString(font: UIFont, foregroundColor: UIColor) -> NSAttributedString? {
@@ -59,7 +69,7 @@ struct HTMLContentView: View {
 
 
 	var body: some View {
-		HTMLView(htmlContent: htmlString, font: font, foregroundColor: foregroundColor, shouldResizeToFit: shouldResizeToFit)
+		HTMLView(html: htmlString)
 	}
 }
 

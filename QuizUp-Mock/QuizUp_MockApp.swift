@@ -47,7 +47,7 @@ struct QuizUp_MockApp: App {
 				case .mockTest:
 					ExamView(viewModel: viewModel, route: $route, namespace: namespace)
 				case .handbook:
-					HanbookMainMenu(chapter: "This should never be displayed")
+					HanbookMainMenu(chapter: Book().chapters[0])
 				case .questionbank:
 					QuestionBankView(route: $route)
 			}

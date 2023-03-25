@@ -143,7 +143,7 @@ struct SummaryView: View {
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 20))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
 		)
-		.navigationDestination(for: String.self) { chapter in
+		.navigationDestination(for: Book.Chapter.self) { chapter in
 			HanbookMainMenu(chapter: chapter)
 		}
 
@@ -151,16 +151,41 @@ struct SummaryView: View {
 }
 
 
+struct Book {
+	struct Chapter: Hashable {
+		let title: String
+		let subTitle: String
+		let resource: String
+		var progress: Double = 0.0
+
+	}
+
+	static let resources:[(String, String, String)] = {
+		[
+			("Chaper 1", "Values and Principles of the UK", "chapter_1"),
+			("Chaper 2", "What is the UK?", "chapter_2"),
+			("Chaper 3", "A Long and Illustrious History", "chapter_3"),
+			("Chaper 4", "A Modern, Thriving Society", "chapter_4"),
+			("Chaper 5", "The UK Government, the Law and your Role", "chapter_5")
+		]
+	}()
+
+	var chapters: [Chapter] = {
+		Self.resources.compactMap { (chaper, title, fileName) in
+			if let htmlFile = Bundle.main.path(forResource: fileName, ofType: "html"),
+			   let html = try? String(contentsOfFile: htmlFile, encoding: String.Encoding.utf8) {
+				return Chapter(title: chaper, subTitle: title, resource: html, progress: 10.0)
+			}
+			return nil
+		}
+	}()
+}
+
 struct HandbookView: View {
 	@Binding var route: Route
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
-
-	let chapters = [("Chaper 1", "Values and Principles of the UK", 25.0),
-					("Chaper 2", "What is the UK?", 15.0),
-					("Chaper 3", "A Long and Illustrious History", 0.0),
-					("Chaper 4", "A Modern, Thriving Society", 0.0),
-					("Chaper 5", "The UK Government, the Law and your Role", 0.0)]
+	@State var book: Book = Book()
 
 	var body: some View {
 			VStack(alignment: .leading) {
@@ -185,9 +210,9 @@ struct HandbookView: View {
 				.padding(.horizontal)
 				ScrollView(.horizontal, showsIndicators: false) {
 					HStack {
-						ForEach(chapters.enumerated().map {$0}, id:\.offset) { ndx, chapter in
-							NavigationLink(value: "\(chapter.0): \(chapter.1)") {
-								handbookCards(ndx, chapter)
+						ForEach(book.chapters, id:\.title) { chapter in
+							NavigationLink(value: chapter) {
+								handbookCards(chapter)
 									.background(RoundedRectangle(cornerRadius: 10).fill(Color("RowBackground2")).shadow(color: .black.opacity(0.3), radius: 4, y: 2))
 
 							}
@@ -197,24 +222,24 @@ struct HandbookView: View {
 					.padding(.leading)
 				}
 			}
-			.navigationDestination(for: String.self) { chapter in
+			.navigationDestination(for: Book.Chapter.self) { chapter in
 				HanbookMainMenu(chapter: chapter)
 			}
 
 
 	}
 
-	fileprivate func handbookCards(_ ndx: Int, _ chapter: (String, String, Double)) -> some View {
+	fileprivate func handbookCards(_ chapter: Book.Chapter) -> some View {
 		VStack {
 			VStack(alignment: .leading) {
-				Text(chapter.0)
+				Text(chapter.title)
 					.font(.headline)
 					.foregroundColor(Color.paletteBlueDark)
 					.padding(.top, 20)
 				Spacer()
 					.frame(height: 0)
 
-				Text(chapter.1)
+				Text(chapter.subTitle)
 					.font(.body)
 					.padding(.top, 10)
 					.foregroundStyle(.secondary)
@@ -226,12 +251,12 @@ struct HandbookView: View {
 				Spacer()
 
 				HStack {
-					ProgressView("", value: chapter.2, total: 100)
+					ProgressView("", value: chapter.progress, total: 100)
 						.padding(.bottom)
 						.tint(Color("primary"))
 
 					Spacer()
-					Text("\(String(format: "%.0f%%", chapter.2))")
+					Text("\(String(format: "%.0f%%", chapter.progress))")
 						.foregroundStyle(.tertiary)
 						.font(.footnote)
 				}

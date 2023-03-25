@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct HanbookMainMenu: View {
-	let chapter: String
+	let chapter: Book.Chapter
 	var body: some View {
 		VStack {
-			Text("Handbook Under construction")
+			HTMLView(html: chapter.resource)
 		}
 		.frame(maxHeight: .infinity)
-		.navigationTitle(chapter)
+		.navigationTitle("\(chapter.title) | \(chapter.subTitle)")
 	}
 }
 
 struct HanbookMainMenu_Previews: PreviewProvider {
     static var previews: some View {
-		HanbookMainMenu(chapter: "Test chapter")
+		HanbookMainMenu(chapter: Book().chapters[0])
     }
 }
