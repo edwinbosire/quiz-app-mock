@@ -63,7 +63,7 @@
 		6455B0F829C1401D008B6F39 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		6455B0FD29C241AE008B6F39 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
-		64ADD353272CA9E9003F043D /* QuizUp-Mock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QuizUp-Mock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
 		64ADD358272CA9E9003F043D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		64ADD35A272CA9EF003F043D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		64ADD354272CA9E9003F043D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				64ADD353272CA9E9003F043D /* QuizUp-Mock.app */,
+				64ADD353272CA9E9003F043D /* Life In The UK Prep.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,9 +261,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		64ADD352272CA9E9003F043D /* QuizUp-Mock */ = {
+		64ADD352272CA9E9003F043D /* Life In The UK Prep */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64ADD361272CA9EF003F043D /* Build configuration list for PBXNativeTarget "QuizUp-Mock" */;
+			buildConfigurationList = 64ADD361272CA9EF003F043D /* Build configuration list for PBXNativeTarget "Life In The UK Prep" */;
 			buildPhases = (
 				64ADD34F272CA9E9003F043D /* Sources */,
 				64ADD350272CA9E9003F043D /* Frameworks */,
@@ -273,9 +273,9 @@
 			);
 			dependencies = (
 			);
-			name = "QuizUp-Mock";
+			name = "Life In The UK Prep";
 			productName = "QuizUp-Mock";
-			productReference = 64ADD353272CA9E9003F043D /* QuizUp-Mock.app */;
+			productReference = 64ADD353272CA9E9003F043D /* Life In The UK Prep.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -306,7 +306,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				64ADD352272CA9E9003F043D /* QuizUp-Mock */,
+				64ADD352272CA9E9003F043D /* Life In The UK Prep */,
 			);
 		};
 /* End PBXProject section */
@@ -557,7 +557,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64ADD361272CA9EF003F043D /* Build configuration list for PBXNativeTarget "QuizUp-Mock" */ = {
+		64ADD361272CA9EF003F043D /* Build configuration list for PBXNativeTarget "Life In The UK Prep" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64ADD362272CA9EF003F043D /* Debug */,
