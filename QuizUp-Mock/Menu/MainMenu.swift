@@ -104,7 +104,7 @@ struct SummaryView: View {
 						Text("Average score")
 							.font(.title3)
 							.foregroundStyle(.secondary)
-							.foregroundColor(Color("primary"))
+							.foregroundColor(Color.paletteBlueDark)
 					}
 					.frame(maxWidth: .infinity)
 					.frame(height: 150)
@@ -125,8 +125,8 @@ struct SummaryView: View {
 						Text("Reading Progress")
 							.font(.title3)
 							.foregroundStyle(.secondary)
-							.foregroundColor(Color("primary"))
-						
+							.foregroundColor(Color.paletteBlueDark)
+
 					}
 					.frame(maxWidth: .infinity)
 					.frame(height: 150)
@@ -206,6 +206,7 @@ struct HandbookView: View {
 						}
 						.foregroundColor(Color("primary"))
 					}
+					.disabled(true)
 				}
 				.padding(.horizontal)
 				ScrollView(.horizontal, showsIndicators: false) {
