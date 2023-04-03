@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainMenu: View {
-	@ObservedObject var menuViewModel: MenuViewModel
+	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Binding var route: Route
 	var namespace: Namespace.ID
 
@@ -28,7 +28,7 @@ struct MainMenu: View {
 
 						HandbookView(route: $route)
 
-						PracticeExamList(menuViewModel: menuViewModel)
+						PracticeExamList()
 					}
 				}
 
@@ -42,7 +42,8 @@ struct MainMenu_Previews: PreviewProvider {
 	@Namespace static var namespace
     static var previews: some View {
 		NavigationStack {
-			MainMenu(menuViewModel: MenuViewModel(repository: .shared), route: .constant(.mainMenu), namespace: namespace)
+			MainMenu(route: .constant(.mainMenu), namespace: namespace)
+				.environmentObject(MenuViewModel.shared)
 		}
 
     }
@@ -269,7 +270,7 @@ struct HandbookView: View {
 }
 
 struct PracticeExamList: View {
-	@ObservedObject var menuViewModel: MenuViewModel
+	@EnvironmentObject private var menuViewModel: MenuViewModel
 //	@Binding var route: Route
 	@Namespace var namespace
 
@@ -304,7 +305,7 @@ struct PracticeExamList: View {
 										.foregroundStyle(.secondary)
 										.foregroundColor(Color.paletteBlueDark)
 									Spacer()
-									Text("76%")
+									Text(exam.status == .unattempted ? "" : "\(exam.score)%")
 										.font(.body)
 										.foregroundColor(exam.id < 2 ? .green : Color("primary"))
 

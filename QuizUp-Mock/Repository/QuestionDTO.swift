@@ -69,7 +69,7 @@ struct QuestionData: Codable {
 	let data: [QuestionDTO]
 }
 
-struct Question: Hashable {
+struct Question: Codable, Hashable {
 	let id: String
 	let sectionId: String
 	let title: String
@@ -77,7 +77,7 @@ struct Question: Hashable {
 	let answers: [Answer]
 }
 
-struct Answer: Hashable {
+struct Answer: Codable, Hashable {
 	let title: String
 	let isAnswer: Bool
 

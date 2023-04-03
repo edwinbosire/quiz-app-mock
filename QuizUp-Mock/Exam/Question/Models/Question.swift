@@ -11,7 +11,7 @@ import Foundation
 
 class QuestionViewModel: ObservableObject, Identifiable {
 	var id: Int
-	private let question: Question
+	let question: Question
 	let index: Int
 
 	var title: String { question.title }

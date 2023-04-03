@@ -14,8 +14,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>

@@ -15,6 +15,8 @@ class MenuViewModel: ObservableObject {
 	@Published var route: Route = .mainMenu
 	@Published var isShowingMonitizationPage = false
 
+	public static let shared = MenuViewModel()
+
 	init(repository: ExamRepository = .shared) {
 		self.repository = repository
 		self.exams = repository.exams

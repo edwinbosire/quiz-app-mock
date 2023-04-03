@@ -14,7 +14,7 @@ protocol QuestionOwner {
 
 
 class ExamViewModel: ObservableObject {
-	private let exam: Exam
+	private var exam: Exam
 	private let questionsCount: Int
 	@Published var progress: Int {
 		didSet {
@@ -27,6 +27,16 @@ class ExamViewModel: ObservableObject {
 	lazy var questions: [QuestionViewModel] = {
 		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
 	}()
+
+	var correctQuestions: [Question] {
+		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer}.count == $0.answers.count }.map {$0.question}
+		return questions
+	}
+
+	var incorrectQuestions: [Question] {
+		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer == false}.count > 0 }.map {$0.question}
+		return questions
+	}
 
 	var score: Int {
 		var result = 0
@@ -99,7 +109,12 @@ extension ExamViewModel: QuestionOwner {
 			}
 		} else {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-				self?.examStatus = .finished
+				guard let self = self else {return}
+				self.exam.correctQuestions = self.correctQuestions
+				self.exam.incorrectQuestions = self.incorrectQuestions
+				self.exam.score = self.score
+				ExamRepository.save(exam: self.exam)
+				self.examStatus = .finished
 			}
 		}
 	}
@@ -110,6 +125,10 @@ extension ExamViewModel: QuestionOwner {
 			let next = progress + 1
 			availableQuestions.append(questions[next])
 		} else {
+			self.exam.correctQuestions = self.correctQuestions
+			self.exam.incorrectQuestions = self.incorrectQuestions
+			self.exam.score = self.score
+			ExamRepository.save(exam: exam)
 			examStatus = .finished
 		}
 

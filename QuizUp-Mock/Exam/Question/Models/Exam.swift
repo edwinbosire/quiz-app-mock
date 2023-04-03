@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExamStatus: Equatable {
+enum ExamStatus: Codable, Equatable {
 	case attempted
 	case unattempted
 	case started
@@ -16,13 +16,18 @@ enum ExamStatus: Equatable {
 	case finished
 }
 
-struct Exam: Hashable {
+struct Exam: Codable, Hashable, Equatable {
 	let id: Int
 	let questions: [Question]
 	let status: ExamStatus
 	var score: Int = 0
 	var correctQuestions: [Question] = []
 	var incorrectQuestions: [Question] = []
+
+	static func == (lhs: Self, rhs: Self) -> Bool {
+		lhs.id == rhs.id &&
+		lhs.questions == rhs.questions
+	}
 }
 
 extension Exam {

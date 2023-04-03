@@ -17,11 +17,20 @@ class ExamRepository {
 	let exams: [Exam]
 
 	static let shared = ExamRepository()
-		private init() {
-			self.exams = ExamRepository.generateAllExams()
+	static let SavedExamsKey = "exams"
+
+	private init() {
+		let exams = Self.loadExams()
+		if exams.isEmpty  {
+			let newExams = ExamRepository.generateAllExams()
+			Self.saveAll(exams: newExams)
 		}
 
+		self.exams = Self.loadExams()
+	}
+
 	static func generateAllExams() -> [Exam] {
+		print("Generating all exams from file")
 		var exams = [Exam]()
 
 		do {
@@ -50,6 +59,45 @@ class ExamRepository {
 		let questionBank = try! ExamRepository.parseJSONData()
 		let exam = Array(questionBank[0..<limit])
 		return Exam(id: 0, questions: exam, status: .unattempted)
+	}
+
+	static func save(exam: Exam) {
+		var allExams = Self.loadExams()
+		guard let ndx = allExams.firstIndex(of: exam) else {
+			print("Unabled to save exam, Exam could not be found in storage")
+			return
+		}
+		allExams[ndx] = exam
+		Self.saveAll(exams: allExams)
+	}
+
+	static func saveAll(exams: [Exam]) {
+		if let exams = try? JSONEncoder().encode(exams) {
+			let defaults = UserDefaults.standard
+			defaults.set(exams, forKey: Self.SavedExamsKey)
+		} else {
+			print("Failed to save exam.")
+		}
+	}
+
+	static func loadExams() -> [Exam] {
+		print("Loading all exams from disk")
+
+		let defaults = UserDefaults.standard
+		if let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data {
+			let jsonDecoder = JSONDecoder()
+
+			do {
+				return try jsonDecoder.decode([Exam].self, from: savedExams)
+			} catch {
+				print("Failed to load exams")
+			}
+		}
+		return []
+	}
+
+	static func reset() {
+		UserDefaults.standard.set(nil, forKey: Self.SavedExamsKey)
 	}
 }
 
