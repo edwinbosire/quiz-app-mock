@@ -16,7 +16,7 @@ struct HintView: View {
 			HStack {
 				Button(action: {
 					withAnimation(.easeInOut) {
-						isPresented.toggle()
+						isPresented = false
 					}
 				}) {
 					Image(systemName: "chevron.down")
@@ -30,7 +30,7 @@ struct HintView: View {
 				Spacer()
 				Button(action: {
 					withAnimation(.easeInOut) {
-						isPresented.toggle()
+						isPresented = false
 						viewModel.owner?.progressToNextQuestions()
 					}
 

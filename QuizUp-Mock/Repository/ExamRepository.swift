@@ -69,12 +69,14 @@ class ExamRepository {
 		}
 		allExams[ndx] = exam
 		Self.saveAll(exams: allExams)
+		print("Saving Exam \(exam)")
 	}
 
 	static func saveAll(exams: [Exam]) {
 		if let exams = try? JSONEncoder().encode(exams) {
 			let defaults = UserDefaults.standard
 			defaults.set(exams, forKey: Self.SavedExamsKey)
+			print("Updated exams")
 		} else {
 			print("Failed to save exam.")
 		}

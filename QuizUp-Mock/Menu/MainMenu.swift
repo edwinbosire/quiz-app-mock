@@ -32,59 +32,29 @@ struct MainMenu: View {
 					}
 				}
 
-				WelcomeBackHeaderView(route: $route)
+				WelcomeBackHeaderView()
 			}
 		}
 	}
 }
 
 struct MainMenu_Previews: PreviewProvider {
-	@Namespace static var namespace
-    static var previews: some View {
-		NavigationStack {
-			MainMenu(route: .constant(.mainMenu), namespace: namespace)
-				.environmentObject(MenuViewModel.shared)
+	struct ContentView: View {
+		@Namespace var namespace
+		@StateObject private var menuViewModel = MenuViewModel.shared
+		var body: some View {
+			NavigationStack {
+				MainMenu(route: .constant(.mainMenu), namespace: namespace)
+			}
+			.environmentObject(menuViewModel)
 		}
+	}
 
+	static var previews: some View {
+		ContentView()
     }
 }
 
-struct WelcomeBackHeaderView: View {
-	@Binding var route: Route
-	@Environment(\.colorScheme) var colorScheme
-	var isDarkMode: Bool { colorScheme == .dark }
-	@State private var searchText = ""
-
-	var body: some View {
-		VStack {
-			VStack(alignment: .leading) {
-				HStack {
-					Text("Welcome Back")
-						.font(.largeTitle)
-						.bold()
-						.foregroundColor(.paletteBlueSecondary)
-					Spacer()
-
-					Button(action: { route = .settings}) {
-						Image(systemName: "gear")
-							.font(.title3)
-							.foregroundColor(Color("primary"))
-					}
-				}
-
-				Text("British Citizenship Exam Preparation")
-					.foregroundStyle(.secondary)
-
-				SearchBar(text: $searchText)
-			}
-			.padding()
-		}
-		.background(Color("Background")
-		)
-		.shadow(color: .black.opacity(0.1), radius: 10, y: 4)
-
-	}
-}
 
 struct SummaryView: View {
 	@Binding var route: Route
@@ -265,78 +235,6 @@ struct HandbookView: View {
 			}
 			.padding(.horizontal)
 			.frame(width: 150, height: 190)
-		}
-	}
-}
-
-struct PracticeExamList: View {
-	@EnvironmentObject private var menuViewModel: MenuViewModel
-//	@Binding var route: Route
-	@Namespace var namespace
-
-	@Environment(\.colorScheme) var colorScheme
-	var isDarkMode: Bool { colorScheme == .dark }
-
-	var body: some View {
-		VStack(alignment: .leading) {
-			Text("Practice Exams")
-				.bold()
-				.font(.title2)
-				.padding(.leading)
-				.padding(.bottom)
-				.padding(.top)
-				.foregroundColor(.paletteBlueSecondary)
-
-
-			ZStack {
-				Color("RowBackground2")
-					.shadow(color: .black.opacity(isDarkMode ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
-
-				LazyVStack {
-					ForEach(menuViewModel.exams, id: \.id) { exam in
-						NavigationLink(value: exam) {
-							VStack {
-								HStack {
-									Image(systemName: exam.id > 2 ? "lock.slash" : "lock.open")
-										.foregroundColor(Color("primary"))
-									Text("Mock Exam \(exam.id)")
-//										.matchedGeometryEffect(id: "mockTestTitle-\(quiz)", in: namespace)
-										.font(.headline)
-										.foregroundStyle(.secondary)
-										.foregroundColor(Color.paletteBlueDark)
-									Spacer()
-									Text(exam.status == .unattempted ? "" : "\(exam.score)%")
-										.font(.body)
-										.foregroundColor(exam.id < 2 ? .green : Color("primary"))
-
-								}
-								.padding(.leading)
-								Divider()
-							}
-							.padding(.top, 15)
-							.contentShape(Rectangle())
-							.background(Color("RowBackground2"))
-							.padding(.horizontal)
-						}
-					}
-				}
-				.background(Color("RowBackground2"))
-			}
-		}
-		.sheet(isPresented:  $menuViewModel.isShowingMonitizationPage, content: {
-			MonitizationView(route: $menuViewModel.route)
-		})
-		.navigationDestination(for: Exam.self) { exam in
-			if exam.id < 3 {
-				let exam = menuViewModel.examViewModel(with: exam)
-				ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
-					.navigationBarBackButtonHidden()
-
-			} else {
-				MonitizationView(route: $menuViewModel.route)
-					.navigationBarHidden(true)
-					.contentTransition(.opacity)
-			}
 		}
 	}
 }

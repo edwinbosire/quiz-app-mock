@@ -14,19 +14,19 @@ struct MonitizationView: View {
 	var body: some View {
 		VStack {
 			header()
-			GeometryReader { proxy in
-				HStack(spacing: 0) {
-					InAppPurchasePriceCard(title: "Weekly", subTitle: "", price: "£2.99")
-						.frame(width: proxy.size.width / 3)
-					InAppPurchasePriceCard(title: "Monthly", subTitle: "", price: "£4.99")
-						.frame(width: proxy.size.width / 3)
-					InAppPurchasePriceCard(title: "3 Months", subTitle: "", price: "£9.99")
-						.frame(width: proxy.size.width / 3)
-				}
-				.frame(height: 150)
-				.padding(.top, 40)
-			}
-			.frame(height: 200)
+//			GeometryReader { proxy in
+//				HStack(spacing: 0) {
+//					InAppPurchasePriceCard(title: "Weekly", subTitle: "", price: "£2.99")
+//						.frame(width: proxy.size.width / 3)
+//					InAppPurchasePriceCard(title: "Monthly", subTitle: "", price: "£4.99")
+//						.frame(width: proxy.size.width / 3)
+//					InAppPurchasePriceCard(title: "3 Months", subTitle: "", price: "£9.99")
+//						.frame(width: proxy.size.width / 3)
+//				}
+//				.frame(height: 150)
+//				.padding(.top, 40)
+//			}
+//			.frame(height: 200)
 
 
 //			Spacer()
@@ -127,7 +127,7 @@ struct MonitizationView: View {
 		.background(
 			Color("Background")
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
-				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
+				.shadow(color: .black.opacity(0.06), radius: 9, x:0.0, y: 8.0)
 		)
 
 	}

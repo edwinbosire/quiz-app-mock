@@ -30,8 +30,8 @@ struct ResultsViewContainer: View {
 			ScrollView {
 				VStack {
 					resultsHeader()
-					ForEach(Array(viewModel.availableQuestions.enumerated()), id: \.offset) { index, question in
-						ResultsRow(index, question)
+					ForEach(viewModel.availableQuestions, id: \.id) { question in
+						ResultsRow(question: question)
 							.padding()
 					}
 					Spacer()
@@ -60,21 +60,6 @@ struct ResultsViewContainer: View {
 					.modifier(ParticlesModifier())
 					.offset(x: 160, y : -200)
 			}
-
-		}
-	}
-
-	func icon(for question: QuestionViewModel, answer: Answer) -> some View {
-		if question.selectedAnswers.contains(answer) {
-			return Image(systemName: question.answerState[answer] == .correct ? "xmark.circle" : "checkmark.circle")
-				.foregroundColor(question.answerState[answer] == .correct ? .green : .pink)
-		} else if answer.isAnswer {
-			return Image(systemName: "checkmark.circle")
-				.foregroundColor(.green)
-
-		}else {
-			return Image(systemName:"circle.dotted")
-				.foregroundColor(.gray)
 
 		}
 	}
@@ -127,10 +112,13 @@ struct ResultsViewContainer: View {
 			.padding(.bottom)
 		}
 	}
+}
 
-	fileprivate func ResultsRow(_ index: Int, _ question: QuestionViewModel) -> some View {
-		return VStack(alignment: .leading) {
-			Text("\(index + 1). \(question.title)")
+struct ResultsRow: View {
+	let question: QuestionViewModel
+	var body: some View {
+		VStack(alignment: .leading) {
+			Text("\(question.index + 1). \(question.title)")
 				.font(.headline)
 				.foregroundStyle(.primary)
 				.padding(.bottom, 3)
@@ -154,15 +142,28 @@ struct ResultsViewContainer: View {
 						Spacer()
 							.frame(height: 1)
 					}
-					//							.padding(.vertical, 1)
 
 				}
 			}
 		}
 	}
+
+	func icon(for question: QuestionViewModel, answer: Answer) -> some View {
+		if question.selectedAnswers.contains(answer) {
+			return Image(systemName: question.answerState[answer] == .correct ? "xmark.circle" : "checkmark.circle")
+				.foregroundColor(question.answerState[answer] == .correct ? .green : .pink)
+		} else if answer.isAnswer {
+			return Image(systemName: "checkmark.circle")
+				.foregroundColor(.green)
+
+		}else {
+			return Image(systemName:"circle.dotted")
+				.foregroundColor(.gray)
+
+		}
+	}
+
 }
-
-
 struct ResultsView_Previews: PreviewProvider {
 	static var previews: some View {
 		let examViewModel = ExamViewModel.mock()

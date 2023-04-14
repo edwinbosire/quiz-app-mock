@@ -48,6 +48,8 @@
 		64B7EDE929C6AD01001F6717 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDE829C6AD01001F6717 /* SettingsView.swift */; };
 		64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDEA29C6B5A8001F6717 /* MonitizationView.swift */; };
 		64B7EDEF29C6C4B3001F6717 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */; };
+		64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */; };
+		64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +97,8 @@
 		64B7EDEA29C6B5A8001F6717 /* MonitizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitizationView.swift; sourceTree = "<group>"; };
 		64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Life-In-The-UK-Prep-Info.plist"; sourceTree = "<group>"; };
+		64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeExamList.swift; sourceTree = "<group>"; };
+		64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeBackHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				6455B0FD29C241AE008B6F39 /* MainMenu.swift */,
+				64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */,
+				64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */,
 				64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */,
 				64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */,
 			);
@@ -374,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64ADD359272CA9E9003F043D /* ContentView.swift in Sources */,
+				64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */,
 				64AB586029CF9290000B8ECC /* HintView.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,
 				6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */,
@@ -395,6 +402,7 @@
 				642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */,
 				6455B0EB29BE7C00008B6F39 /* ExamView.swift in Sources */,
 				64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */,
+				64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */,
 				64B7EDE629C6A186001F6717 /* ProgressReport.swift in Sources */,
 				6455B0DB29BA7F32008B6F39 /* QuestionPageViewScrollView.swift in Sources */,
 				64ADD365272DFA81003F043D /* Color.swift in Sources */,

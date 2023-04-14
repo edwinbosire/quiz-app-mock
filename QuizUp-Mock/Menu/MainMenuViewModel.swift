@@ -9,8 +9,11 @@ import Foundation
 
 class MenuViewModel: ObservableObject {
 	private var repository: ExamRepository
-	var exams: [Exam]
+	var exams: [ExamViewModel]
 //	@Namespace var practiceExamListNamespace: Namespace.ID?
+	var completedExams: [ExamViewModel] {
+		repository.exams.filter { $0.status == .finished }.map { ExamViewModel(exam: $0) }
+	}
 
 	@Published var route: Route = .mainMenu
 	@Published var isShowingMonitizationPage = false
@@ -19,7 +22,7 @@ class MenuViewModel: ObservableObject {
 
 	init(repository: ExamRepository = .shared) {
 		self.repository = repository
-		self.exams = repository.exams
+		self.exams = repository.exams.map { ExamViewModel(exam: $0) }
 	}
 
 	func examViewModel(with exam: Exam) -> ExamViewModel {

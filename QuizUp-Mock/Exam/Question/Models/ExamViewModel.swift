@@ -13,8 +13,10 @@ protocol QuestionOwner {
 }
 
 
+
 class ExamViewModel: ObservableObject {
-	private var exam: Exam
+
+	var exam: Exam
 	private let questionsCount: Int
 	@Published var progress: Int {
 		didSet {
@@ -27,6 +29,10 @@ class ExamViewModel: ObservableObject {
 	lazy var questions: [QuestionViewModel] = {
 		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
 	}()
+
+//	var questions: [Question] {
+//		exam.questions
+//	}
 
 	var correctQuestions: [Question] {
 		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer}.count == $0.answers.count }.map {$0.question}
@@ -58,6 +64,14 @@ class ExamViewModel: ObservableObject {
 
 	var scorePercentage: Double {
 		(Double(score) / Double(availableQuestions.count) * 100)
+	}
+
+	var formattedScore: String {
+		if exam.status == .unattempted {
+			return  ""
+		} else {
+			return score>0 ? String(format: "%.0f %%", (Double(exam.correctQuestions.count)/Double(questions.count) * 100)) : "-"
+		}
 	}
 
 	var prompt: String {
@@ -113,8 +127,9 @@ extension ExamViewModel: QuestionOwner {
 				self.exam.correctQuestions = self.correctQuestions
 				self.exam.incorrectQuestions = self.incorrectQuestions
 				self.exam.score = self.score
-				ExamRepository.save(exam: self.exam)
+				self.exam.status = .finished
 				self.examStatus = .finished
+				ExamRepository.save(exam: self.exam)
 			}
 		}
 	}
@@ -128,8 +143,9 @@ extension ExamViewModel: QuestionOwner {
 			self.exam.correctQuestions = self.correctQuestions
 			self.exam.incorrectQuestions = self.incorrectQuestions
 			self.exam.score = self.score
-			ExamRepository.save(exam: exam)
+			self.exam.status = .finished
 			examStatus = .finished
+			ExamRepository.save(exam: exam)
 		}
 
 	}
@@ -137,6 +153,21 @@ extension ExamViewModel: QuestionOwner {
 
 }
 
+extension ExamViewModel: Identifiable {
+	var id: Int {
+		exam.id
+	}
+}
+
+extension ExamViewModel: Hashable {
+	static func == (lhs: ExamViewModel, rhs: ExamViewModel) -> Bool {
+		lhs.id == rhs.id
+	}
+
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
+	}
+}
 extension ExamViewModel {
 	static func mock() -> ExamViewModel {
 		let exam = Exam.mock()

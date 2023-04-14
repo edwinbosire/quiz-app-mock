@@ -19,7 +19,7 @@ enum ExamStatus: Codable, Equatable {
 struct Exam: Codable, Hashable, Equatable {
 	let id: Int
 	let questions: [Question]
-	let status: ExamStatus
+	var status: ExamStatus
 	var score: Int = 0
 	var correctQuestions: [Question] = []
 	var incorrectQuestions: [Question] = []
