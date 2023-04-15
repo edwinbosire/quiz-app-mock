@@ -23,11 +23,11 @@ struct PracticeExamList: View {
 				.padding(.leading)
 				.padding(.bottom)
 				.padding(.top)
-				.foregroundColor(.paletteBlueSecondary)
+				.foregroundColor(.titleText)
 
 
 			ZStack {
-				Color("RowBackground2")
+				Color.rowBackground
 					.defaultShadow()
 
 				LazyVStack {
@@ -45,7 +45,7 @@ struct PracticeExamList: View {
 						}
 					}
 				}
-				.background(Color("RowBackground2"))
+				.background(Color.rowBackground)
 			}
 		}
 		.sheet(isPresented:  $menuViewModel.isShowingMonitizationPage, content: {
@@ -65,15 +65,15 @@ struct PracticeExamListRow: View {
 		VStack {
 			HStack {
 				Image(systemName: locked ? "lock.slash" : "lock.open")
-					.foregroundColor(Color("primary"))
+					.foregroundColor(locked ? .gray : .bodyText)
 				Text("Mock Exam \(exam.id)")
-					.font(.headline)
-					.foregroundStyle(.secondary)
-					.foregroundColor(Color.paletteBlueDark)
+					.font(.subheadline)
+					.foregroundStyle(.primary)
+					.foregroundColor(locked ? .gray : .bodyText)
 				Spacer()
 				Text(exam.formattedScore)
 					.font(.body)
-					.foregroundColor(locked ? Color("primary") : .green)
+					.foregroundColor(locked ? .bodyText : .green)
 
 			}
 			.padding(.leading)
@@ -81,7 +81,7 @@ struct PracticeExamListRow: View {
 		}
 		.padding(.top, 15)
 		.contentShape(Rectangle())
-		.background(Color("RowBackground2"))
+		.background(Color.rowBackground)
 		.padding(.horizontal)
 	}
 }

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-	@Binding var route: Route
-
+	@Environment(\.dismiss) var dismiss
 	@State private var isTimerEnabled = true
 	@State private var examDuration = 25.0
 	@State private var isDarkModeEnabled = false
@@ -23,7 +22,7 @@ struct SettingsView: View {
 					.bold()
 
 				Spacer()
-				Button {route = .mainMenu} label: {
+				Button {dismiss()} label: {
 					Image(systemName: "xmark")
 						.font(.largeTitle)
 				}
@@ -73,9 +72,6 @@ struct SettingsView: View {
 					LabeledContent("Build number", value: "1.0")
 				}
 			}
-//			.scrollContentBackground(.hidden)
-//			.listRowBackground(Color.red)
-
 		}
 
 	}
@@ -83,6 +79,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-		SettingsView(route: .constant(.settings))
+		SettingsView()
     }
 }

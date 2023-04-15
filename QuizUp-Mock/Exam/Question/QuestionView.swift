@@ -183,7 +183,7 @@ struct QuestionPageContent: View {
 							.shadow(color: colorScheme == .dark ? .clear : Color.white, radius: 1, x: 2, y: 1)
 
 						ZStack {
-							Color("RowBackground2")
+							Color.rowBackground
 								.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
 
 								LazyVStack {
@@ -201,7 +201,7 @@ struct QuestionPageContent: View {
 
 									}
 								}
-									.background(Color("RowBackground2"))
+								.background(Color.rowBackground)
 							
 
 					}

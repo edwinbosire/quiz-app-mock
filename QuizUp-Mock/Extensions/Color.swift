@@ -8,21 +8,15 @@
 import SwiftUI
 
 extension Color {
-	static var paletteBlue: Color {
-		Color("primary")
-	}
-
-	static var paletteBlueDark: Color {
-		Color("primary_1")
-	}
-
-	static var paletteBlueSecondary: Color {
-		Color("secondary_1")
-	}
-
-	static var paletteBlueSecondaryDark: Color {
-		Color("secondary")
-	}
+	static var defaultBackground: Color { Color("Background") }
+	static var rowBackground: Color { Color("RowBackground2")}
+	static var paletteBlue: Color { Color("primary") }
+	static var paletteBlueDark: Color { Color("primary") }
+	static var paletteBlueSecondary: Color { Color("secondary_1") }
+	static var paletteBlueSecondaryDark: Color { Color("secondary") }
+	static var titleText: Color { Color("primary") }
+	static var subTitleText: Color {  Color("secondary-text") }
+	static var bodyText: Color { Color("primary_light") }
 }
 
 extension Color {

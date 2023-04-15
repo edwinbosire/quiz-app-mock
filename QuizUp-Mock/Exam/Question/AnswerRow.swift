@@ -104,7 +104,7 @@ struct AnswerRow: View {
 	var background: Color {
 		switch answerState {
 			case .notAttempted:
-				return Color("RowBackground2")
+				return .rowBackground
 			case .correct:
 				return .green
 			case .wrong:

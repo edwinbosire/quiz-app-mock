@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MonitizationView: View {
-	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Environment(\.dismiss) var dismiss
 
 	@Binding var route: Route
 	var body: some View {
@@ -80,11 +80,12 @@ struct MonitizationView: View {
 					.font(.largeTitle)
 					.bold()
 
+
 				HStack(alignment: .firstTextBaseline) {
 					Spacer()
 					Button {
 						route = .mainMenu
-						presentationMode.wrappedValue.dismiss()
+						dismiss()
 					} label: {
 						Image(systemName: "xmark")
 							.font(.largeTitle)
@@ -120,10 +121,12 @@ struct MonitizationView: View {
 				HStack {
 					Image(systemName: "checkmark.seal.fill")
 					Text("Remove adds")
+						.foregroundColor(Color("TitleText"))
 				}
 			}
 		}
 		.padding(.bottom, 30)
+		.foregroundColor(Color("TitleText"))
 		.background(
 			Color("Background")
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
@@ -168,8 +171,8 @@ struct InAppPurchasePriceCard: View {
 		.frame(height: 120)
 		.padding()
 		.background(RoundedRectangle(cornerRadius: 10)
-			.fill(Color("RowBackground2"))
-			.shadow(color: .black.opacity(0.3), radius: 4, y: 2))
+			.fill(Color.rowBackground)
+			.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
 
 	}
 }
