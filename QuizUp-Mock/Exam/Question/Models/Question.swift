@@ -56,6 +56,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
 			selectedAnswers.remove(at: index)
 			answerState[answer] = .notAttempted
 			attempts = 0
+			showHint.toggle()
 			return
 		} else if selectedAnswers.count < answers.count {
 			selectedAnswers.append(answer)
@@ -70,12 +71,14 @@ class QuestionViewModel: ObservableObject, Identifiable {
 				answerState[answer] = .wrong
 				attempts += 1
 				owner?.allowProgressToNextQuestion()
+				showHint.toggle()
 			}
+		} else {
+			showHint.toggle()
 		}
 	}
 
 	private func highlightCorrectAnswers() {
-		showHint = true
 		answers.forEach { answer in
 			answerState[answer] = .correct
 		}

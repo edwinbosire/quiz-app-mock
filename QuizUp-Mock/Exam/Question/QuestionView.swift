@@ -18,9 +18,6 @@ struct QuestionView: View {
 	@State private var isShowingMenu: Bool = false
 	var body: some View {
 			ZStack {
-				Color("Background")
-					.opacity(0.9)
-					.ignoresSafeArea()
 				VStack {
 					ExamProgressView(currentPage: $viewModel.progress, pages: viewModel.questions.count)
 					HStack(alignment: .firstTextBaseline) {
@@ -28,31 +25,32 @@ struct QuestionView: View {
 						Spacer()
 						TimerView()
 					}
+					.padding(.top)
 
-					GeometryReader { geo in
-						TabView(selection: $viewModel.progress) {
-							ForEach(viewModel.availableQuestions) { question in
-								QuestionPageContent(viewModel: question)
-									.frame(width: geo.size.width)
-									.tag(question.index)
-							}
+					TabView(selection: $viewModel.progress) {
+						ForEach(viewModel.questions) { question in
+							QuestionPageContent(viewModel: question)
+								.frame(maxWidth: .infinity)
+								.frame(maxHeight: .infinity)
+								.tag(question.index)
 						}
-						.tabViewStyle(.page(indexDisplayMode: .never))
-						.animation(.easeInOut(duration: 0.4), value: viewModel.progress)
-
 					}
+					.tabViewStyle(.page(indexDisplayMode: .never))
 					Spacer()
 					Spacer()
 				}
 
 			}
+			.background(
+				LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+					.blur(radius: 75)
+			)
 			.onAppear {
 				selectedPage = viewModel.progress
 			}
 			.onChange(of: viewModel.progress) { newValue in
 				selectedPage = newValue
 			}
-//			.navigationTitle("Mock Test")
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {
 				ToolbarItem(placement: .navigationBarLeading) {
@@ -101,7 +99,10 @@ struct TimerView: View {
 		HStack {
 			Image(systemName: "clock")
 				.foregroundStyle(.tertiary)
+				.font(.subheadline)
+
 			Text(String(format: "%02d : %02d", minutes, seconds))
+				.font(.subheadline)
 				.monospacedDigit()
 				.padding(.trailing)
 				.foregroundStyle(.tertiary)
@@ -124,6 +125,7 @@ struct TimerView: View {
 }
 
 struct ExamProgressView: View {
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var currentPage: Int
 	let pages: Int
 
@@ -133,7 +135,7 @@ struct ExamProgressView: View {
 				ForEach(0..<pages, id:\.self) { i in
 					Rectangle()
 						.fill( fillColor(at: i))
-						.border(.white.opacity(0.1))
+						.border(colorScheme == .dark ? .black.opacity(0.08) : .white.opacity(0.07))
 						.animation(.easeIn, value: i)
 				}
 			}
@@ -145,7 +147,7 @@ struct ExamProgressView: View {
 
 	func fillColor(at index: Int) -> Color {
 		if  index < currentPage {
-			return Color.paletteBlue
+			return Color.progressBarTint
 		} else if currentPage == index {
 			return Color.paletteBlue.opacity(0.5)
 		}
@@ -157,71 +159,104 @@ struct QuestionPageContent: View {
 	@Environment(\.colorScheme) var colorScheme
 	@ObservedObject var viewModel: QuestionViewModel
 
-	@State var showHint = false
+//	@State var showHint = false
 
+	let transition = AnyTransition.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)).combined(with: .opacity)
+
+	@Namespace var topID
+	@Namespace var bottomID
+
+	@State private var showHintView = false
 	var body: some View {
-			GeometryReader { geometry in
-				ScrollView(showsIndicators: false) {
+		GeometryReader { geometry in
+			ScrollView {
+				ScrollViewReader { proxy in
 					VStack(alignment: .leading) {
+						titleView()
+							.frame(maxHeight: .infinity)
+							.id(topID)
 						Spacer()
-						VStack(alignment: .center) {
-							Text(viewModel.title)
-								.multilineTextAlignment(.center)
-								.font(.title)
-								.foregroundColor(Color.paletteBlueDark)
-								.padding(.horizontal)
-								.shadow(color: colorScheme == .dark ? .clear : .white.opacity(0.5), radius: 1, x: 2, y: 1)
-						}
-						.frame(maxWidth: .infinity)
+						promptView()
 						Spacer()
-
-						Spacer()
-						Text(viewModel.prompt)
-							.foregroundStyle(.tertiary)
-							.font(.callout)
-							.padding(.leading)
-							.shadow(color: colorScheme == .dark ? .clear : Color.white, radius: 1, x: 2, y: 1)
-
-						ZStack {
-							Color.rowBackground
-								.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
-
-								LazyVStack {
-									ForEach(Array(viewModel.options.enumerated()), id: \.offset) { index, answer in
-										AnswerRow(answer: answer, isLastRow: (index == viewModel.options.count-1), answerState: viewModel.state(for: answer)) { selected in
-											withAnimation {
-												viewModel.selected(selected)
-											}
-											if !selected.isAnswer {
-												showHint.toggle()
-											}
-
-										}
-										.modifier(viewModel.state(for: answer) == .wrong ? Shake(animatableData: 1.0) : Shake(animatableData: 0.0))
-
-									}
-								}
-								.background(Color.rowBackground)
-							
-
+						answersView()
 					}
-						.fixedSize(horizontal: false, vertical: true)
-
-
-						if showHint {
-							// add text here with an option to show more for content that spans 3 or more lines. This will present a sheet showing more details
-//							HTMLView(htmlContent: viewModel.hint, font: UIFont.systemFont(ofSize: 16), foregroundColor: UIColor(Color.paletteBlueDark))
-//								.padding(.horizontal)
-//								.transition(.asymmetric(insertion: .scale, removal: .opacity))
+					.frame(height: geometry.size.height)
+					.listRowInsets(EdgeInsets())
+					.listRowBackground(Color.defaultBackground.opacity(0.9))
+					.onChange(of: showHintView) { show in
+						_ = {print("show hint toggle")}
+						withAnimation {
+							proxy.scrollTo(show ? bottomID : topID)
 						}
 					}
-					.frame(minHeight: geometry.size.height)
-				} //ScrollView
-			}// GeometryReader
-			.sheet(isPresented: $showHint) {
-				HintView(viewModel: viewModel, isPresented: $showHint)
-			}
+
+					hintView()
+						.transition(transition)
+						.opacity(showHintView ? 1.0 : 0.0)
+						.id(bottomID)
+						.animation(.easeIn, value: showHintView)
+
+				} // ScrollViewProxy
+			} // ScrollView
+		}// Georeader
+		.onChange(of: viewModel.showHint) { newValue in
+			self.showHintView = newValue
+		}
+//		.background(
+//			LinearGradient(colors: [Color.defaultBackground, Color.indigo], startPoint: .topLeading, endPoint: .bottomTrailing)
+//		)
 	}
+
+	func titleView() -> some View {
+		VStack(alignment: .center) {
+			Text(viewModel.title)
+				.multilineTextAlignment(.center)
+				.font(.title)
+				.foregroundColor(Color.paletteBlueDark)
+				.padding(.horizontal)
+				.shadow(color: colorScheme == .dark ? .clear : .white.opacity(0.5), radius: 1, x: 2, y: 1)
+		}
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+
+	}
+
+	func promptView() -> some View {
+		Text(viewModel.prompt)
+			.foregroundStyle(.tertiary)
+			.font(.subheadline)
+			.foregroundColor(.subTitleText)
+			.padding(.leading)
+			.shadow(color: colorScheme == .dark ? .clear : Color.white, radius: 1, x: 2, y: 1)
+	}
+
+	func answersView() -> some View {
+		VStack(spacing: 0.0) {
+				ForEach(Array(viewModel.options.enumerated()), id: \.offset) { index, answer in
+					AnswerRow(answer: answer, isLastRow: (index == viewModel.options.count-1), answerState: viewModel.state(for: answer)) { selected in
+						withAnimation(.easeInOut(duration: 0.3)) {
+							viewModel.selected(selected)
+//							showHintView.toggle()
+						}
+					}
+					.modifier(viewModel.state(for: answer) == .wrong ? Shake(animatableData: 1.0) : Shake(animatableData: 0.0))
+				}
+			}
+//			.background(.ultraThinMaterial)
+			.background(
+				Color.rowBackground
+					.background(.ultraThinMaterial)
+					.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
+			)
+	}
+
+	func hintView() -> some View {
+		Text(viewModel.hint)
+			.font(.callout)
+			.lineSpacing(12.0)
+			.foregroundStyle(.primary)
+			.padding(.horizontal)
+	}
+
 }
 
 struct QuestionCounter: View {
@@ -231,14 +266,12 @@ struct QuestionCounter: View {
 	var body: some View {
 		HStack {
 			Text(progressTitle)
+				.font(.subheadline)
 				.monospacedDigit()
-				.foregroundColor(.white)
+				.foregroundColor(Color.subTitleText )
+				.foregroundStyle(.tertiary)
 				.padding(.horizontal)
 				.padding(.vertical, 5.0)
-				.background(RoundedRectangle(cornerRadius: 50.0)
-					.fill(Color.paletteBlue.opacity(isLightappearance ? 1.0 : 0.3).gradient)
-					.shadow(color: Color.black.opacity(0.3), radius: 5, x: 2, y: 4)
-				)
 			Spacer()
 		}
 		.padding(.bottom)

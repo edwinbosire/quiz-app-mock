@@ -12,21 +12,20 @@ struct SummaryView: View {
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
 
+	@State private var averageScore = 0.0
+	@State private var readingProgress = 0.0
+
 	var body: some View {
 		VStack {
 			Spacer()
 				.frame(height: 150)
+
 			HStack {
-				Button(action: {route = .progressReport}) {
+				Button(action: {route = .progressReport} ) {
 					VStack {
-						Text("75 %")
-							.font(.largeTitle)
-							.bold()
-							.foregroundColor(Color.titleText)
-						Text("Average score")
-							.font(.title3)
-							.foregroundStyle(.secondary)
-							.foregroundColor(Color.subTitleText)
+						CountingText(value: averageScore, subtitle: "Average Score")
+							.animation(.easeInOut(duration: 0.5), value: averageScore)
+
 					}
 					.frame(maxWidth: .infinity)
 					.frame(height: 150)
@@ -34,20 +33,14 @@ struct SummaryView: View {
 						.fill(Color.rowBackground)
 						.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
 				}
+
 				Spacer()
 					.frame(width: 20)
 
-				Button(action: {route = .progressReport}) {
+				Button(action: {route = .progressReport} ) {
 					VStack {
-						Text("25 %")
-							.font(.largeTitle)
-							.bold()
-							.foregroundColor(Color.titleText)
-
-						Text("Reading Progress")
-							.font(.title3)
-							.foregroundStyle(.secondary)
-							.foregroundColor(Color.subTitleText)
+						CountingText(value: readingProgress, subtitle: "Reading Progress")
+							.animation(.easeInOut(duration: 0.5), value: readingProgress)
 
 					}
 					.frame(maxWidth: .infinity)
@@ -60,16 +53,48 @@ struct SummaryView: View {
 			.padding()
 		}
 		.padding(.bottom)
-		.background(
-			Color.defaultBackground
-				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 10))
-				.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
-		)
+		.background(.ultraThinMaterial)
+		.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 10))
+		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
+
+		.onAppear {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+				averageScore = 75.5
+				readingProgress = 25.3
+			}
+		}
+	}
+}
+
+struct CountingText: View, Animatable {
+	var value: Double
+	var subtitle: String
+	var fractionLength = 1
+
+	var animatableData: Double {
+		get { value }
+		set { value = newValue }
+	}
+
+	var body: some View {
+		VStack {
+			Text("\(value.formatted(.number.precision(.fractionLength(fractionLength))))%")
+				.font(.largeTitle)
+				.bold()
+				.foregroundStyle(.primary)
+				.foregroundColor(Color.titleText)
+			Text(subtitle)
+				.font(.title3)
+				.foregroundStyle(.secondary)
+				.foregroundColor(Color.titleText)
+
+		}
 	}
 }
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
 		SummaryView(route: .constant(.mainMenu))
+			.background(Backgrounds())
     }
 }

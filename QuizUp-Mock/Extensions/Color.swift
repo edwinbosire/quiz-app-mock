@@ -17,6 +17,8 @@ extension Color {
 	static var titleText: Color { Color("primary") }
 	static var subTitleText: Color {  Color("secondary-text") }
 	static var bodyText: Color { Color("primary_light") }
+
+	static var progressBarTint: Color { Color("secondary-text") }
 }
 
 extension Color {

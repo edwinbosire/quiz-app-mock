@@ -26,7 +26,7 @@ struct CircularProgressView: View {
 			Circle() // 2
 				.trim(from: 0, to: progress)
 				.stroke(
-					AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center, startAngle: .zero, endAngle: .degrees(360)),
+					AngularGradient(colors: [.red, .yellow, .green, .red], center: .center),
 					style: StrokeStyle(
 						lineWidth: secondaryLineWidth,
 						lineCap: .round
@@ -34,8 +34,6 @@ struct CircularProgressView: View {
 				)
 				.rotationEffect(Angle(degrees: -90))
 				.animation(.spring(response: 0.9, dampingFraction: 0.4, blendDuration: 1.0), value: progress)
-//				.shadow(color: .black.opacity(0.4), radius: 1, x: 1, y: 1)
-
 
 			VStack {
 				Text(String(format: "%.0f%%", min(self.progress, 1.0)*100.0))

@@ -27,7 +27,7 @@ struct PracticeExamList: View {
 
 
 			ZStack {
-				Color.rowBackground
+				Color.clear
 					.defaultShadow()
 
 				LazyVStack {
@@ -45,7 +45,7 @@ struct PracticeExamList: View {
 						}
 					}
 				}
-				.background(Color.rowBackground)
+				.background(.thickMaterial)
 			}
 		}
 		.sheet(isPresented:  $menuViewModel.isShowingMonitizationPage, content: {
@@ -81,7 +81,6 @@ struct PracticeExamListRow: View {
 		}
 		.padding(.top, 15)
 		.contentShape(Rectangle())
-		.background(Color.rowBackground)
 		.padding(.horizontal)
 	}
 }
@@ -93,6 +92,7 @@ struct PracticeExamList_Previews: PreviewProvider {
 		@StateObject private var menuViewModel = MenuViewModel.shared
 		var body: some View {
 			PracticeExamList(namespace: _namespace)
+				.background(Backgrounds())
 			.environmentObject(menuViewModel)
 		}
 	}

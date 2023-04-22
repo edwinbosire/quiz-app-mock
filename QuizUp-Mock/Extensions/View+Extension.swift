@@ -24,3 +24,13 @@ extension View {
 		modifier(ShadowStyle(radius: radius, xOffset: xOffset, yOffset: yOffset))
 	}
 }
+
+extension View {
+	@ViewBuilder func `if`<Transform: View>(_ condition: Bool, transform: (Self) -> Transform) -> some View {
+		if condition {
+			transform(self)
+		} else {
+			self
+		}
+	}
+}

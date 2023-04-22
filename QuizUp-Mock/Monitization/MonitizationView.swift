@@ -32,7 +32,7 @@ struct MonitizationView: View {
 //			Spacer()
 			VStack {
 				Button(action: {}) {
-					Text("£19.99 unlimitted access")
+					Text("£3.99 unlimitted access")
 				}
 				.padding()
 				.foregroundColor(.white)
@@ -121,14 +121,13 @@ struct MonitizationView: View {
 				HStack {
 					Image(systemName: "checkmark.seal.fill")
 					Text("Remove adds")
-						.foregroundColor(Color("TitleText"))
 				}
 			}
 		}
 		.padding(.bottom, 30)
-		.foregroundColor(Color("TitleText"))
+		.foregroundColor(Color.titleText)
 		.background(
-			Color("Background")
+			Color.defaultBackground
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.06), radius: 9, x:0.0, y: 8.0)
 		)

@@ -40,11 +40,14 @@ struct HandbookView: View {
 						ForEach(book.chapters, id:\.title) { chapter in
 							NavigationLink(value: chapter) {
 								handbookCards(chapter)
-									.background(RoundedRectangle(cornerRadius: 10)
-										.fill(Color.rowBackground)
-										.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
-
+//									.background(RoundedRectangle(cornerRadius: 10)
+////										.fill(Color.rowBackground)
+//
+//										.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
 							}
+							.background(.thinMaterial)
+							.cornerRadius(10)
+
 						}
 						.padding([.bottom, .top])
 					}
@@ -98,6 +101,7 @@ struct HandbookView: View {
 struct HandbookView_Previews: PreviewProvider {
     static var previews: some View {
 		HandbookView(route: .constant(.handbook(chapter: 1)))
+			.background(Backgrounds())
     }
 }
 

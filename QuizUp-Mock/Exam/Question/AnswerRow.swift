@@ -20,6 +20,7 @@ struct AnswerRow: View {
 	let isLastRow: Bool
 	let answerState: AnswerState
 	var selected: ((Answer) -> Void)?
+	private var isDarkMode: Bool { colorScheme == .dark }
 
 	@State var attempts: Int = 0
 
@@ -37,6 +38,7 @@ struct AnswerRow: View {
 					.symbolRenderingMode(.palette)
 					.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
 					.animation(.easeIn, value: radialImage)
+					.transition(.move(edge: .bottom))
 
 				Text(answer.title)
 					.font(.title3)
@@ -88,8 +90,6 @@ struct AnswerRow: View {
 		}
 	}
 
-
-
 	var radialImage: String {
 		switch answerState {
 			case .notAttempted:
@@ -119,7 +119,9 @@ struct AnswerRow_Previews: PreviewProvider {
 		let answer1 = viewModel.options[1]
 		let answer2 = viewModel.options[2]
 		let answer3 = viewModel.options[3]
+
 		Group {
+			
 			AnswerRow(answer: answer1, answerState: .notAttempted)  { selectedAnswer in
 				print("user selected \(selectedAnswer.title)")
 			}
@@ -137,6 +139,7 @@ struct AnswerRow_Previews: PreviewProvider {
 				.padding()
 				.previewDisplayName("correct answer")
 		}
+		.background(Backgrounds())
 	}
 }
 
