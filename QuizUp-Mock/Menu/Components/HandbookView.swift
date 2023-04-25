@@ -24,15 +24,20 @@ struct HandbookView: View {
 						.foregroundColor(.titleText)
 
 					Spacer()
-
-					NavigationLink(value: Book().chapters[0]) {
+					NavigationLink {
+						HanbookMainMenu()
+					} label: {
 						HStack {
 							Text("View all")
 							Image(systemName: "chevron.right")
 						}
-						.foregroundColor(.accentColor)
+						.foregroundColor(.titleText)
 						.foregroundStyle(.tertiary)
+
 					}
+
+//					NavigationLink(value: Book().chapters[0]) {
+//					}
 				}
 				.padding(.horizontal)
 				ScrollView(.horizontal, showsIndicators: false) {
@@ -55,7 +60,7 @@ struct HandbookView: View {
 				}
 			}
 			.navigationDestination(for: Book.Chapter.self) { chapter in
-				HanbookMainMenu(chapter: chapter)
+				HandbookReader(chapter: chapter)
 			}
 
 
