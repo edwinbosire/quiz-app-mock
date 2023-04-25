@@ -8,16 +8,37 @@
 import SwiftUI
 
 struct HanbookMainMenu: View {
+	let book: Book = Book()
 	var body: some View {
 		List {
+
 			Section("Chapter 1: The values and principles of the UK") {
-				BookChapter(title: "1.1 The values and priciples of the UK")
-				BookChapter(title: "1.2 Becoming a permanent resident")
-				BookChapter(title: "1.3 Taking the Life in the UK test")
+				NavigationLink {
+					HandbookReader(chapter: book.chapters[0])
+				} label: {
+					BookChapter(title: "1.1 The values and priciples of the UK")
+				}
+
+				NavigationLink {
+					HandbookReader(chapter: book.chapters[0])
+				} label: {
+					BookChapter(title: "1.2 Becoming a permanent resident")
+				}
+
+				NavigationLink {
+					HandbookReader(chapter: book.chapters[0])
+				} label: {
+					BookChapter(title: "1.3 Taking the Life in the UK test")
+				}
+
 			}
 
 			Section("Chapter 2: What is the UK") {
-				BookChapter(title: "2.1What is the UK")
+				NavigationLink {
+					HandbookReader(chapter: book.chapters[1])
+				} label: {
+					BookChapter(title: "2.1What is the UK")
+				}
 			}
 
 			Section("Chapter 3: A long and illustrious history") {
