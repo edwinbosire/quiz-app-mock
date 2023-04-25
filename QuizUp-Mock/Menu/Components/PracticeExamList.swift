@@ -55,6 +55,9 @@ struct PracticeExamList: View {
 				ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
 					.navigationBarBackButtonHidden()
 		}
+		.onAppear {
+			menuViewModel.reloadExams()
+		}
 	}
 }
 

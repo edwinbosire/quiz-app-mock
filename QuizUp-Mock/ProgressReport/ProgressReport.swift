@@ -54,6 +54,9 @@ struct ProgressReportContainer: View {
 			}
 			Spacer()
 		}
+		.onAppear {
+			menuViewModel.reloadExams()
+		}
 	}
 }
 

@@ -26,7 +26,6 @@ struct MainMenu: View {
 				ScrollView {
 					VStack {
 						SummaryView(route: $route)
-
 						HandbookView(route: $route)
 						PracticeExamList()
 					}
