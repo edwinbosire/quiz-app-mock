@@ -80,9 +80,10 @@ struct PracticeExamListRow: View {
 
 			}
 			.padding(.leading)
+			.padding(.bottom, 8)
 			Divider()
 		}
-		.padding(.top, 15)
+		.padding(.top, 8)
 		.contentShape(Rectangle())
 		.padding(.horizontal)
 	}

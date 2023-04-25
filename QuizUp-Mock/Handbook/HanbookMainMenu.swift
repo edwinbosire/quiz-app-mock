@@ -11,95 +11,128 @@ struct HanbookMainMenu: View {
 	let book: Book = Book()
 	var body: some View {
 		List {
-
 			Section("Chapter 1: The values and principles of the UK") {
-				NavigationLink {
-					HandbookReader(chapter: book.chapters[0])
-				} label: {
-					BookChapter(title: "1.1 The values and priciples of the UK")
+				ForEach(chapter1, id: \.self) { title in
+					NavigationLink {
+						HandbookReader(chapter: book.chapters[0])
+					} label: {
+						BookChapterRow(title: title)
+					}
+					.listRowBackground(Color.defaultBackground)
 				}
-
-				NavigationLink {
-					HandbookReader(chapter: book.chapters[0])
-				} label: {
-					BookChapter(title: "1.2 Becoming a permanent resident")
-				}
-
-				NavigationLink {
-					HandbookReader(chapter: book.chapters[0])
-				} label: {
-					BookChapter(title: "1.3 Taking the Life in the UK test")
-				}
-
 			}
 
 			Section("Chapter 2: What is the UK") {
 				NavigationLink {
 					HandbookReader(chapter: book.chapters[1])
 				} label: {
-					BookChapter(title: "2.1What is the UK")
+					BookChapterRow(title: "2.1 What is the UK")
 				}
+				.listRowBackground(Color.defaultBackground)
+
 			}
 
 			Section("Chapter 3: A long and illustrious history") {
-				BookChapter(title: "3.1 Early Britain")
-				BookChapter(title: "3.2 The Middle Ages")
-				BookChapter(title: "3.3 The Tudors and Stuarts")
-				BookChapter(title: "3.4 A Global Power")
-				BookChapter(title: "3.5 The 20th Century")
-				BookChapter(title: "3.6 Britain Since 1945")
+				ForEach(chapter3, id: \.self) { title in
+					NavigationLink {
+						HandbookReader(chapter: book.chapters[2])
+					} label: {
+						BookChapterRow(title: title)
+					}
+				}
+				.listRowBackground(Color.defaultBackground)
+
 			}
 
 			Section("Chapter 4: A mordern, thriving society") {
-				BookChapter(title: "4.1 The UK Today")
-				BookChapter(title: "4.2 Religion")
-				BookChapter(title: "4.3 Customs and Traditions")
-				BookChapter(title: "4.4 Sport")
-				BookChapter(title: "4.5 Arts and Culture")
-				BookChapter(title: "4.6 Leisure")
-				BookChapter(title: "Places of Interest")
+				ForEach(chapter4, id: \.self) { title in
+					NavigationLink {
+						HandbookReader(chapter: book.chapters[3])
+					} label: {
+						BookChapterRow(title: title)
+					}
+				}
+				.listRowBackground(Color.defaultBackground)
 			}
 
 			Section("Chapter 5: The UK government, the law and your role") {
-				Group {
-					BookChapter(title: "5.1 The Development of British Democracy")
-					BookChapter(title: "5.2 The British Constitution")
-					BookChapter(title: "5.3 The Government")
-					BookChapter(title: "5.4 The UK and International Institutions")
-					BookChapter(title: "5.5 Respecting the Law")
-					BookChapter(title: "5.6 The Role of the Courts")
-					BookChapter(title: "5.7 Fundamental Principles")
+				ForEach(chapter5, id: \.self) { title in
+					NavigationLink {
+						HandbookReader(chapter: book.chapters[4])
+					} label: {
+						BookChapterRow(title: title)
+					}
 				}
-				Group {
-					BookChapter(title: "5.8 Taxation")
-					BookChapter(title: "5.9 Driving")
-					BookChapter(title: "5.10 Your Role in the Community")
-					BookChapter(title: "5.11 How you can Support your Community")
-					BookChapter(title: "5.12 Looking After the Environment")
-				}
+				.listRowBackground(Color.defaultBackground)
 			}
 
 			Section("Key materials and facts") {
-				BookChapter(title: "Key materials and facts")
+				BookChapterRow(title: "Key materials and facts")
+					.listRowBackground(Color.defaultBackground)
+
 			}
-
-
 		}
+		.listStyle(.insetGrouped)
+		.background(gradientBackground)
+		.scrollContentBackground(.hidden)
 		.frame(maxHeight: .infinity)
 		.navigationTitle("Life in the UK Handbook")
 	}
+
+	private var gradientBackground: some View {
+		LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+			.blur(radius: 75)
+	}
+	// TODO: Move these items to data models.
+	let chapter1 = [
+		"1.1 The values and priciples of the UK",
+		"1.2 Becoming a permanent resident",
+		"1.3 Taking the Life in the UK test"
+	]
+
+	let chapter3 = [
+		"3.1 Early Britain",
+		"3.2 The Middle Ages",
+		"3.3 The Tudors and Stuarts",
+		"3.4 A Global Power",
+		"3.5 The 20th Century",
+		"3.6 Britain Since 1945"
+		]
+
+	let chapter4 = [
+		"4.1 The UK Today",
+		"4.2 Religion",
+		"4.3 Customs and Traditions",
+		"4.4 Sport",
+		"4.5 Arts and Culture",
+		"4.6 Leisure",
+		"4.7 Places of Interest"]
+
+	let chapter5 = [
+		"5.1 The Development of British Democracy",
+		"5.2 The British Constitution",
+		"5.3 The Government",
+		"5.4 The UK and International Institutions",
+		"5.5 Respecting the Law",
+		"5.6 The Role of the Courts",
+		"5.7 Fundamental Principles",
+		"5.8 Taxation",
+		"5.9 Driving",
+		"5.10 Your Role in the Community",
+		"5.11 How you can Support your Community",
+		"5.12 Looking After the Environment"
+	]
+
+
 }
 
-private struct BookChapter: View {
+private struct BookChapterRow: View {
 	let title: String
 	var body: some View {
-		VStack(alignment: .leading) {
+		HStack() {
 			Text(title)
 				.font(.subheadline)
-//			Divider()
-//				.padding(.leading)
 		}
-
 	}
 }
 struct HanbookMainMenu_Previews: PreviewProvider {
