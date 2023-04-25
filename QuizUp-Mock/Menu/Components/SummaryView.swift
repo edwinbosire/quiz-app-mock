@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SummaryView: View {
-	@Binding var route: Route
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
 
 	@State private var averageScore = 0.0
 	@State private var readingProgress = 0.0
+	@State private var showProgressReport = false
 
 	var body: some View {
 		VStack {
@@ -21,7 +21,7 @@ struct SummaryView: View {
 				.frame(height: 150)
 
 			HStack {
-				Button(action: {route = .progressReport} ) {
+				Button(action: {showProgressReport.toggle()} ) {
 					VStack {
 						CountingText(value: averageScore, subtitle: "Average Score")
 							.animation(.easeInOut(duration: 0.5), value: averageScore)
@@ -37,7 +37,7 @@ struct SummaryView: View {
 				Spacer()
 					.frame(width: 20)
 
-				Button(action: {route = .progressReport} ) {
+				Button(action: { showProgressReport.toggle() } ) {
 					VStack {
 						CountingText(value: readingProgress, subtitle: "Reading Progress")
 							.animation(.easeInOut(duration: 0.5), value: readingProgress)
@@ -62,6 +62,9 @@ struct SummaryView: View {
 				averageScore = 75.5
 				readingProgress = 25.3
 			}
+		}
+		.sheet(isPresented: $showProgressReport) {
+			ProgressReport()
 		}
 	}
 }
@@ -94,7 +97,7 @@ struct CountingText: View, Animatable {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-		SummaryView(route: .constant(.mainMenu))
+		SummaryView()
 			.background(Backgrounds())
     }
 }

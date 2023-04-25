@@ -12,7 +12,6 @@ struct QuizUp_MockApp: App {
 	@ObservedObject private var mockExamViewModel = ExamViewModel.mock()
 	@StateObject private var menuViewModel = MenuViewModel.shared
 	@State var route: Route = .mainMenu
-	@State var isShowingProgressReport = false
 	@State var isShowingMonitizationPage = false
 	@Namespace var namespace
 
@@ -21,19 +20,13 @@ struct QuizUp_MockApp: App {
 			switch route {
 				case .mainMenu, .progressReport, .settings, .monetization:
 					MainMenu(route: $route, namespace: namespace)
-						.sheet(isPresented: $isShowingProgressReport) {
-							ProgressReport(route: $route)
-						}
 						.sheet(isPresented: $isShowingMonitizationPage, content: {
 							MonitizationView(route: $route)
 						})
 						.onChange(of: route) { newValue in
-							if route == .progressReport {
-								isShowingProgressReport = true
-							} else if route == .monetization {
+							if route == .monetization {
 								isShowingMonitizationPage = true
 							} else {
-								isShowingProgressReport = false
 								isShowingMonitizationPage = false
 							}
 						}

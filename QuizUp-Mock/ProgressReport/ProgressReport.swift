@@ -9,12 +9,11 @@ import SwiftUI
 
 struct ProgressReport: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
-	@Binding var route: Route
 	@State var scale = 0.5
 
 	var body: some View {
 		NavigationStack {
-			ProgressReportContainer(menuViewModel: menuViewModel, route: $route)
+			ProgressReportContainer(menuViewModel: menuViewModel)
 			.scaleEffect(scale)
 			.onAppear{
 				withAnimation {
@@ -30,12 +29,11 @@ struct ProgressReport: View {
 }
 struct ProgressReportContainer: View {
 	var menuViewModel: MenuViewModel
-	@Binding var route: Route
 	@State var scale = 0.5
 
 	var body: some View {
 		VStack(alignment: .center) {
-			ProgressReportNavBar(route: $route)
+			ProgressReportNavBar()
 			if menuViewModel.completedExams.isEmpty {
 				VStack {
 					Text("No exam results available, complete at least one exam for the results to appear here.")
@@ -74,7 +72,7 @@ struct FilledButton: View {
 }
 
 struct ProgressReportNavBar: View {
-	@Binding var route: Route
+	@Environment(\.dismiss) var dismiss
 	var body: some View {
 		ZStack {
 			HStack {
@@ -84,7 +82,7 @@ struct ProgressReportNavBar: View {
 			.frame(maxWidth: .infinity, alignment: .center)
 
 			HStack {
-				Button {route = .mainMenu} label: {
+				Button { dismiss() } label: {
 					Image(systemName: "xmark")
 						.font(.title)
 				}
@@ -109,9 +107,6 @@ struct ProgressReportRow: View {
 					Text("Practice Test \(exam.id)")
 						.font(.title3)
 						.foregroundStyle(.primary)
-//							Text("\(exam.questions.count) Questions")
-//								.font(.subheadline)
-//								.foregroundStyle(.secondary)
 
 					HStack {
 						Group {
@@ -155,7 +150,7 @@ struct ProgressReport_Previews: PreviewProvider {
 		@StateObject private var menuViewModel = MenuViewModel.shared
 		var body: some View {
 			NavigationStack {
-				ProgressReport(route: .constant(.progressReport))
+				ProgressReport()
 			}
 			.environmentObject(menuViewModel)
 		}

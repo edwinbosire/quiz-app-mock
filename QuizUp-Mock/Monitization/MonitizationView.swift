@@ -14,22 +14,6 @@ struct MonitizationView: View {
 	var body: some View {
 		VStack {
 			header()
-//			GeometryReader { proxy in
-//				HStack(spacing: 0) {
-//					InAppPurchasePriceCard(title: "Weekly", subTitle: "", price: "£2.99")
-//						.frame(width: proxy.size.width / 3)
-//					InAppPurchasePriceCard(title: "Monthly", subTitle: "", price: "£4.99")
-//						.frame(width: proxy.size.width / 3)
-//					InAppPurchasePriceCard(title: "3 Months", subTitle: "", price: "£9.99")
-//						.frame(width: proxy.size.width / 3)
-//				}
-//				.frame(height: 150)
-//				.padding(.top, 40)
-//			}
-//			.frame(height: 200)
-
-
-//			Spacer()
 			VStack {
 				Button(action: {}) {
 					Text("£3.99 unlimitted access")

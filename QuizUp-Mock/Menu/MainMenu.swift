@@ -18,14 +18,9 @@ struct MainMenu: View {
 	var body: some View {
 		NavigationStack {
 			ZStack(alignment: .topLeading) {
-//				Color("Background")
-//					.opacity(0.9)
-////					.background(.thinMaterial)
-//					.ignoresSafeArea()
-
 				ScrollView {
 					VStack {
-						SummaryView(route: $route)
+						SummaryView()
 						HandbookView(route: $route)
 						PracticeExamList()
 					}
