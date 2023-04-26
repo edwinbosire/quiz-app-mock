@@ -32,6 +32,6 @@ struct Exam: Codable, Hashable, Equatable {
 
 extension Exam {
 	static func mock() -> Exam {
-		ExamRepository.mockExam(questions: 5)
+		return Exam(id: 00, questions: [], status: .unattempted)
 	}
 }

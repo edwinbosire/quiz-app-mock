@@ -24,9 +24,7 @@ struct ResultsViewContainer: View {
 
 	var body: some View {
 		ZStack {
-			Color("Background")
-				.opacity(0.8)
-				.ignoresSafeArea()
+			background()
 			ScrollView {
 				VStack {
 					resultsHeader()
@@ -41,26 +39,35 @@ struct ResultsViewContainer: View {
 				}
 			}
 
-			ZStack {
-				Rectangle()
-					.fill(Color.blue)
-					.frame(width: 12, height: 12)
-					.modifier(ParticlesModifier())
-					.offset(x: 0.0, y : -250)
+			confetti()
+		}
+	}
 
-				Circle()
-					.fill(Color.green)
-					.frame(width: 12, height: 12)
-					.modifier(ParticlesModifier())
-					.offset(x: -60, y : -200)
+	private func background() -> some View {
+		LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+			.blur(radius: 75)
+			.ignoresSafeArea()
+	}
 
-				Circle()
-					.fill(Color.red)
-					.frame(width: 12, height: 12)
-					.modifier(ParticlesModifier())
-					.offset(x: 160, y : -200)
-			}
+	private func confetti() -> some View {
+		ZStack {
+			Rectangle()
+				.fill(Color.blue)
+				.frame(width: 12, height: 12)
+				.modifier(ParticlesModifier())
+				.offset(x: 0.0, y : -250)
 
+			Circle()
+				.fill(Color.green)
+				.frame(width: 12, height: 12)
+				.modifier(ParticlesModifier())
+				.offset(x: -60, y : -200)
+
+			Circle()
+				.fill(Color.red)
+				.frame(width: 12, height: 12)
+				.modifier(ParticlesModifier())
+				.offset(x: 160, y : -200)
 		}
 	}
 
@@ -92,7 +99,6 @@ struct ResultsViewContainer: View {
 					.padding()
 
 				}
-				//			Spacer()
 				Text("Congratulations on completing your exam")
 					.font(.title3)
 

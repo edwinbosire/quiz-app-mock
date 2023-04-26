@@ -41,6 +41,9 @@
 		64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64ADD35D272CA9EF003F043D /* Preview Assets.xcassets */; };
 		64ADD365272DFA81003F043D /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD364272DFA81003F043D /* Color.swift */; };
 		64B5BA4129F7A9A600875667 /* HandbookReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA4029F7A9A600875667 /* HandbookReader.swift */; };
+		64B5BA4329F9C1E200875667 /* ResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA4229F9C1E200875667 /* ResultsViewModel.swift */; };
+		64B5BA4529F9C58100875667 /* PreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA4429F9C58100875667 /* PreviewModel.swift */; };
+		64B5BA4729F9D2DB00875667 /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA4629F9D2DB00875667 /* ViewModelFactory.swift */; };
 		64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */; };
 		64B5FF9029CD0CCB001F22E8 /* MainMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */; };
 		64B7EDE029C6A083001F6717 /* HanbookMainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDDF29C6A083001F6717 /* HanbookMainMenu.swift */; };
@@ -92,6 +95,9 @@
 		64ADD35D272CA9EF003F043D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		64ADD364272DFA81003F043D /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		64B5BA4029F7A9A600875667 /* HandbookReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandbookReader.swift; sourceTree = "<group>"; };
+		64B5BA4229F9C1E200875667 /* ResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewModel.swift; sourceTree = "<group>"; };
+		64B5BA4429F9C58100875667 /* PreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModel.swift; sourceTree = "<group>"; };
+		64B5BA4629F9D2DB00875667 /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
 		64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamRepository.swift; sourceTree = "<group>"; };
 		64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewModel.swift; sourceTree = "<group>"; };
 		64B7EDDF29C6A083001F6717 /* HanbookMainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanbookMainMenu.swift; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 				6455B0ED29BF25CD008B6F39 /* questions.json */,
 				6455B0F129BF25FA008B6F39 /* QuestionDTO.swift */,
 				64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */,
+				64B5BA4429F9C58100875667 /* PreviewModel.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -158,6 +165,7 @@
 				6455B0F329BF3EB8008B6F39 /* ResultsView.swift */,
 				6455B0F629C13559008B6F39 /* CircularProgressView.swift */,
 				6455B0F829C1401D008B6F39 /* Confetti.swift */,
+				64B5BA4229F9C1E200875667 /* ResultsViewModel.swift */,
 			);
 			path = Result;
 			sourceTree = "<group>";
@@ -309,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */,
+				64B5BA4629F9D2DB00875667 /* ViewModelFactory.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -407,7 +416,9 @@
 				64ADD359272CA9E9003F043D /* ContentView.swift in Sources */,
 				64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */,
 				64AB586029CF9290000B8ECC /* HintView.swift in Sources */,
+				64B5BA4329F9C1E200875667 /* ResultsViewModel.swift in Sources */,
 				64B5BA4129F7A9A600875667 /* HandbookReader.swift in Sources */,
+				64B5BA4529F9C58100875667 /* PreviewModel.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,
 				6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */,
 				6455B0E729BDFBAA008B6F39 /* Exam.swift in Sources */,
@@ -439,6 +450,7 @@
 				641C198729C613160018EE3D /* View+Extension.swift in Sources */,
 				6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */,
 				64C5047F29EA1F0D00DCEDA3 /* SummaryView.swift in Sources */,
+				64B5BA4729F9D2DB00875667 /* ViewModelFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@ protocol QuestionOwner {
 class ExamViewModel: ObservableObject {
 
 	var exam: Exam
+	private let repository = ExamRepository()
 	private let questionsCount: Int
 	@Published var progress: Int {
 		didSet {
@@ -29,10 +30,6 @@ class ExamViewModel: ObservableObject {
 	lazy var questions: [QuestionViewModel] = {
 		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
 	}()
-
-//	var questions: [Question] {
-//		exam.questions
-//	}
 
 	var correctQuestions: [Question] {
 		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer}.count == $0.answers.count }.map {$0.question}
@@ -122,35 +119,39 @@ extension ExamViewModel: QuestionOwner {
 				self?.progress += 1
 			}
 		} else {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-				guard let self = self else {return}
-				self.exam.correctQuestions = self.correctQuestions
-				self.exam.incorrectQuestions = self.incorrectQuestions
-				self.exam.score = self.score
-				self.exam.status = .finished
-				self.examStatus = .finished
-				ExamRepository.save(exam: self.exam)
-			}
+			finishExam()
 		}
 	}
-
+	
 	func allowProgressToNextQuestion() {
 		print("got the answer wrong, stay on the same page, but allow scrolling to next question")
 		if progress < questions.count-1 {
 			let next = progress + 1
 			availableQuestions.append(questions[next])
 		} else {
-			self.exam.correctQuestions = self.correctQuestions
-			self.exam.incorrectQuestions = self.incorrectQuestions
-			self.exam.score = self.score
-			self.exam.status = .finished
-			examStatus = .finished
-			ExamRepository.save(exam: exam)
+			finishExam()
 		}
 
 	}
 
 
+	func finishExam() {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+			guard let self = self else {return}
+			self.exam.correctQuestions = self.correctQuestions
+			self.exam.incorrectQuestions = self.incorrectQuestions
+			self.exam.score = self.score
+			self.exam.status = .finished
+			self.examStatus = .finished
+			Task {
+				do {
+					try await self.repository.save(exam: self.exam)
+				} catch {
+					print("Failed to save exam at the end of the quiz")
+				}
+			}
+		}
+	}
 }
 
 extension ExamViewModel: Identifiable {

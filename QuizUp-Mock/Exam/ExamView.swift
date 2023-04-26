@@ -18,12 +18,6 @@ struct ExamView: View {
 			switch viewModel.examStatus {
 				case .unattempted:
 					 QuestionView(viewModel: viewModel,route: $route, namespace: namespace)
-//						.scaleEffect(scale)
-//						.onAppear{
-//							withAnimation(.easeIn) {
-//								scale = 1.0
-//							}
-//						}
 				case .finished:
 					ResultsView(viewModel: viewModel, route: $route)
 				case .attempted:

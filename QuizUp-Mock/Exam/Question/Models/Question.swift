@@ -92,7 +92,7 @@ class QuestionViewModel: ObservableObject, Identifiable {
 	}
 
 	static func mock() -> QuestionViewModel {
-		let mockExam = ExamRepository.mockExam(questions: 5)
+		let mockExam = PreviewModel().examMock()
 		return QuestionViewModel(question: mockExam.questions[0])
 	}
 }

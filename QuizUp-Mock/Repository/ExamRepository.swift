@@ -11,42 +11,99 @@ enum ExamRepositoryErrors: Error {
 	case UnableToLoadQuestionsJSONFile
 	case UnableToLoadExplanationJSONFile
 	case UnableToDecodeJSONFile
+	case ExamNotFound
+	case UnableToLoadExamsFromStorage
+	case NoExamsFoundInStorage
+	case UnableToSaveExamsToStorage
+
 }
 
-class ExamRepository {
-	let exams: [Exam]
+protocol Repository {
+	func load() async throws -> [Exam]
+	func load(exam withId: Int) async throws -> Exam
 
+	func save(exam: Exam) async throws
+
+	func reset()
+}
+
+class ExamRepository: Repository {
+	private var defaults: UserDefaults = UserDefaults.standard
 	static let shared = ExamRepository()
-	static let SavedExamsKey = "exams"
+	let savedExamsKey = "exams"
 
-	private init() {
-		let exams = Self.loadExams()
-		if exams.isEmpty  {
-			let newExams = ExamRepository.generateAllExams()
-			Self.saveAll(exams: newExams)
+	func load(exam withId: Int) async throws -> Exam {
+		var exams = try await load()
+		guard let exam = exams.first(where: { $0.id == withId }) else {
+			throw ExamRepositoryErrors.ExamNotFound
 		}
-
-		self.exams = Self.loadExams()
+		return exam
 	}
 
-	static func generateAllExams() -> [Exam] {
+	func load() async throws -> [Exam] {
+		print("Loading all exams from disk")
+
+		// if its the first run of the app, generate exams
+		guard let savedExams = defaults.object(forKey: savedExamsKey) as? Data else {
+			let exams = try await generateAllExams()
+			try await saveAll(exams: exams)
+			return exams
+		}
+
+		do {
+			return try JSONDecoder().decode([Exam].self, from: savedExams)
+		} catch {
+			print("Failed to load exams")
+			throw ExamRepositoryErrors.UnableToLoadExamsFromStorage
+		}
+	}
+
+	func save(exam: Exam) async throws {
+		var allExams = try await load()
+		guard let ndx = allExams.firstIndex(where: { $0.id == exam.id }) else {
+			print("failed to find exam to save: \(exam)")
+			throw ExamRepositoryErrors.ExamNotFound
+		}
+		allExams[ndx] = exam
+		try await saveAll(exams: allExams)
+		print("Saved Exam \(exam)")
+	}
+
+	private func saveAll(exams: [Exam]) async throws {
+		if let exams = try? JSONEncoder().encode(exams) {
+			let defaults = UserDefaults.standard
+			defaults.set(exams, forKey: savedExamsKey)
+			print("saved \(exams.count) exams")
+		} else {
+			print("Failed to save exam.")
+			throw ExamRepositoryErrors.UnableToSaveExamsToStorage
+		}
+	}
+
+	func reset() {
+		UserDefaults.standard.set(nil, forKey: savedExamsKey)
+	}
+}
+
+extension ExamRepository {
+	func generateAllExams() async throws -> [Exam] {
 		print("Generating all exams from file")
 		var exams = [Exam]()
 
 		do {
-			let allQuestions = try ExamRepository.parseJSONData()
+			let allQuestions = try await ExamRepository.parseJSONData()
 
 			let examSize: Int = 25
 			let numExams = allQuestions.count / examSize
 
-			var x: Int = 0
+			var examId: Int = 0
 			for i in 0..<numExams {
 				let start = i * examSize
 				let end = start + examSize
 				let examQuestions = Array(allQuestions[start..<end])
-				let anExam = Exam(id: x, questions: examQuestions, status: .unattempted)
+				let anExam = Exam(id: examId, questions: examQuestions, status: .unattempted)
 				exams.append(anExam)
-				x += 1
+				examId += 1
 			}
 
 		} catch {
@@ -54,57 +111,10 @@ class ExamRepository {
 		}
 		return exams
 	}
-
-	static func mockExam(questions limit: Int = 25) -> Exam {
-		let questionBank = try! ExamRepository.parseJSONData()
-		let exam = Array(questionBank[0..<limit])
-		return Exam(id: 0, questions: exam, status: .unattempted)
-	}
-
-	static func save(exam: Exam) {
-		var allExams = Self.loadExams()
-		guard let ndx = allExams.firstIndex(of: exam) else {
-			print("Unabled to save exam, Exam could not be found in storage")
-			return
-		}
-		allExams[ndx] = exam
-		Self.saveAll(exams: allExams)
-		print("Saving Exam \(exam)")
-	}
-
-	static func saveAll(exams: [Exam]) {
-		if let exams = try? JSONEncoder().encode(exams) {
-			let defaults = UserDefaults.standard
-			defaults.set(exams, forKey: Self.SavedExamsKey)
-			print("Updated exams")
-		} else {
-			print("Failed to save exam.")
-		}
-	}
-
-	static func loadExams() -> [Exam] {
-		print("Loading all exams from disk")
-
-		let defaults = UserDefaults.standard
-		if let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data {
-			let jsonDecoder = JSONDecoder()
-
-			do {
-				return try jsonDecoder.decode([Exam].self, from: savedExams)
-			} catch {
-				print("Failed to load exams")
-			}
-		}
-		return []
-	}
-
-	static func reset() {
-		UserDefaults.standard.set(nil, forKey: Self.SavedExamsKey)
-	}
 }
 
 extension ExamRepository {
-	static func parseJSONData() throws -> [Question] {
+	static func parseJSONData() async throws -> [Question] {
 		guard let questionsJSONURL = Bundle.main.url(forResource: "questions", withExtension: "json") else {
 			throw ExamRepositoryErrors.UnableToLoadQuestionsJSONFile
 		}
