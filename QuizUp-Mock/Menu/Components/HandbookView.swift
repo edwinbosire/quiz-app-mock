@@ -44,12 +44,7 @@ struct HandbookView: View {
 					HStack {
 						ForEach(book.chapters, id:\.title) { chapter in
 							NavigationLink(value: chapter) {
-								handbookCards(chapter)
-//									.background(RoundedRectangle(cornerRadius: 10)
-////										.fill(Color.rowBackground)
-//
-//										.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
-							}
+								handbookCards(chapter)							}
 							.background(.thinMaterial)
 							.cornerRadius(10)
 
@@ -62,8 +57,6 @@ struct HandbookView: View {
 			.navigationDestination(for: Book.Chapter.self) { chapter in
 				HandbookReader(chapter: chapter)
 			}
-
-
 	}
 
 	fileprivate func handbookCards(_ chapter: Book.Chapter) -> some View {

@@ -12,13 +12,12 @@ protocol QuestionOwner {
 	func allowProgressToNextQuestion()
 }
 
-
-
 class ExamViewModel: ObservableObject {
-
 	var exam: Exam
 	private let repository = ExamRepository()
 	private let questionsCount: Int
+
+	private var refreshTask: Task<Void, Error>?
 	@Published var progress: Int {
 		didSet {
 			progressTitle = "Question \(progress+1) of \(questionsCount)"
@@ -27,18 +26,26 @@ class ExamViewModel: ObservableObject {
 	@Published var progressTitle: String
 	@Published var examStatus: ExamStatus
 	@Published var bookmarked: Bool = false
+
 	lazy var questions: [QuestionViewModel] = {
 		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
 	}()
 
 	var correctQuestions: [Question] {
-		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer}.count == $0.answers.count }.map {$0.question}
-		return questions
+		availableQuestions.filter { $0.isAnsweredCorrectly }.map { $0.question }
 	}
 
 	var incorrectQuestions: [Question] {
-		let questions = availableQuestions.filter { $0.selectedAnswers.map{$0.isAnswer == false}.count > 0 }.map {$0.question}
-		return questions
+		availableQuestions.filter { !$0.isAnsweredCorrectly }.map { $0.question }
+	}
+
+	// Each question has an array of possible selected answers
+	var userSelectedAnswers: [Int: [Answer]] {
+		availableQuestions.reduce([Int: [Answer]]()) { (dict, question) -> [Int: [Answer]] in
+			var dict = dict
+			dict[question.id] = question.selectedAnswers
+			return dict
+		}
 	}
 
 	var score: Int {
@@ -80,6 +87,7 @@ class ExamViewModel: ObservableObject {
 	}
 	@Published var availableQuestions = [QuestionViewModel]()
 
+
 	init(exam: Exam) {
 		self.exam = exam
 		progress = 0
@@ -96,7 +104,7 @@ class ExamViewModel: ObservableObject {
 		}
 	}
 
-	func restartExam() {
+	func restartExam() -> ExamViewModel{
 		for q in questions {
 			q.reset()
 		}
@@ -105,6 +113,8 @@ class ExamViewModel: ObservableObject {
 		progressTitle = ""
 		examStatus = .unattempted
 		prepareExam()
+
+		return self
 	}
 
 }
@@ -115,8 +125,10 @@ extension ExamViewModel: QuestionOwner {
 		if progress < questions.count-1 {
 			let next = progress + 1
 			availableQuestions.append(questions[next])
-			DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-				self?.progress += 1
+			refreshTask?.cancel()
+			refreshTask = Task {
+				try await Task.sleep(until: .now + .seconds(1), clock: .continuous)
+				self.progress += 1
 			}
 		} else {
 			finishExam()
@@ -140,6 +152,7 @@ extension ExamViewModel: QuestionOwner {
 			guard let self = self else {return}
 			self.exam.correctQuestions = self.correctQuestions
 			self.exam.incorrectQuestions = self.incorrectQuestions
+			self.exam.userSelectedAnswer = self.userSelectedAnswers
 			self.exam.score = self.score
 			self.exam.status = .finished
 			self.examStatus = .finished

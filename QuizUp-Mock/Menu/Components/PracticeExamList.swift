@@ -52,7 +52,8 @@ struct PracticeExamList: View {
 			MonitizationView(route: $menuViewModel.route)
 		})
 		.navigationDestination(for: ExamViewModel.self) { exam in
-				ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
+			let exam = exam.examStatus != .unattempted ? exam.restartExam() : exam
+			ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
 					.navigationBarBackButtonHidden()
 		}
 		.task {

@@ -33,7 +33,7 @@ class ExamRepository: Repository {
 	let savedExamsKey = "exams"
 
 	func load(exam withId: Int) async throws -> Exam {
-		var exams = try await load()
+		let exams = try await load()
 		guard let exam = exams.first(where: { $0.id == withId }) else {
 			throw ExamRepositoryErrors.ExamNotFound
 		}
@@ -41,19 +41,20 @@ class ExamRepository: Repository {
 	}
 
 	func load() async throws -> [Exam] {
-		print("Loading all exams from disk")
 
 		// if its the first run of the app, generate exams
 		guard let savedExams = defaults.object(forKey: savedExamsKey) as? Data else {
+			print("Loading all exams from storage")
 			let exams = try await generateAllExams()
 			try await saveAll(exams: exams)
 			return exams
 		}
+		print("Loading all exams from files on disk")
 
 		do {
 			return try JSONDecoder().decode([Exam].self, from: savedExams)
-		} catch {
-			print("Failed to load exams")
+		} catch(let error) {
+			print("Failed to load exams: \(error)")
 			throw ExamRepositoryErrors.UnableToLoadExamsFromStorage
 		}
 	}
@@ -66,14 +67,16 @@ class ExamRepository: Repository {
 		}
 		allExams[ndx] = exam
 		try await saveAll(exams: allExams)
-		print("Saved Exam \(exam)")
+		print("Saved Exam id \(exam.id) with status = \(exam.status)")
 	}
 
 	private func saveAll(exams: [Exam]) async throws {
+		print("Attempting to save \(exams.count) exams")
+
 		if let exams = try? JSONEncoder().encode(exams) {
 			let defaults = UserDefaults.standard
 			defaults.set(exams, forKey: savedExamsKey)
-			print("saved \(exams.count) exams")
+			print("saved exams")
 		} else {
 			print("Failed to save exam.")
 			throw ExamRepositoryErrors.UnableToSaveExamsToStorage

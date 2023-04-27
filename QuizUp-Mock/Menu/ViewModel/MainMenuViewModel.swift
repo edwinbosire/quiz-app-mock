@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class MenuViewModel: ObservableObject {
 	private let viewModelFactor = ViewModelFactor()
 	@Published var exams: [ExamViewModel] = []
@@ -18,10 +19,10 @@ class MenuViewModel: ObservableObject {
 	public static let shared = MenuViewModel()
 
 	init() {
-		Task {
-			exams = await viewModelFactor.buildExamViewModels()
-			completedExams = exams.filter { $0.exam.status == .finished }
-		}
+//		Task {
+//			exams = await viewModelFactor.buildExamViewModels()
+//			completedExams = exams.filter { $0.exam.status == .finished }
+//		}
 	}
 
 	func reloadExams() async {

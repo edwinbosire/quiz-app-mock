@@ -33,6 +33,7 @@ struct QuestionView: View {
 								.frame(maxWidth: .infinity)
 								.frame(maxHeight: .infinity)
 								.tag(question.index)
+//								.gesture(DragGesture(minimumDistance: question.index == 1 ? 100 : 0))
 						}
 					}
 					.tabViewStyle(.page(indexDisplayMode: .never))

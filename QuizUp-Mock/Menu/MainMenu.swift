@@ -29,6 +29,11 @@ struct MainMenu: View {
 			}
 			.background(Backgrounds())
 		}
+		.onAppear {
+			Task {
+				await menuViewModel.reloadExams()
+			}
+		}
 	}
 }
 

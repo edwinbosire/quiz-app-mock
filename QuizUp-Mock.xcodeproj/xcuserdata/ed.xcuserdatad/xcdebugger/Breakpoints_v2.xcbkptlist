@@ -14,8 +14,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -82,6 +82,70 @@
             endingLineNumber = "54"
             landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "267B2CC8-4E94-41BD-98E5-988E00CF57C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Exam/Question/Models/ExamViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "finishExam()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "42F9B741-E755-4013-B458-992FA4F645B8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "load()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "42F9B741-E755-4013-B458-992FA4F645B8 - f0804d43381330fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Life_In_The_UK_Prep.ExamRepository.load() async throws -&gt; Swift.Array&lt;Life_In_The_UK_Prep.Exam&gt;"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/ExamRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "1044">
+               </Location>
+               <Location
+                  uuid = "42F9B741-E755-4013-B458-992FA4F645B8 - f0804d43381330fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Life_In_The_UK_Prep.ExamRepository.load() async throws -&gt; Swift.Array&lt;Life_In_The_UK_Prep.Exam&gt;"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/ExamRepository.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "1060">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

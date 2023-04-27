@@ -23,6 +23,7 @@ struct Exam: Codable, Hashable, Equatable {
 	var score: Int = 0
 	var correctQuestions: [Question] = []
 	var incorrectQuestions: [Question] = []
+	var userSelectedAnswer: [Int: [Answer]]?
 
 	static func == (lhs: Self, rhs: Self) -> Bool {
 		lhs.id == rhs.id &&

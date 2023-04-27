@@ -22,12 +22,13 @@ struct WelcomeBackHeaderView: View {
 						.bold()
 						.foregroundColor(.titleText)
 					Spacer()
-
+#if DEBUG
 					Button(action: { isShowingSettings.toggle() }) {
 						Image(systemName: "gear")
 							.font(.title3)
 							.foregroundColor(.titleText)
 					}
+#endif
 				}
 
 				TypewriterText(subTitle, count: count)

@@ -28,7 +28,13 @@ class QuestionViewModel: ObservableObject, Identifiable {
 	}
 	var selectedAnswers = [Answer]()
 	var shouldAllowDeselect = false
-
+	var isAnsweredCorrectly: Bool {
+		guard selectedAnswers.count == answers.count else { return false }
+		for selectedAnswer in selectedAnswers {
+			if answers.contains(selectedAnswer) == false { return false }
+		}
+		return true
+	}
 	@Published var answerState = [Answer : AnswerState]()
 	@Published var attempts: Int = 0
 	@Published var showHint: Bool = false
@@ -46,6 +52,14 @@ class QuestionViewModel: ObservableObject, Identifiable {
 		options.forEach { answerState[$0] = .notAttempted }
 	}
 
+	func reset() {
+		options.forEach { answerState[$0] = .notAttempted }
+		selectedAnswers = []
+		answerState = [:]
+		showHint = false
+		attempts = 0
+	}
+
 	func state(for answer: Answer) -> AnswerState {
 		answerState[answer] ?? .notAttempted
 	}
@@ -58,17 +72,16 @@ class QuestionViewModel: ObservableObject, Identifiable {
 			attempts = 0
 			showHint.toggle()
 			return
+
 		} else if selectedAnswers.count < answers.count {
 			selectedAnswers.append(answer)
-
+			answerState[answer] = answer.isAnswer ? .correct : .wrong
 			if answers.contains(answer) {
-				answerState[answer] = .correct
 				if allQuesionsAnswered {
 					owner?.progressToNextQuestions()
 				}
 			} else {
 				highlightCorrectAnswers()
-				answerState[answer] = .wrong
 				attempts += 1
 				owner?.allowProgressToNextQuestion()
 				showHint.toggle()
@@ -82,13 +95,6 @@ class QuestionViewModel: ObservableObject, Identifiable {
 		answers.forEach { answer in
 			answerState[answer] = .correct
 		}
-	}
-
-	func reset() {
-		options.forEach { answerState[$0] = .notAttempted }
-		selectedAnswers = [Answer]()
-		showHint = false
-		attempts = 0
 	}
 
 	static func mock() -> QuestionViewModel {
