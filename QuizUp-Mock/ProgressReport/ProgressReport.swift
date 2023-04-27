@@ -143,6 +143,10 @@ struct ProgressReportRow: View {
 			Divider()
 				.padding(.leading)
 		}
+		.background(
+			LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+				.blur(radius: 75)
+		)
 	}
 }
 struct ProgressReport_Previews: PreviewProvider {
@@ -170,5 +174,9 @@ struct ProgressReportDetailView: View {
 					.padding()
 			}
 		}
+		.background(
+			LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+				.blur(radius: 75)
+		)
 	}
 }

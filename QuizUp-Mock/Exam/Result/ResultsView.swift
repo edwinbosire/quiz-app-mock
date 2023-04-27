@@ -88,7 +88,7 @@ struct ResultsViewContainer: View {
 					Spacer()
 
 					Button {
-						viewModel.restartExam()
+						_ = viewModel.restartExam()
 						presentationMode.wrappedValue.dismiss()
 					} label: {
 						Image(systemName: "xmark")
