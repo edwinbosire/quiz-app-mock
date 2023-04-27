@@ -52,9 +52,8 @@ struct AnswerRow: View {
 		.contentShape(Rectangle())
 		.background(background)
 		.onTapGesture {
-//			withAnimation {
-				selected?(answer)
-//			}
+			selected?(answer)
+			haptic( answer.isAnswer ? .success : .error)
 		}
 	}
 
@@ -111,6 +110,12 @@ struct AnswerRow: View {
 				return .pink
 		}
 	}
+
+	func haptic(_ type: UINotificationFeedbackGenerator.FeedbackType = .success) {
+		let generator = UINotificationFeedbackGenerator()
+		generator.notificationOccurred(type)
+	}
+
 }
 
 struct AnswerRow_Previews: PreviewProvider {
