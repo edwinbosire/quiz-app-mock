@@ -52,7 +52,6 @@ struct SummaryView: View {
 			}
 			.padding()
 		}
-		.padding(.bottom)
 		.background(.ultraThinMaterial)
 		.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 10))
 		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)

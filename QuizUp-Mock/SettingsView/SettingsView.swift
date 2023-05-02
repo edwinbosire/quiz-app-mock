@@ -9,10 +9,14 @@ import SwiftUI
 
 struct SettingsView: View {
 	@Environment(\.dismiss) var dismiss
+	@Environment(\.featureFlags) var featureFlags
+
 	@State private var isTimerEnabled = true
 	@State private var examDuration = 25.0
 	@State private var isDarkModeEnabled = false
 	@State private var isProEnabled = true
+	@State private var freeExams: Int = 3
+
 
 	var body: some View {
 		VStack {
@@ -38,19 +42,8 @@ struct SettingsView: View {
 						Text("Enable timer")
 					}
 
-					VStack(alignment: .leading) {
-						HStack {
-							Text("Exam duration")
-							Spacer()
-							Text("\(String(format: "%.0f", examDuration)) minutes")
-								.monospacedDigit()
-								.foregroundStyle(.secondary)
-
-						}
-						Slider(value: $examDuration, in: 1.0...60.0, step: 1.0)
-					}
-
-
+					examDurationView
+					freeExamsLimitView
 				}
 
 				Section("App Settings") {
@@ -72,6 +65,47 @@ struct SettingsView: View {
 					LabeledContent("Build number", value: "1.0")
 				}
 			}
+		}
+		.onAppear {
+			isTimerEnabled = featureFlags.timerEnabled
+		}
+		.onChange(of: isTimerEnabled) { newValue in
+			featureFlags.timerEnabled = newValue
+		}
+	}
+
+	var examDurationView: some View {
+		VStack(alignment: .leading) {
+			HStack {
+				Text("Exam duration")
+				Spacer()
+				Text("\(String(format: "%.0f", examDuration)) minutes")
+					.monospacedDigit()
+					.foregroundStyle(.secondary)
+
+			}
+			Slider(value: $examDuration, in: 1.0...60.0, step: 1.0)
+		}
+		.onAppear {
+			examDuration = featureFlags.examDuration
+		}
+		.onChange(of: examDuration) { newValue in
+			featureFlags.examDuration = newValue
+		}
+
+	}
+
+	var freeExamsLimitView: some View {
+		VStack(alignment: .leading) {
+			HStack {
+				Stepper("Free Exams \(freeExams)", value: $freeExams, in: 0...10)
+			}
+		}
+		.onAppear {
+			freeExams = featureFlags.freeUserExamAllowance
+		}
+		.onChange(of: freeExams) { newValue in
+			featureFlags.freeUserExamAllowance = newValue
 		}
 
 	}

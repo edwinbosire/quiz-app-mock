@@ -27,6 +27,7 @@ struct ProgressReport: View {
 		}
 	}
 }
+
 struct ProgressReportContainer: View {
 	var menuViewModel: MenuViewModel
 	@State var scale = 0.5
@@ -149,6 +150,7 @@ struct ProgressReportRow: View {
 		)
 	}
 }
+
 struct ProgressReport_Previews: PreviewProvider {
 	struct Preview: View {
 		@StateObject private var menuViewModel = MenuViewModel.shared

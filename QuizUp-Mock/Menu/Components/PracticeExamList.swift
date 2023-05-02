@@ -9,20 +9,20 @@ import SwiftUI
 
 struct PracticeExamList: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
+	@Environment(\.featureFlags) var featureFlags
 //	@Binding var route: Route
 	@Namespace var namespace
 
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
+	@State private var freeUserAllowance: Int = 3
 
 	var body: some View {
-		VStack(alignment: .leading) {
+		VStack(alignment: .leading, spacing: 10.0) {
 			Text("Practice Exams")
 				.bold()
 				.font(.title2)
 				.padding(.leading)
-				.padding(.bottom)
-				.padding(.top)
 				.foregroundColor(.titleText)
 
 
@@ -32,7 +32,7 @@ struct PracticeExamList: View {
 
 				LazyVStack {
 					ForEach(menuViewModel.exams) { exam in
-						if exam.id < 3 {
+						if exam.id < freeUserAllowance {
 							NavigationLink(value: exam) {
 								PracticeExamListRow(exam: exam, locked: false)
 							}
@@ -58,6 +58,12 @@ struct PracticeExamList: View {
 		}
 		.task {
 			await menuViewModel.reloadExams()
+		}
+		.onAppear {
+			freeUserAllowance = featureFlags.freeUserExamAllowance
+		}
+		.onChange(of: featureFlags.freeUserExamAllowance) { newValue in
+			freeUserAllowance = newValue
 		}
 	}
 }

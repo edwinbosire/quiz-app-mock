@@ -18,6 +18,7 @@ class MenuViewModel: ObservableObject {
 
 	public static let shared = MenuViewModel()
 
+	var handbookViewModel = HandbookViewModel()
 	init() {
 //		Task {
 //			exams = await viewModelFactor.buildExamViewModels()

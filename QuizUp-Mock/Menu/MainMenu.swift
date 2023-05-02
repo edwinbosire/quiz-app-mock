@@ -19,9 +19,9 @@ struct MainMenu: View {
 		NavigationStack {
 			ZStack(alignment: .topLeading) {
 				ScrollView {
-					VStack {
+					VStack(spacing: 10.0) {
 						SummaryView()
-						HandbookView(route: $route)
+						HandbookView(handbookViewModel: menuViewModel.handbookViewModel)
 						PracticeExamList()
 					}
 				}
@@ -56,12 +56,12 @@ struct MainMenu_Previews: PreviewProvider {
 }
 
 struct Backgrounds: View {
-	let color: [Color] = [.blue, .purple, .blue, .cyan, .indigo, .mint, .purple, .teal, .green, .blue]
+	let color: [Color] = [.blue, .purple, .cyan, .indigo, .mint, .purple, .teal, .green]
 
 	var body: some View {
 		ZStack {
-			ForEach(color, id: \.self) { color in
-				BackgroundBlob(color: color)
+			ForEach(0..<15) { _ in
+				BackgroundBlob(color: color.randomElement()!)
 			}
 		}
 		.background(Color("Background").opacity(0.9))
