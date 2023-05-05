@@ -30,7 +30,7 @@ struct SearchBar: View {
 		}
 		.background(
 			Capsule()
-				.strokeBorder(Color.subTitleText, lineWidth: 0.8)
+				.strokeBorder(Color.purple.opacity(0.4), lineWidth: 0.8)
 				.background(.ultraThinMaterial)
 				.clipShape(Capsule())
 		)

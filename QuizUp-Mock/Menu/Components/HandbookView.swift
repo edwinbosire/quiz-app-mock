@@ -41,6 +41,7 @@ struct HandbookView: View {
 							NavigationLink(value: chapter) {
 								handbookCards(chapter, index: ndx+1)
 							}
+							.gradientBackground()
 							.background(.thinMaterial)
 							.cornerRadius(10)
 

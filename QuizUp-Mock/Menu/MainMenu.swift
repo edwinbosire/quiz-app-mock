@@ -28,13 +28,9 @@ struct MainMenu: View {
 					}
 				}
 				WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
-
-//				if menuViewModel.isSearching {
-//					SearchResultsView(queryString: $menuViewModel.searchQuery, isSearching: $menuViewModel.isSearching, animation: namespace)
-//				}
-
 			}
-			.background(Backgrounds())
+			.gradientBackground()
+//			.background(Backgrounds())
 		}
 		.overlay(
 			ZStack {

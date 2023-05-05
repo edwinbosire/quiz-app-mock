@@ -27,13 +27,6 @@
 		6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F829C1401D008B6F39 /* Confetti.swift */; };
 		6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0FD29C241AE008B6F39 /* MainMenu.swift */; };
 		6455B10129C38A84008B6F39 /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */; };
-		64AB585629CF7DEA000B8ECC /* summary.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585029CF7DE9000B8ECC /* summary.html */; };
-		64AB585729CF7DEA000B8ECC /* chapter_5.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585129CF7DEA000B8ECC /* chapter_5.html */; };
-		64AB585829CF7DEA000B8ECC /* chapter_2.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585229CF7DEA000B8ECC /* chapter_2.html */; };
-		64AB585929CF7DEA000B8ECC /* chapter_1.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585329CF7DEA000B8ECC /* chapter_1.html */; };
-		64AB585A29CF7DEA000B8ECC /* chapter_4.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585429CF7DEA000B8ECC /* chapter_4.html */; };
-		64AB585B29CF7DEA000B8ECC /* chapter_3.html in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585529CF7DEA000B8ECC /* chapter_3.html */; };
-		64AB585E29CF8624000B8ECC /* book.css in Resources */ = {isa = PBXBuildFile; fileRef = 64AB585D29CF8624000B8ECC /* book.css */; };
 		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
@@ -84,14 +77,6 @@
 		6455B0F829C1401D008B6F39 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		6455B0FD29C241AE008B6F39 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
-		64AB585029CF7DE9000B8ECC /* summary.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = summary.html; sourceTree = "<group>"; };
-		64AB585129CF7DEA000B8ECC /* chapter_5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_5.html; sourceTree = "<group>"; };
-		64AB585229CF7DEA000B8ECC /* chapter_2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_2.html; sourceTree = "<group>"; };
-		64AB585329CF7DEA000B8ECC /* chapter_1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_1.html; sourceTree = "<group>"; };
-		64AB585429CF7DEA000B8ECC /* chapter_4.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_4.html; sourceTree = "<group>"; };
-		64AB585529CF7DEA000B8ECC /* chapter_3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = chapter_3.html; sourceTree = "<group>"; };
-		64AB585C29CF861A000B8ECC /* debug.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = debug.css; sourceTree = "<group>"; };
-		64AB585D29CF8624000B8ECC /* book.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = book.css; sourceTree = "<group>"; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -228,14 +213,6 @@
 				64B5BA4A29FD58DE00875667 /* handbook.json */,
 				64B5BA4C29FD669000875667 /* Handbook.swift */,
 				64B5BA4E29FD681800875667 /* HandbookRepository.swift */,
-				64AB585329CF7DEA000B8ECC /* chapter_1.html */,
-				64AB585229CF7DEA000B8ECC /* chapter_2.html */,
-				64AB585529CF7DEA000B8ECC /* chapter_3.html */,
-				64AB585429CF7DEA000B8ECC /* chapter_4.html */,
-				64AB585129CF7DEA000B8ECC /* chapter_5.html */,
-				64AB585029CF7DE9000B8ECC /* summary.html */,
-				64AB585C29CF861A000B8ECC /* debug.css */,
-				64AB585D29CF8624000B8ECC /* book.css */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -407,18 +384,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AB585B29CF7DEA000B8ECC /* chapter_3.html in Resources */,
-				64AB585929CF7DEA000B8ECC /* chapter_1.html in Resources */,
-				64AB585A29CF7DEA000B8ECC /* chapter_4.html in Resources */,
 				64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */,
 				64B5BA4B29FD58DE00875667 /* handbook.json in Resources */,
-				64AB585829CF7DEA000B8ECC /* chapter_2.html in Resources */,
 				6455B0EF29BF25CD008B6F39 /* questions.json in Resources */,
-				64AB585729CF7DEA000B8ECC /* chapter_5.html in Resources */,
 				64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */,
-				64AB585E29CF8624000B8ECC /* book.css in Resources */,
 				6455B0EE29BF25CD008B6F39 /* explanation.json in Resources */,
-				64AB585629CF7DEA000B8ECC /* summary.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

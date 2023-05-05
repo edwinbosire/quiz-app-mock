@@ -23,7 +23,7 @@ private struct GradientBackground: ViewModifier {
 	func body(content: Content) -> some View {
 		content
 			.background(
-				LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+				LinearGradient(colors: [Color.blue.opacity(0.5), Color.purple, Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
 					.blur(radius: 75)
 			)
 	}

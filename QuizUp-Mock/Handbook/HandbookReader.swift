@@ -52,10 +52,7 @@ struct HandbookReader: View {
 			}
 		})
 		.toolbarBackground(Color.pink, for: .navigationBar)
-		.background(
-			LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-				.blur(radius: 75)
-		)
+		.gradientBackground()
 		.onAppear {
 			fontSize = featureFlags.fontSize
 		}

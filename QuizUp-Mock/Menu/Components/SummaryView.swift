@@ -29,9 +29,11 @@ struct SummaryView: View {
 					}
 					.frame(maxWidth: .infinity)
 					.frame(height: 150)
-					.background(RoundedRectangle(cornerRadius: 10)
-						.fill(Color.rowBackground)
-						.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+						.fill(Color.pink)
+						.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+					)
 				}
 
 				Spacer()
@@ -39,14 +41,14 @@ struct SummaryView: View {
 
 				Button(action: { showProgressReport.toggle() } ) {
 					VStack {
-						CountingText(value: readingProgress, subtitle: "Reading Progress")
+						CountingText(value: readingProgress, subtitle: "Total Progress")
 							.animation(.easeInOut(duration: 0.5), value: readingProgress)
 
 					}
 					.frame(maxWidth: .infinity)
 					.frame(height: 150)
 					.background(RoundedRectangle(cornerRadius: 10)
-						.fill(Color.rowBackground)
+						.fill(Color.teal)
 						.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
 				}
 			}
@@ -84,11 +86,14 @@ struct CountingText: View, Animatable {
 				.font(.largeTitle)
 				.bold()
 				.foregroundStyle(.primary)
-				.foregroundColor(Color.titleText)
+//				.foregroundColor(Color.titleText)
+				.foregroundColor(.white)
 			Text(subtitle)
 				.font(.title3)
 				.foregroundStyle(.secondary)
-				.foregroundColor(Color.titleText)
+//				.foregroundColor(Color.titleText)
+				.foregroundColor(.white)
+
 
 		}
 	}

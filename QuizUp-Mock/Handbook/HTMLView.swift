@@ -24,13 +24,66 @@ struct HTMLView: UIViewRepresentable {
  <header>
  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
  <style>
- :root { color-scheme: light dark; --background:#ffffff; --text: #212121; --accent: #6C10EA; }
- body { padding: 8px; font-size: \(fontSize)%; font-family: "-apple-system-body"; color: var(--text); background-color: var(--background); }
- h1 { font:-apple-system-largeTitle; }
+ :root {
+    color-scheme: light dark;
+    --background:#ffffff;
+    --text: #212121;
+    --accent: #6C10EA;
+    --h3_background: #F0F8FF;
+    --list-background: #F0F8FF80;
+ }
+
+ body {
+     font-size: \(fontSize)%;
+     font-family: "-apple-system";
+     color: var(--text);
+     background-color: var(--background);
+ }
+ h1 {
+     font:-apple-system-largeTitle;
+ }
+ h3 {
+     padding: 10px 15px 10px 10px;
+     font:-apple-system-headline;
+     background-color: var(--h3_background);
+     position: sticky;
+     top: 0;
+ }
+
+ ul {
+    list-style-type: none;
+    list-style-position: inside;
+    list-style-type: circle;
+    margin: 0;
+    padding: 0;
+ }
+
+ li {
+   background-color: var(--list-background);
+   margin: 1px;
+   padding: 10px;
+   text-transform: capitalize;
+ }
+
+ a:link {
+   background-color: #DDFFBB;
+   color: red;
+   padding: 2px 2px 0px 2px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   text-transform: lowercase;
+   border-radius: 8px;
+ }
 
  @media screen and (prefers-color-scheme: dark) {
    :root {
-  color-scheme: light dark; --background:#1D2A4F; --text: #E4E4E4; --accent: #6C10EA;
+  color-scheme: light dark;
+ --background:#1D2A4F;
+ --text: #E4E4E4;
+ --accent: #6C10EA;
+ --h3_background: #2B3964;
+ --list-background: #2B396480
  }
  </style>
  </header>

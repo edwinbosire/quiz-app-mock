@@ -17,7 +17,7 @@ struct SearchResultsView: View {
 	@FocusState var searchBarFocus: Bool
 	var body: some View {
 		ZStack {
-			Color.defaultBackground.ignoresSafeArea()
+//			Color.defaultBackground.ignoresSafeArea()
 			VStack {
 				HStack(spacing: 15) {
 					Button(action: {
@@ -36,7 +36,7 @@ struct SearchResultsView: View {
 						TextField("Search...", text: $queryString)
 							.textCase(.lowercase)
 							.autocorrectionDisabled()
-							.padding([.top, .bottom, .trailing])
+							.padding([.top, .bottom, .trailing], 10)
 							.tint(Color.titleText)
 							.onTapGesture {
 //								self.isSearching = true
@@ -98,7 +98,8 @@ struct SearchResultsView: View {
 
 				}
 			}
-			.gradientBackground()
+//			.gradientBackground()
+			.background(.ultraThinMaterial)
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 		}
     }
