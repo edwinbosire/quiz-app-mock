@@ -11,9 +11,11 @@ struct MainMenu: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Binding var route: Route
 	var namespace: Namespace.ID
+	@Namespace var searchAnimation
 
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
+	@State private var queryString = ""
 
 	var body: some View {
 		NavigationStack {
@@ -25,10 +27,22 @@ struct MainMenu: View {
 						PracticeExamList()
 					}
 				}
-				WelcomeBackHeaderView()
+				WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
+
+//				if menuViewModel.isSearching {
+//					SearchResultsView(queryString: $menuViewModel.searchQuery, isSearching: $menuViewModel.isSearching, animation: namespace)
+//				}
+
 			}
 			.background(Backgrounds())
 		}
+		.overlay(
+			ZStack {
+				if menuViewModel.isSearching {
+					SearchResultsView(queryString: $menuViewModel.searchQuery, isSearching: $menuViewModel.isSearching, animation: searchAnimation)
+				}
+			}
+		)
 		.onAppear {
 			Task {
 				await menuViewModel.reloadExams()

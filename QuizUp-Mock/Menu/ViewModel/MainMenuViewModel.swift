@@ -15,7 +15,9 @@ class MenuViewModel: ObservableObject {
 
 	@Published var route: Route = .mainMenu
 	@Published var isShowingMonitizationPage = false
-
+	@Published var isSearching: Bool = false
+	@Published var searchQuery: String = ""
+	
 	public static let shared = MenuViewModel()
 
 	var handbookViewModel = HandbookViewModel()

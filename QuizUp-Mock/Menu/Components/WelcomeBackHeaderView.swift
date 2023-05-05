@@ -8,50 +8,69 @@
 import SwiftUI
 
 struct WelcomeBackHeaderView: View {
-	@State private var searchText = ""
+	@State private var queryString: String = ""
+	@Binding var isSearching: Bool
+	var animation: Namespace.ID
+
 	@State var isShowingSettings = false
 	@State private var count = 0
+	@State private var presentHandbookView = false
 	let subTitle = "British Citizenship Exam Preparation"
 
 	var body: some View {
-		VStack {
-			VStack(alignment: .leading) {
-				HStack {
-					Text("Welcome Back")
-						.font(.largeTitle)
-						.bold()
-						.foregroundColor(.titleText)
-					Spacer()
-#if DEBUG
-					Button(action: { isShowingSettings.toggle() }) {
-						Image(systemName: "gear")
-							.font(.title3)
+			VStack {
+				VStack(alignment: .leading) {
+					HStack {
+						Text("Welcome Back")
+							.font(.largeTitle)
+							.bold()
 							.foregroundColor(.titleText)
-					}
-#endif
-				}
-
-				TypewriterText(subTitle, count: count)
-					.foregroundColor(.subTitleText)
-					.foregroundStyle(.secondary)
-					.animation(.easeInOut(duration: 1.1), value: count)
-					.onAppear {
-						DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-							count = subTitle.count
+						Spacer()
+#if DEBUG
+						Button(action: { isShowingSettings.toggle() }) {
+							Image(systemName: "gear")
+								.font(.title3)
+								.foregroundColor(.titleText)
 						}
+#endif
 					}
 
-				SearchBar(text: $searchText)
-			}
-			.padding()
-		}
-//		.background(Color.rowBackground)
-		.background(.ultraThinMaterial)
-		.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-		.sheet(isPresented: $isShowingSettings) {
-			SettingsView()
-		}
+					TypewriterText(subTitle, count: count)
+						.foregroundColor(.subTitleText)
+						.foregroundStyle(.secondary)
+						.animation(.easeInOut(duration: 1.1), value: count)
+						.onAppear {
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+								count = subTitle.count
+							}
+						}
 
+					if isSearching {
+						SearchBar(text: $queryString, isSearching: $isSearching)
+					} else {
+						SearchBar(text: $queryString, isSearching: $isSearching)
+							.matchedGeometryEffect(id: "SEARCHBARID", in: animation)
+					}
+
+				}
+				.padding()
+			}
+			//		.background(Color.rowBackground)
+			.background(.ultraThinMaterial)
+			.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+			.sheet(isPresented: $isShowingSettings) {
+				SettingsView()
+			}
+
+//			.onChange(of: queryString) { newValue in
+//				presentHandbookView = !newValue.isEmpty
+//			}
+//			.sheet(isPresented: $presentHandbookView) {
+//				NavigationView {
+//					HanbookMainMenu(queryString: queryString)
+//				}
+//
+//			}
 	}
 }
 
@@ -81,7 +100,7 @@ struct TypewriterText: View, Animatable {
 	}
 }
 struct WelcomeBackHeaderView_Previews: PreviewProvider {
-
+	@Namespace static var namespace
 	static var previews: some View {
 		NavigationStack {
 			ZStack(alignment: .topLeading) {
@@ -89,7 +108,7 @@ struct WelcomeBackHeaderView_Previews: PreviewProvider {
 					.opacity(0.9)
 					.ignoresSafeArea()
 
-				WelcomeBackHeaderView()
+				WelcomeBackHeaderView(isSearching: .constant(false), animation: namespace)
 			}
 		}
 		.previewDisplayName("Welcome Header")

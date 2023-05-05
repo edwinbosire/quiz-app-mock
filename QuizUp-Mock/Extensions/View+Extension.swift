@@ -19,9 +19,23 @@ struct ShadowStyle: ViewModifier {
 	}
 }
 
+private struct GradientBackground: ViewModifier {
+	func body(content: Content) -> some View {
+		content
+			.background(
+				LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+					.blur(radius: 75)
+			)
+	}
+}
+
 extension View {
 	func defaultShadow(radius: CGFloat = 9.0, xOffset: CGFloat = 0.0, yOffset: CGFloat = -1.0) -> some View {
 		modifier(ShadowStyle(radius: radius, xOffset: xOffset, yOffset: yOffset))
+	}
+
+	func gradientBackground() -> some View {
+		modifier(GradientBackground())
 	}
 }
 
@@ -34,3 +48,4 @@ extension View {
 		}
 	}
 }
+

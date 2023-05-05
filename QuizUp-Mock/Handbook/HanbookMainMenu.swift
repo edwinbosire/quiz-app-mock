@@ -8,34 +8,44 @@
 import SwiftUI
 
 struct HanbookMainMenu: View {
-	let bookViewModel = HandbookViewModel()
+	let bookViewModel = HandbookViewModel.shared
+	@State private var queryString = ""
+
+	init(queryString: String = "") {
+		self.queryString = queryString
+	}
 
 	var body: some View {
-		List {
-			ForEach(bookViewModel.chapters) { chapter in
-				Section(chapter.title) {
-					ForEach(chapter.topics) { topic in
-						NavigationLink {
-							HandbookReader(chapter: chapter)
-						} label: {
-							BookChapterRow(title: topic.title)
+			List {
+				ForEach(filteredChapters) { chapter in
+					Section(chapter.title) {
+						ForEach(chapter.topics) { topic in
+							NavigationLink {
+								HandbookReader(chapter: chapter)
+							} label: {
+								BookChapterRow(title: topic.title)
+							}
 						}
+						.listRowBackground(Color.defaultBackground)
 					}
-					.listRowBackground(Color.defaultBackground)
 				}
 			}
-		}
-		.listStyle(.insetGrouped)
-		.background(gradientBackground)
-		.scrollContentBackground(.hidden)
-		.frame(maxHeight: .infinity)
-		.navigationTitle("Life in the UK Handbook")
+			.listStyle(.insetGrouped)
+			.scrollContentBackground(.hidden)
+			.frame(maxHeight: .infinity)
+			.searchable(text: $queryString)
+			.navigationTitle("Handbook")
+			.gradientBackground()
 	}
 
-	private var gradientBackground: some View {
-		LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-			.blur(radius: 75)
+	private var filteredChapters: [Chapter] {
+		guard !queryString.isEmpty else {
+			return bookViewModel.chapters
+		}
+
+		return bookViewModel.chapters.filter { $0.title.localizedCaseInsensitiveContains(queryString) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(queryString)}.count > 0 }
 	}
+
 }
 
 private struct BookChapterRow: View {
@@ -49,12 +59,16 @@ private struct BookChapterRow: View {
 }
 struct HanbookMainMenu_Previews: PreviewProvider {
     static var previews: some View {
-		HanbookMainMenu()
+		NavigationStack {
+			HanbookMainMenu()
+		}
     }
 }
 
 
 class HandbookViewModel {
+	static let shared = HandbookViewModel()
+
 	let repository = HandbookRepository()
 
 	var handbook: Handbook? {
