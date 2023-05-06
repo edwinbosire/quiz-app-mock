@@ -42,6 +42,7 @@
 		64B5BA4F29FD681800875667 /* HandbookRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA4E29FD681800875667 /* HandbookRepository.swift */; };
 		64B5BA512A0191CF00875667 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA502A0191CF00875667 /* FeatureFlags.swift */; };
 		64B5BA532A04744200875667 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA522A04744200875667 /* SearchResultsView.swift */; };
+		64B5BA552A05E55500875667 /* TopicProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5BA542A05E55500875667 /* TopicProgressView.swift */; };
 		64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */; };
 		64B5FF9029CD0CCB001F22E8 /* MainMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */; };
 		64B7EDE029C6A083001F6717 /* HanbookMainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDDF29C6A083001F6717 /* HanbookMainMenu.swift */; };
@@ -93,6 +94,7 @@
 		64B5BA4E29FD681800875667 /* HandbookRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandbookRepository.swift; sourceTree = "<group>"; };
 		64B5BA502A0191CF00875667 /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		64B5BA522A04744200875667 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
+		64B5BA542A05E55500875667 /* TopicProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicProgressView.swift; sourceTree = "<group>"; };
 		64B5FF8D29CB9652001F22E8 /* ExamRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamRepository.swift; sourceTree = "<group>"; };
 		64B5FF8F29CD0CCB001F22E8 /* MainMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewModel.swift; sourceTree = "<group>"; };
 		64B7EDDF29C6A083001F6717 /* HanbookMainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanbookMainMenu.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				64B7EDDF29C6A083001F6717 /* HanbookMainMenu.swift */,
 				64B5BA4029F7A9A600875667 /* HandbookReader.swift */,
+				64B5BA542A05E55500875667 /* TopicProgressView.swift */,
 				642205D929CD2FD900BD663D /* HTMLView.swift */,
 			);
 			path = Handbook;
@@ -404,6 +407,7 @@
 				64AB586029CF9290000B8ECC /* HintView.swift in Sources */,
 				64B5BA4329F9C1E200875667 /* ResultsViewModel.swift in Sources */,
 				64B5BA4129F7A9A600875667 /* HandbookReader.swift in Sources */,
+				64B5BA552A05E55500875667 /* TopicProgressView.swift in Sources */,
 				64B5BA4529F9C58100875667 /* PreviewModel.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,
 				6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */,

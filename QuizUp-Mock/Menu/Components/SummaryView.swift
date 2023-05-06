@@ -10,6 +10,7 @@ import SwiftUI
 struct SummaryView: View {
 	@Environment(\.colorScheme) var colorScheme
 	var isDarkMode: Bool { colorScheme == .dark }
+	var handbookViewModel = HandbookViewModel()
 
 	@State private var averageScore = 0.0
 	@State private var readingProgress = 0.0
@@ -61,8 +62,10 @@ struct SummaryView: View {
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 				averageScore = 75.5
-				readingProgress = 25.3
+				readingProgress = handbookViewModel.totalProgress
 			}
+
+
 		}
 		.sheet(isPresented: $showProgressReport) {
 			ProgressReport()

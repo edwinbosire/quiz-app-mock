@@ -28,6 +28,10 @@ struct Chapter: Codable, Identifiable, Hashable {
 	}
 }
 
+struct ChaperDestination: Hashable {
+	let chapter: Chapter
+	let index: Int
+}
 extension Chapter: Equatable {
 	static func == (lhs: Chapter, rhs: Chapter) -> Bool {
 		lhs.title == rhs.title

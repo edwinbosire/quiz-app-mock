@@ -16,6 +16,7 @@ struct SettingsView: View {
 	@State private var isDarkModeEnabled = false
 	@State private var isProEnabled = true
 	@State private var freeExams: Int = 3
+	@State private var progressTrackingEnabaled = false
 
 
 	var body: some View {
@@ -57,6 +58,10 @@ struct SettingsView: View {
 						Text("Enable Pro features")
 					}
 
+					Toggle(isOn: $progressTrackingEnabaled) {
+						Text("Progress tracking")
+					}
+
 
 				}
 
@@ -68,9 +73,13 @@ struct SettingsView: View {
 		}
 		.onAppear {
 			isTimerEnabled = featureFlags.timerEnabled
+			progressTrackingEnabaled = featureFlags.progressTrackingEnabled
 		}
 		.onChange(of: isTimerEnabled) { newValue in
 			featureFlags.timerEnabled = newValue
+		}
+		.onChange(of: progressTrackingEnabaled) { newValue in
+			featureFlags.progressTrackingEnabled = newValue
 		}
 	}
 

@@ -19,9 +19,9 @@ struct HanbookMainMenu: View {
 			List {
 				ForEach(filteredChapters) { chapter in
 					Section(chapter.title) {
-						ForEach(chapter.topics) { topic in
+						ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
 							NavigationLink {
-								HandbookReader(chapter: chapter)
+								HandbookReader(chapter: chapter, index: ndx)
 							} label: {
 								BookChapterRow(title: topic.title)
 							}
@@ -50,10 +50,17 @@ struct HanbookMainMenu: View {
 
 private struct BookChapterRow: View {
 	let title: String
+	@State private var readingProgress: Double = .zero
 	var body: some View {
 		HStack() {
+			TopicProgressView(value: readingProgress/100)
+				.frame(width: 20)
+				.padding(.vertical, 4)
 			Text(title)
 				.font(.subheadline)
+		}
+		.onAppear {
+			readingProgress = UserDefaults.standard.double(forKey: title)
 		}
 	}
 }
@@ -78,4 +85,15 @@ class HandbookViewModel {
 	lazy var chapters: [Chapter] = {
 		repository.loadChapters()
 	}()
+
+	var totalProgress: Double {
+		var totalProgress = 0.0
+		for chapter in chapters {
+			for topic in chapter.topics {
+				let topicProgress = UserDefaults.standard.double(forKey: topic.title)
+				totalProgress += topicProgress / Double(chapter.topics.count)
+			}
+		}
+		return totalProgress / Double(chapters.count)
+	}
 }

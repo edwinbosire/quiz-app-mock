@@ -11,6 +11,7 @@ struct HandbookReader: View {
 	@Environment(\.featureFlags) var featureFlags
 
 	let chapter: Chapter
+	let index: Int
 	@State var fontSize: Double = 120
 	@State private var selection = 0
 
@@ -54,6 +55,7 @@ struct HandbookReader: View {
 		.toolbarBackground(Color.pink, for: .navigationBar)
 		.gradientBackground()
 		.onAppear {
+			selection = index
 			fontSize = featureFlags.fontSize
 		}
 		.onChange(of: fontSize) { newValue in
@@ -66,14 +68,21 @@ struct HandbookReader: View {
 struct  HandbookTopicReader: View {
 	var topic: Topic
 	var fontSize: Double
+	@State var scrollProgress: Double = .zero
+
 	var body: some View {
-			VStack(alignment: .leading, spacing: 10.0) {
+			ZStack(alignment: .leading) {
 				let title = "<H1>\(topic.title) </H1>"
-				HTMLView(html: "\(title) \(topic.content)", fontSize: fontSize)
+				HTMLView(html: "\(title) \(topic.content)", fontSize: fontSize, scrollProgress: $scrollProgress)
 					.frame(maxHeight: .infinity)
 
 			}
 			.frame(maxHeight: .infinity)
+			.onChange(of: scrollProgress) { newValue in
+				if UserDefaults.standard.double(forKey: topic.title) < newValue {
+					UserDefaults.standard.set(newValue, forKey: topic.title)
+				}
+			}
 	}
 }
 
@@ -87,7 +96,7 @@ struct HandbookReader_Previews: PreviewProvider {
 										  topics: [topic1, topic2])
     static var previews: some View {
 		NavigationStack {
-			HandbookReader(chapter: HandbookReader_Previews.chapter)
+			HandbookReader(chapter: HandbookReader_Previews.chapter, index: 0)
 		}
 		.toolbarBackground(Color.defaultBackground, for: .navigationBar)
     }

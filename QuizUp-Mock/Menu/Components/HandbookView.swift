@@ -38,8 +38,8 @@ struct HandbookView: View {
 				ScrollView(.horizontal, showsIndicators: false) {
 					HStack {
 						ForEach(Array(handbookViewModel.chapters.enumerated()), id: \.offset) { ndx, chapter in
-							NavigationLink(value: chapter) {
-								handbookCards(chapter, index: ndx+1)
+							NavigationLink(value: ChaperDestination(chapter: chapter, index: ndx)) {
+								HandbookCards(chapter: chapter, index: ndx+1)
 							}
 							.gradientBackground()
 							.background(.thinMaterial)
@@ -51,12 +51,19 @@ struct HandbookView: View {
 					.padding(.leading)
 				}
 			}
-			.navigationDestination(for: Chapter.self) { chapter in
-				HandbookReader(chapter: chapter)
+			.navigationDestination(for: ChaperDestination.self) { dest in
+				HandbookReader(chapter: dest.chapter, index: dest.index)
 			}
 	}
+}
 
-	fileprivate func handbookCards(_ chapter: Chapter, index: Int) -> some View {
+struct HandbookCards: View {
+	@Environment(\.featureFlags) var featureFlags
+	var chapter: Chapter
+	var index: Int
+	@State private var chapterProgress: Double = .zero
+
+	var body: some View {
 		VStack {
 			let title = "Chapter \(index)"
 			VStack(alignment: .leading) {
@@ -80,23 +87,31 @@ struct HandbookView: View {
 
 				if featureFlags.progressTrackingEnabled {
 					HStack {
-						ProgressView("", value: 10, total: 100)
+						ProgressView("", value: chapterProgress, total: 100)
 							.padding(.bottom)
-							.tint(.accentColor)
+							.tint(.purple.opacity(0.4))
 
 						Spacer()
-						Text("\(String(format: "%.0f%%", 10))")
-							.foregroundColor(.accentColor)
+						Text("\(String(format: "%.0f%%", chapterProgress))")
+							.foregroundColor(.purple.opacity(0.4))
 							.font(.footnote)
 					}
 				}
 			}
 			.padding(.horizontal)
 			.frame(width: 150, height: 150)
+			.onAppear {
+				var totalProgress = 0.0
+				for topic in chapter.topics {
+					let topicProgress = UserDefaults.standard.double(forKey: topic.title)
+					totalProgress += topicProgress / Double(chapter.topics.count)
+				}
+				chapterProgress = totalProgress
+			}
 		}
+
 	}
 }
-
 struct HandbookView_Previews: PreviewProvider {
     static var previews: some View {
 		HandbookView(handbookViewModel: HandbookViewModel())
