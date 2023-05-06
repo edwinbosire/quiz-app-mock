@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class MenuViewModel: ObservableObject {
@@ -17,11 +18,20 @@ class MenuViewModel: ObservableObject {
 	@Published var isShowingMonitizationPage = false
 	@Published var isSearching: Bool = false
 	@Published var searchQuery: String = ""
-	
-	public static let shared = MenuViewModel()
+	@Published var debouncedQuery: String = ""
 
+	public static let shared = MenuViewModel()
+	private var bag = Set<AnyCancellable>()
 	var handbookViewModel = HandbookViewModel()
 	init() {
+
+		$searchQuery
+			.removeDuplicates()
+			.debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+			.sink(receiveValue: { [weak self] value in
+				self?.debouncedQuery = value
+			})
+			.store(in: &bag)
 //		Task {
 //			exams = await viewModelFactor.buildExamViewModels()
 //			completedExams = exams.filter { $0.exam.status == .finished }

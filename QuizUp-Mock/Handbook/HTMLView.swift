@@ -79,7 +79,7 @@ body {
  background-color: var(--background);
 }
 h1 {
- font:-apple-system-largeTitle;
+ font:-apple-system-largeTitle3;
 }
 h3 {
  padding: 10px 15px 10px 10px;
@@ -118,7 +118,7 @@ border-radius: 8px;
 @media screen and (prefers-color-scheme: dark) {
 :root {
 color-scheme: light dark;
---background:#1D2A4F;
+--background:#11192e;
 --text: #E4E4E4;
 --accent: #6C10EA;
 --h3_background: #2B3964;

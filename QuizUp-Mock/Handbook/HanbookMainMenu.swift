@@ -16,24 +16,7 @@ struct HanbookMainMenu: View {
 	}
 
 	var body: some View {
-			List {
-				ForEach(filteredChapters) { chapter in
-					Section(chapter.title) {
-						ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
-							NavigationLink {
-								HandbookReader(chapter: chapter, index: ndx)
-							} label: {
-								BookChapterRow(title: topic.title)
-							}
-						}
-						.listRowBackground(Color.defaultBackground)
-					}
-				}
-			}
-			.listStyle(.insetGrouped)
-			.scrollContentBackground(.hidden)
-			.frame(maxHeight: .infinity)
-			.searchable(text: $queryString)
+		HandbookMainMenuList(chapters: filteredChapters, queryString: $queryString)
 			.navigationTitle("Handbook")
 			.gradientBackground()
 	}
@@ -45,9 +28,34 @@ struct HanbookMainMenu: View {
 
 		return bookViewModel.chapters.filter { $0.title.localizedCaseInsensitiveContains(queryString) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(queryString)}.count > 0 }
 	}
-
 }
 
+struct HandbookMainMenuList: View {
+	var chapters: [Chapter]
+	@Binding var queryString: String
+	var body: some View {
+		List {
+			ForEach(chapters) { chapter in
+				Section(chapter.title) {
+					ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
+						NavigationLink {
+							HandbookReader(chapter: chapter, index: ndx)
+						} label: {
+							BookChapterRow(title: topic.title)
+						}
+					}
+					.listRowBackground(Color.defaultBackground)
+				}
+			}
+		}
+		.listStyle(.insetGrouped)
+		.scrollContentBackground(.hidden)
+		.frame(maxHeight: .infinity)
+		.searchable(text: $queryString)
+		.navigationTitle("Handbook")
+//		.gradientBackground()
+	}
+}
 private struct BookChapterRow: View {
 	let title: String
 	@State private var readingProgress: Double = .zero

@@ -30,12 +30,11 @@ struct MainMenu: View {
 				WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
 			}
 			.gradientBackground()
-//			.background(Backgrounds())
 		}
 		.overlay(
 			ZStack {
 				if menuViewModel.isSearching {
-					SearchResultsView(queryString: $menuViewModel.searchQuery, isSearching: $menuViewModel.isSearching, animation: searchAnimation)
+					SearchResultsView(viewModel: menuViewModel, animation: searchAnimation)
 				}
 			}
 		)
