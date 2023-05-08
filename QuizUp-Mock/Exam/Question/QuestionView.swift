@@ -16,6 +16,8 @@ struct QuestionView: View {
 
 	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
+	@State private var promptRestartExam: Bool = false
+
 	var body: some View {
 			ZStack {
 				VStack {
@@ -33,7 +35,6 @@ struct QuestionView: View {
 								.frame(maxWidth: .infinity)
 								.frame(maxHeight: .infinity)
 								.tag(question.index)
-//								.gesture(DragGesture(minimumDistance: question.index == 1 ? 100 : 0))
 						}
 					}
 					.tabViewStyle(.page(indexDisplayMode: .never))
@@ -77,15 +78,25 @@ struct QuestionView: View {
 			.actionSheet(isPresented: $isShowingMenu) {
 				ActionSheet(title: Text(""), message: nil, buttons: [
 					.default(Text("Report Issue")),
-					.default(Text("Restart Test")),
+					.default(Text("Restart Test")){ promptRestartExam.toggle() },
 					.default(Text("Quit Test")){ presentationMode.wrappedValue.dismiss()},
 					.cancel()
 
 				])
 			}
+			.alert("Restart Exam?", isPresented: $promptRestartExam, actions: {
+				Button("Cancel", role: .cancel, action: {})
+				Button("Restart", role: .destructive, action: { restartExam()})
+			}, message: {
+				Text("You will lose all progress")
+			})
 
 
 
+	}
+
+	func restartExam() {
+		_ = viewModel.restartExam()
 	}
 
 }
@@ -160,8 +171,6 @@ struct QuestionPageContent: View {
 	@Environment(\.colorScheme) var colorScheme
 	@ObservedObject var viewModel: QuestionViewModel
 
-//	@State var showHint = false
-
 	let transition = AnyTransition.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)).combined(with: .opacity)
 
 	@Namespace var topID
@@ -203,9 +212,9 @@ struct QuestionPageContent: View {
 		.onChange(of: viewModel.showHint) { newValue in
 			self.showHintView = newValue
 		}
-//		.background(
-//			LinearGradient(colors: [Color.defaultBackground, Color.indigo], startPoint: .topLeading, endPoint: .bottomTrailing)
-//		)
+		.onAppear {
+			self.showHintView = false
+		}
 	}
 
 	func titleView() -> some View {

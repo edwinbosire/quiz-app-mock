@@ -53,7 +53,7 @@ struct AnswerRow: View {
 		.background(background)
 		.onTapGesture {
 			selected?(answer)
-			haptic( answer.isAnswer ? .success : .error)
+			haptic( answer.isAnswer)
 		}
 	}
 
@@ -111,9 +111,20 @@ struct AnswerRow: View {
 		}
 	}
 
-	func haptic(_ type: UINotificationFeedbackGenerator.FeedbackType = .success) {
-		let generator = UINotificationFeedbackGenerator()
-		generator.notificationOccurred(type)
+	var mediumImpact: UIImpactFeedbackGenerator {
+		UIImpactFeedbackGenerator(style: .medium)
+	}
+	var selectionFeedback: UISelectionFeedbackGenerator {
+		UISelectionFeedbackGenerator()
+	}
+	func haptic(_ type: Bool) {
+		if type {
+			selectionFeedback.prepare()
+			selectionFeedback.selectionChanged()
+		} else {
+			let generator = UINotificationFeedbackGenerator()
+			generator.notificationOccurred(.warning)
+		}
 	}
 
 }
