@@ -20,11 +20,16 @@ struct ShadowStyle: ViewModifier {
 }
 
 private struct GradientBackground: ViewModifier {
+	@Environment(\.colorScheme) var colorScheme
+	var isDarkMode: Bool { colorScheme == .dark }
 	func body(content: Content) -> some View {
+		let colors = isDarkMode ? [Color.blue.opacity(0.5), Color.purple, Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)] :
+		[Color.defaultBackground, Color.purple.opacity(0.3), Color.defaultBackground]
 		content
 			.background(
-				LinearGradient(colors: [Color.blue.opacity(0.5), Color.purple, Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-					.blur(radius: 75)
+					LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
+						.blur(radius: 75)
+
 			)
 	}
 }

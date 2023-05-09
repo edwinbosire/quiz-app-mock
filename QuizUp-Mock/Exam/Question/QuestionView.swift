@@ -43,10 +43,7 @@ struct QuestionView: View {
 				}
 
 			}
-			.background(
-				LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-					.blur(radius: 75)
-			)
+			.gradientBackground()
 			.onAppear {
 				selectedPage = viewModel.progress
 			}
@@ -90,9 +87,6 @@ struct QuestionView: View {
 			}, message: {
 				Text("You will lose all progress")
 			})
-
-
-
 	}
 
 	func restartExam() {

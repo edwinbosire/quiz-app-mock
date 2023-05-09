@@ -49,7 +49,9 @@ struct QuestionDTO: Codable {
 extension QuestionDTO {
 	func toModel(with explanationText: String?) -> Question {
 		let correctAnswers = self.correct.compactMap { Int($0) }
-		let answers = self.choices.enumerated().map { index, answer in Answer(title: answer, isAnswer: correctAnswers.contains(index))}
+		let answers = self.choices.enumerated().map {
+			index, answer in Answer(title: answer, isAnswer: correctAnswers.contains(index))
+		}.shuffled()
 
 		return Question(id: questionId,
 						sectionId: bookSectionId,

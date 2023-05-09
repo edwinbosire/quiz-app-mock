@@ -228,5 +228,83 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Repository/QuestionDTO.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "toModel(with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 1e4a0e1cb960cd6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "232">
+               </Location>
+               <Location
+                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 4c9e8c479fb83cd1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Int, Swift.String) -&gt; Life_In_The_UK_Prep.Answer in Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 1e4a0e1cb960cd6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "236">
+               </Location>
+               <Location
+                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 4c9e8c479fb83cf0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Int, Swift.String) -&gt; Life_In_The_UK_Prep.Answer in Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
