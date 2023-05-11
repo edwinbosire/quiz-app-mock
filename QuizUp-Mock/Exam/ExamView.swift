@@ -19,7 +19,7 @@ struct ExamView: View {
 				case .unattempted:
 					 QuestionView(viewModel: viewModel,route: $route, namespace: namespace)
 				case .finished:
-					ResultsView(viewModel: viewModel, route: $route)
+					ResultsView(result: viewModel.result)
 				case .attempted:
 					 Text("Exam was attempted")
 				case .started:

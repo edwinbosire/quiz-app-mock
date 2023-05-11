@@ -79,6 +79,8 @@ struct Question: Codable, Hashable {
 	let answers: [Answer]
 }
 
+extension Question: Identifiable {}
+
 struct Answer: Codable, Hashable {
 	let title: String
 	let isAnswer: Bool

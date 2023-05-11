@@ -10,13 +10,13 @@ import WebKit
 
 struct HTMLView: UIViewRepresentable {
 	let html: String
-	let fontSize: Double
+	@Binding var fontSize: Double
 	@Binding var scrollProgress: Double
 //	@Binding var contentOffset: CGPoint?
 //	@Binding var contentSize: CGSize?
-	let webView = WKWebView()
 
 	func makeUIView(context: Context) -> WKWebView {
+		let webView = WKWebView()
 
 		webView.isOpaque = false
 		webView.backgroundColor = .clear
@@ -29,6 +29,7 @@ struct HTMLView: UIViewRepresentable {
 	}
 
 	func updateUIView(_ uiView: WKWebView, context: Context) {
+		uiView.loadHTMLString(headerString + html, baseURL: nil)
 		return
 	}
 
@@ -164,7 +165,7 @@ struct HTMLContentView: View {
 	@State private var scrollProgres: Double = .zero
 
 	var body: some View {
-		HTMLView(html: htmlString, fontSize: 100, scrollProgress: $scrollProgres)
+		HTMLView(html: htmlString, fontSize: .constant(100), scrollProgress: $scrollProgres)
 	}
 }
 

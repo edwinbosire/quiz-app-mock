@@ -85,6 +85,11 @@ class ExamViewModel: ObservableObject {
 			return "Your score is below the 74% pass mark"
 		}
 	}
+
+	var result: ExamResult {
+		ExamResult(exam: exam)
+	}
+
 	@Published var availableQuestions = [QuestionViewModel]()
 
 

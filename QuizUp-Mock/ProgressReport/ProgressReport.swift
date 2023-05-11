@@ -6,56 +6,77 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ProgressReport: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@State var scale = 0.5
+	var results: [ExamResult] {
+		menuViewModel.results
+	}
 
 	var body: some View {
 		NavigationStack {
-			ProgressReportContainer(menuViewModel: menuViewModel)
+			ProgressReportContainer(results: results)
 			.scaleEffect(scale)
 			.onAppear{
 				withAnimation {
 					scale = 1.0
 				}
 			}
-			.navigationDestination(for: ExamViewModel.self) { exam in
-				ProgressReportDetailView(exam: exam)
+			.navigationDestination(for: ExamResult.self) { result in
+				ProgressReportDetailView(result: result)
 			}
-
+		}
+		.task {
+			await menuViewModel.reloadExams()
 		}
 	}
 }
 
 struct ProgressReportContainer: View {
-	var menuViewModel: MenuViewModel
+	var results: [ExamResult]
 	@State var scale = 0.5
 
 	var body: some View {
 		VStack(alignment: .center) {
 			ProgressReportNavBar()
-			if menuViewModel.completedExams.isEmpty {
+			if results.isEmpty {
 				VStack {
 					Text("No exam results available, complete at least one exam for the results to appear here.")
 						.padding()
 
-					FilledButton(title: "Start Exam", action: {print("start exam")})
+					FilledButton(title: "Start Exam", action: { print("start exam")})
 						.frame(maxWidth: .infinity)
 
 				}
 			} else {
-				ForEach(menuViewModel.completedExams) { exam in
-					NavigationLink(value: exam) {
-						ProgressReportRow(exam: exam)
+
+
+				List {
+					BarCharts(results: results)
+						.listRowBackground(Color.clear)
+					ForEach(results) { result in
+						NavigationLink(value: result) {
+							ProgressReportRow(result: result)
+
+						}
 					}
+					.listRowBackground(
+						Rectangle()
+							.fill(Color.rowBackground.opacity(0.5))
+//							.background(.ultraThickMaterial)
+					)
+
 				}
+				.listStyle(.plain)
 			}
 			Spacer()
 		}
 		.task {
-			await menuViewModel.reloadExams()
+//			await menuViewModel.reloadExams()
 		}
+		.gradientBackground()
 	}
 }
 
@@ -98,67 +119,61 @@ struct ProgressReportNavBar: View {
 }
 
 struct ProgressReportRow: View {
-	let exam: ExamViewModel
+	let result: ExamResult
 	var body: some View {
-		VStack(alignment: .leading) {
-			HStack(alignment: .center) {
-				Image(systemName: "newspaper")
+		HStack {
+//			Image(systemName: "newspaper")
 
-				VStack(alignment: .leading) {
-					Text("Practice Test \(exam.id)")
-						.font(.title3)
-						.foregroundStyle(.primary)
+			VStack(alignment: .leading, spacing: 5.0) {
+				Text("Practice Test \(result.examId)")
+					.foregroundColor(.titleText)
+					.font(.title3)
+					.foregroundStyle(.primary)
 
-					HStack {
-						Group {
-							Image(systemName: "xmark.seal")
-							Text("\(exam.exam.incorrectQuestions.count) wrong")
-						}
-						.font(.caption)
-						.foregroundColor(.red)
-
-
-
-						Group {
-							Image(systemName: "checkmark.seal")
-							Text("\(exam.exam.correctQuestions.count) correct")
-						}
-						.font(.caption)
-						.foregroundColor(.green)
+				HStack {
+					Group {
+						Image(systemName: "checkmark.circle")
+						Text("\(result.correctQuestions.count) correct")
 					}
-					.foregroundStyle(.tertiary)
+					.font(.caption)
+					.foregroundColor(.green)
 
+					Group {
+						Image(systemName: "xmark.circle")
+						Text("\(result.incorrectQuestions.count) wrong")
+					}
+					.font(.caption)
+					.foregroundColor(.red)
 				}
+				.foregroundStyle(.tertiary)
 
-				Spacer()
-
-				Text(exam.formattedScore)
-					.font(.title)
-
-				Image(systemName: "chevron.right")
-					.font(.title)
-
+				Text(result.formattedDate)
+					.font(.footnote)
+					.foregroundStyle(.tertiary)
+					.foregroundColor(.subTitleText)
 			}
-			.padding(.horizontal)
 
-			Divider()
-				.padding(.leading)
+			Spacer()
+
+			Text(result.formattedScore)
+				.font(.title2)
+				.foregroundColor(.titleText)
+
+
+//			Image(systemName: "chevron.right")
+//				.font(.title)
+
 		}
-		.background(
-			LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-				.blur(radius: 75)
-		)
+		.padding(.horizontal)
 	}
 }
 
 struct ProgressReport_Previews: PreviewProvider {
 	struct Preview: View {
-		@StateObject private var menuViewModel = MenuViewModel.shared
 		var body: some View {
 			NavigationStack {
 				ProgressReport()
 			}
-			.environmentObject(menuViewModel)
 		}
 	}
 	static var previews: some View {
@@ -168,17 +183,42 @@ struct ProgressReport_Previews: PreviewProvider {
 
 
 struct ProgressReportDetailView: View {
-	let exam: ExamViewModel
+	let result: ExamResult
 	var body: some View {
 		ScrollView {
-			ForEach(exam.questions, id: \.id) { question in
-				ResultsRow(question: question)
+			ForEach(result.questions) { question in
+				let vm = QuestionViewModel(question: question)
+				ResultsRow(question: vm)
 					.padding()
 			}
 		}
-		.background(
-			LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-				.blur(radius: 75)
-		)
+		.gradientBackground()
+	}
+}
+
+struct BarCharts: View {
+	let results: [ExamResult]
+
+
+	@State private var data: [(index: Int, score: Double)] = []
+
+	var body: some View {
+		Chart {
+			RuleMark(y: .value("Pass Mark", 75))
+				.foregroundStyle(Color.pink.opacity(0.5))
+
+			ForEach(data, id: \.index) { result in
+				BarMark(
+					x: .value("exam", result.index),
+					y: .value("Exam Score", result.score)
+				)
+			}
+		}
+		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
+		.padding(.horizontal)
+		.frame(height: 200, alignment: .center)
+		.onAppear {
+			data = results.enumerated().map { (index: $0, score: $1.scorePercentage)}
+		}
 	}
 }

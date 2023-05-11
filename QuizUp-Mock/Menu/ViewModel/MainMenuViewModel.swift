@@ -11,6 +11,7 @@ import Combine
 @MainActor
 class MenuViewModel: ObservableObject {
 	private let viewModelFactor = ViewModelFactor()
+	private let repository: ExamRepository = .shared
 	@Published var exams: [ExamViewModel] = []
 	@Published var completedExams: [ExamViewModel]  = []
 
@@ -23,6 +24,7 @@ class MenuViewModel: ObservableObject {
 	public static let shared = MenuViewModel()
 	private var bag = Set<AnyCancellable>()
 	var handbookViewModel = HandbookViewModel()
+	var results: [ExamResult] = []
 	init() {
 
 		$searchQuery
@@ -36,10 +38,19 @@ class MenuViewModel: ObservableObject {
 //			exams = await viewModelFactor.buildExamViewModels()
 //			completedExams = exams.filter { $0.exam.status == .finished }
 //		}
+		Task {
+			await reloadExams()
+		}
 	}
 
 	func reloadExams() async {
 		exams = await viewModelFactor.buildExamViewModels()
 		completedExams = exams.filter { $0.exam.status == .finished }
+
+		do {
+			results = try await repository.loadResults()
+		} catch {
+			results = []
+		}
 	}
 }

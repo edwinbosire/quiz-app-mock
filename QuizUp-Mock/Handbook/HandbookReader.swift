@@ -19,7 +19,7 @@ struct HandbookReader: View {
 		GeometryReader { proxy in
 			TabView(selection: $selection) {
 				ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
-					HandbookTopicReader(topic: topic, fontSize: fontSize).tag(ndx)
+					HandbookTopicReader(topic: topic, fontSize: $fontSize).tag(ndx)
 				}
 			}
 			.ignoresSafeArea()
@@ -67,13 +67,13 @@ struct HandbookReader: View {
 
 struct  HandbookTopicReader: View {
 	var topic: Topic
-	var fontSize: Double
+	@Binding var fontSize: Double
 	@State var scrollProgress: Double = .zero
 
 	var body: some View {
 			ZStack(alignment: .leading) {
 				let title = "<H1>\(topic.title) </H1>"
-				HTMLView(html: "\(title) \(topic.content)", fontSize: fontSize, scrollProgress: $scrollProgress)
+				HTMLView(html: "\(title) \(topic.content)", fontSize: $fontSize, scrollProgress: $scrollProgress)
 					.frame(maxHeight: .infinity)
 
 			}

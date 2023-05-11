@@ -8,8 +8,7 @@
 import Foundation
 
 class ResultsViewModel: ObservableObject {
-	let examId: Int
-	var exam: Exam?
+	private var exam: ExamResult?
 	let repository: ExamRepository
 
 	lazy var questions: [Question] = {
@@ -19,11 +18,12 @@ class ResultsViewModel: ObservableObject {
 		return []
 	}()
 
-	init(examId: Int, repository: ExamRepository) {
-		self.examId = examId
+	init(repository: ExamRepository, exam id: Int) {
 		self.repository = repository
 		Task {
-			self.exam = try? await repository.load(exam: examId)
+			let results = try? await repository.loadResults()
+			exam = results?.first(where: { $0.examId == id})
 		}
 	}
+
 }

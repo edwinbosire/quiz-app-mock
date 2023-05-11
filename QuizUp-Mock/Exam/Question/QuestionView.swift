@@ -25,7 +25,7 @@ struct QuestionView: View {
 					HStack(alignment: .firstTextBaseline) {
 						QuestionCounter(progressTitle: viewModel.progressTitle)
 						Spacer()
-						TimerView()
+						TimerView(status: $viewModel.examStatus)
 					}
 					.padding(.top)
 
@@ -101,6 +101,8 @@ struct TimerView: View {
 	@State var timeRemaining = 25*60
 	@State var minutes = 00
 	@State var seconds = 00
+	@Binding var status: ExamStatus
+
 	var body: some View {
 		HStack {
 			Image(systemName: "clock")
@@ -123,6 +125,10 @@ struct TimerView: View {
 				minutes = (timeRemaining % 3600) / 60
 				seconds = (timeRemaining % 3600) % 60
 			} else {
+				// TODO: Work on the DNF screen
+				if status == .started {
+					status = .didNotFinish
+				}
 				minutes = 00
 				seconds = 00
 			}
@@ -239,13 +245,11 @@ struct QuestionPageContent: View {
 					AnswerRow(answer: answer, isLastRow: (index == viewModel.options.count-1), answerState: viewModel.state(for: answer)) { selected in
 						withAnimation(.easeInOut(duration: 0.3)) {
 							viewModel.selected(selected)
-//							showHintView.toggle()
 						}
 					}
 					.modifier(viewModel.state(for: answer) == .wrong ? Shake(animatableData: 1.0) : Shake(animatableData: 0.0))
 				}
 			}
-//			.background(.ultraThinMaterial)
 			.background(
 				Color.rowBackground
 					.background(.ultraThinMaterial)

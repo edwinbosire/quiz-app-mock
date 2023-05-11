@@ -14,8 +14,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "parseJSONData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -94,58 +94,10 @@
             filePath = "QuizUp-Mock/Exam/Question/Models/ExamViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "finishExam()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "42F9B741-E755-4013-B458-992FA4F645B8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "load()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "42F9B741-E755-4013-B458-992FA4F645B8 - f0804d43381330fc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Life_In_The_UK_Prep.ExamRepository.load() async throws -&gt; Swift.Array&lt;Life_In_The_UK_Prep.Exam&gt;"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/ExamRepository.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "1044">
-               </Location>
-               <Location
-                  uuid = "42F9B741-E755-4013-B458-992FA4F645B8 - f0804d43381330fc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Life_In_The_UK_Prep.ExamRepository.load() async throws -&gt; Swift.Array&lt;Life_In_The_UK_Prep.Exam&gt;"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/ExamRepository.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "1060">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -231,79 +183,81 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B"
+            uuid = "FB6D67B9-F7A1-418F-9AC3-7F17FC7725EE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Repository/QuestionDTO.swift"
+            filePath = "QuizUp-Mock/Menu/ViewModel/MainMenuViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "toModel(with:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "reloadExams()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 1e4a0e1cb960cd6b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "232">
-               </Location>
-               <Location
-                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 4c9e8c479fb83cd1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Int, Swift.String) -&gt; Life_In_The_UK_Prep.Answer in Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 1e4a0e1cb960cd6b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "236">
-               </Location>
-               <Location
-                  uuid = "64946E0F-C3D8-416B-896F-5D01DEC3A26B - 4c9e8c479fb83cf0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Int, Swift.String) -&gt; Life_In_The_UK_Prep.Answer in Life_In_The_UK_Prep.QuestionDTO.toModel(with: Swift.Optional&lt;Swift.String&gt;) -&gt; Life_In_The_UK_Prep.Question"
-                  moduleName = "Life In The UK Prep"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/Repository/QuestionDTO.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "76">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A332366A-CF33-49B3-8D3F-05C583121463"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Repository/ExamRepository.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "ExamRepository"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F9CC326-4D67-4D2E-9192-7D4E16499F3E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Handbook/HTMLView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "updateUIView(_:context:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0D55982-C6E3-41F3-A0D9-429BC0FDFCB4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "92BF0234-1164-41F4-90B8-BC05CB1D422F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/Exam/Question/Models/Exam.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "formattedScore"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

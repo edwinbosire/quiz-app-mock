@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct ResultsView: View {
-	@ObservedObject var viewModel: ExamViewModel
-	@Binding var route: Route
+	let result: ExamResult
 	var body: some View {
-		ResultsViewContainer(viewModel: viewModel, route: $route)
+		ResultsViewContainer(result: result)
 	}
 }
 
 struct ResultsViewContainer: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-	@ObservedObject var viewModel: ExamViewModel
-	@Binding var route: Route
+	let result: ExamResult
 	@State private var ringProgress = 0.0
 
 	var body: some View {
@@ -28,14 +26,15 @@ struct ResultsViewContainer: View {
 			ScrollView {
 				VStack {
 					resultsHeader()
-					ForEach(viewModel.availableQuestions, id: \.id) { question in
-						ResultsRow(question: question)
+					ForEach(result.questions) { question in
+						let vm = QuestionViewModel(question: question)
+						ResultsRow(question: vm)
 							.padding()
 					}
 					Spacer()
 				}
 				.onAppear {
-					ringProgress = viewModel.scorePercentage / 100
+					ringProgress = result.score / 100
 				}
 			}
 
@@ -88,7 +87,7 @@ struct ResultsViewContainer: View {
 					Spacer()
 
 					Button {
-						_ = viewModel.restartExam()
+//						_ = viewModel.restartExam()
 						presentationMode.wrappedValue.dismiss()
 					} label: {
 						Image(systemName: "xmark")
@@ -103,15 +102,15 @@ struct ResultsViewContainer: View {
 					.font(.title3)
 
 				CircularProgressView(progress: $ringProgress, score:
-										"\(viewModel.score) / \(viewModel.availableQuestions.count)",primaryColor: .pink)
+										"\(result.score) / \(result.questions.count)",primaryColor: .pink)
 					.frame(width: 200)
 					.padding()
 				Spacer()
 
-				Text(String(format: " You've scored: %.0f%%", min(max(viewModel.scorePercentage, 0.0), 100)))
+				Text(String(format: " You've scored: %.0f%%", min(max(result.scorePercentage, 0.0), 100)))
 					.font(.headline)
 					.foregroundStyle(.primary)
-				Text(viewModel.prompt)
+				Text(result.prompt)
 					.font(.subheadline)
 					.foregroundStyle(.secondary)
 			}
@@ -172,7 +171,8 @@ struct ResultsRow: View {
 }
 struct ResultsView_Previews: PreviewProvider {
 	static var previews: some View {
-		let examViewModel = ExamViewModel.mock()
-		ResultsView(viewModel: examViewModel, route: .constant(.mockTest(testId: 0)))
+		let exam = Exam.mock()
+		let result = ExamResult(exam: exam)
+		ResultsView(result: result)
 	}
 }

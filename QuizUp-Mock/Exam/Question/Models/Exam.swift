@@ -36,3 +36,59 @@ extension Exam {
 		return Exam(id: 00, questions: [], status: .unattempted)
 	}
 }
+
+struct ExamResult: Codable, Hashable, Equatable {
+	let id: UUID
+	let examId: Int
+	let questions: [Question]
+	var status: ExamStatus
+	var correctQuestions: [Question] = []
+	var incorrectQuestions: [Question] = []
+	var userSelectedAnswer: [Int: [Answer]]?
+	var date: Date
+	var score: Double {
+		Double(correctQuestions.count) / Double(questions.count)
+	}
+
+	var scorePercentage: Double {
+		score * 100
+	}
+
+	var prompt: String {
+		if scorePercentage >= 75 {
+			return "Congratulation! You've passed the test"
+		} else {
+			return "Your score is below the 75% pass mark"
+		}
+	}
+
+	var formattedScore: String {
+		if status == .unattempted {
+			return  ""
+		} else {
+			return scorePercentage > 0.0 ? String(format: "%.0f %%", scorePercentage) : "-"
+		}
+	}
+
+	var formattedDate: String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .medium
+		dateFormatter.timeStyle = .none
+		dateFormatter.locale = Locale.current
+
+		return dateFormatter.string(from: self.date)
+	}
+
+	init(exam: Exam) {
+		self.id = UUID()
+		self.examId = exam.id
+		self.questions = exam.questions
+		self.status = exam.status
+		self.correctQuestions = exam.correctQuestions
+		self.incorrectQuestions = exam.incorrectQuestions
+		self.userSelectedAnswer = exam.userSelectedAnswer
+		self.date = Date.now
+	}
+}
+
+extension ExamResult: Identifiable {}

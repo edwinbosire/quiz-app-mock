@@ -15,6 +15,8 @@ enum ExamRepositoryErrors: Error {
 	case UnableToLoadExamsFromStorage
 	case NoExamsFoundInStorage
 	case UnableToSaveExamsToStorage
+	case UnableToSaveExamsResultToStorage
+	case UnableToLoadExamsResultsFromStorage
 
 }
 
@@ -31,6 +33,7 @@ class ExamRepository: Repository {
 	private var defaults: UserDefaults = UserDefaults.standard
 	static let shared = ExamRepository()
 	let savedExamsKey = "exams"
+	let examResultsKey = "ExamResultsKey"
 
 	func load(exam withId: Int) async throws -> Exam {
 		let exams = try await load()
@@ -41,7 +44,6 @@ class ExamRepository: Repository {
 	}
 
 	func load() async throws -> [Exam] {
-
 		// if its the first run of the app, generate exams
 		guard let savedExams = defaults.object(forKey: savedExamsKey) as? Data else {
 			print("Loading all exams from storage")
@@ -60,14 +62,49 @@ class ExamRepository: Repository {
 	}
 
 	func save(exam: Exam) async throws {
-		var allExams = try await load()
-		guard let ndx = allExams.firstIndex(where: { $0.id == exam.id }) else {
-			print("failed to find exam to save: \(exam)")
-			throw ExamRepositoryErrors.ExamNotFound
+		var results: [ExamResult] = []
+		if let savedResults = defaults.object(forKey: examResultsKey) as? Data {
+			do {
+				results = try JSONDecoder().decode([ExamResult].self, from: savedResults)
+			} catch(let error) {
+				print("Failed to load exams results: \(error)")
+			}
+
 		}
-		allExams[ndx] = exam
-		try await saveAll(exams: allExams)
-		print("Saved Exam id \(exam.id) with status = \(exam.status)")
+
+		results.append(ExamResult(exam: exam))
+
+		if let examResult = try? JSONEncoder().encode(results) {
+			let defaults = UserDefaults.standard
+			defaults.set(examResult, forKey: examResultsKey)
+			print("saved exam results")
+		} else {
+			print("Failed to save exam results.")
+			throw ExamRepositoryErrors.UnableToSaveExamsResultToStorage
+		}
+	}
+
+//	func migration() async {
+//		let exams = try! await self.load()
+//
+//		for exam in exams {
+//			if exam.status == .finished {
+//				try! await save(exam: exam)
+//			}
+//		}
+//	}
+
+	func loadResults() async throws -> [ExamResult] {
+		guard let savedExamResults = defaults.object(forKey: examResultsKey) as? Data else {
+				return []
+		}
+		do {
+			return try JSONDecoder().decode([ExamResult].self, from: savedExamResults)
+		} catch(let error) {
+			print("Failed to load exams results: \(error)")
+			throw ExamRepositoryErrors.UnableToLoadExamsResultsFromStorage
+		}
+
 	}
 
 	private func saveAll(exams: [Exam]) async throws {
