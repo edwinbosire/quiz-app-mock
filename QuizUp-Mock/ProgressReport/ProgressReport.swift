@@ -55,6 +55,25 @@ struct ProgressReport: View {
 						results = menuViewModel.results
 					}
 				}
+				.overlay {
+					if results.isEmpty {
+						ZStack(alignment: .top) {
+							VStack {
+								Spacer()
+								Text("No exam results available, complete at least one exam for the results to appear here.")
+									.padding()
+
+								FilledButton(title: "Start Exam", action: { startExamSelected?() })
+								Spacer()
+								Spacer()
+							}
+
+							.frame(maxWidth: .infinity, maxHeight: .infinity)
+						}
+						.background(.ultraThinMaterial)
+					}
+				}
+
 		}
 	}
 }
@@ -89,17 +108,6 @@ struct ProgressReportContainer: View {
 
 			}
 			.listStyle(.plain)
-			.overlay {
-				if results.isEmpty {
-					VStack {
-						Text("No exam results available, complete at least one exam for the results to appear here.")
-							.padding()
-
-						FilledButton(title: "Start Exam", action: { startExamSelected?() })
-
-					}
-				}
-			}
 		}
 	}
 }
