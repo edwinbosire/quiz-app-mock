@@ -51,11 +51,6 @@ struct PracticeExamList: View {
 		.sheet(isPresented:  $menuViewModel.isShowingMonitizationPage, content: {
 			MonitizationView(route: $menuViewModel.route)
 		})
-		.navigationDestination(for: ExamViewModel.self) { exam in
-			let exam = exam.examStatus != .unattempted ? exam.restartExam() : exam
-			ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
-					.navigationBarBackButtonHidden()
-		}
 		.task {
 			await menuViewModel.reloadExams()
 		}

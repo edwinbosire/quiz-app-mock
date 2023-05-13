@@ -10,26 +10,51 @@ import Charts
 
 struct ProgressReport: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
+	@Environment(\.dismiss) var dismiss
+
 	@State var scale = 0.5
-	var results: [ExamResult] {
-		menuViewModel.results
-	}
+	var startExamSelected: (() -> Void)?
+
+	@State private var results = [ExamResult]()
 
 	var body: some View {
-		NavigationStack {
-			ProgressReportContainer(results: results)
-			.scaleEffect(scale)
-			.onAppear{
-				withAnimation {
-					scale = 1.0
+		NavigationView {
+
+			ProgressReportContainer(results: results, startExamSelected: startExamSelected)
+				.scaleEffect(scale)
+				.onAppear{
+					withAnimation {
+						scale = 1.0
+					}
 				}
-			}
-			.navigationDestination(for: ExamResult.self) { result in
-				ProgressReportDetailView(result: result)
-			}
-		}
-		.task {
-			await menuViewModel.reloadExams()
+				.task {
+					await menuViewModel.reloadExams()
+				}
+				.toolbar{
+					ToolbarItem(placement: .navigationBarLeading) {
+						Text("Results")
+							.font(.title)
+							.bold()
+							.padding()
+					}
+
+					ToolbarItem(placement: .navigationBarTrailing) {
+						HStack {
+							Button { dismiss() } label: {
+								Image(systemName: "xmark")
+									.font(.subheadline)
+							}
+							.padding()
+						}
+
+					}
+				}
+				.gradientBackground()
+				.onAppear {
+					Task {
+						results = menuViewModel.results
+					}
+				}
 		}
 	}
 }
@@ -37,46 +62,45 @@ struct ProgressReport: View {
 struct ProgressReportContainer: View {
 	var results: [ExamResult]
 	@State var scale = 0.5
-
+	var startExamSelected: (() -> Void)?
 	var body: some View {
-		VStack(alignment: .center) {
-			ProgressReportNavBar()
-			if results.isEmpty {
-				VStack {
-					Text("No exam results available, complete at least one exam for the results to appear here.")
-						.padding()
+		VStack {
+			BarCharts(results: results)
+				.padding()
 
-					FilledButton(title: "Start Exam", action: { print("start exam")})
-						.frame(maxWidth: .infinity)
-
-				}
-			} else {
-
-
-				List {
-					BarCharts(results: results)
-						.listRowBackground(Color.clear)
+			List {
+				Section {
 					ForEach(results) { result in
-						NavigationLink(value: result) {
+						NavigationLink(destination: ProgressReportDetailView(result: result)) {
 							ProgressReportRow(result: result)
-
 						}
 					}
 					.listRowBackground(
 						Rectangle()
 							.fill(Color.rowBackground.opacity(0.5))
-//							.background(.ultraThickMaterial)
 					)
 
+				} header: {
+					//					BarCharts(results: results)
+					//						.padding()
+					//						.listRowBackground(Color.clear)
+
 				}
-				.listStyle(.plain)
+
 			}
-			Spacer()
+			.listStyle(.plain)
+			.overlay {
+				if results.isEmpty {
+					VStack {
+						Text("No exam results available, complete at least one exam for the results to appear here.")
+							.padding()
+
+						FilledButton(title: "Start Exam", action: { startExamSelected?() })
+
+					}
+				}
+			}
 		}
-		.task {
-//			await menuViewModel.reloadExams()
-		}
-		.gradientBackground()
 	}
 }
 
@@ -86,35 +110,10 @@ struct FilledButton: View {
 
 	var body: some View {
 		Button(title, action: action)
+			.buttonStyle(.bordered)
 			.foregroundColor(.white)
-			.padding()
-			.background(Color.accentColor)
-			.cornerRadius(8)
-	}
-}
-
-struct ProgressReportNavBar: View {
-	@Environment(\.dismiss) var dismiss
-	var body: some View {
-		ZStack {
-			HStack {
-				Text("Results")
-					.font(.title)
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
-
-			HStack {
-				Button { dismiss() } label: {
-					Image(systemName: "xmark")
-						.font(.title)
-				}
-				.padding()
-			}
-			.frame(maxWidth: .infinity, alignment: .trailing)
-
-			Divider()
-				.offset(y: 30.0)
-		}
+			.tint(Color.purple)
+			.buttonBorderShape(.capsule)
 	}
 }
 
@@ -207,18 +206,21 @@ struct BarCharts: View {
 			RuleMark(y: .value("Pass Mark", 75))
 				.foregroundStyle(Color.pink.opacity(0.5))
 
-			ForEach(data, id: \.index) { result in
+			ForEach(Array(results.enumerated()), id: \.offset) { ndx, result in
 				BarMark(
-					x: .value("exam", result.index),
-					y: .value("Exam Score", result.score)
+					x: .value("exam", result.chartDate),
+					y: .value("Exam Score", result.scorePercentage)
 				)
 			}
 		}
+		.chartYAxisLabel("Score")
 		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
-		.padding(.horizontal)
 		.frame(height: 200, alignment: .center)
 		.onAppear {
-			data = results.enumerated().map { (index: $0, score: $1.scorePercentage)}
+			Task {
+				data = results.enumerated().map { (index: $0, score: $1.scorePercentage)}
+			}
 		}
 	}
 }
+

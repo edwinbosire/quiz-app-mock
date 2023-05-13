@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Handbook: Codable {
+struct Handbook: Codable, Hashable {
 	let chapters: [Chapter]
 
 	enum CodingKeys: String, CodingKey {

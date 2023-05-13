@@ -12,6 +12,7 @@ struct HandbookView: View {
 	@Environment(\.featureFlags) var featureFlags
 	var isDarkMode: Bool { colorScheme == .dark }
 	var handbookViewModel: HandbookViewModel
+	@Binding  var route: NavigationPath
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 10.0) {
@@ -22,16 +23,20 @@ struct HandbookView: View {
 						.foregroundColor(.titleText)
 
 					Spacer()
-					NavigationLink {
-						HanbookMainMenu()
-					} label: {
+
 						HStack {
 							Text("View all")
 							Image(systemName: "chevron.right")
 						}
 						.foregroundColor(.titleText)
 						.foregroundStyle(.tertiary)
-					}
+						.containerShape(Rectangle())
+						.onTapGesture {
+							if let vm = handbookViewModel.handbook {
+								route.append(vm)
+							}
+						}
+
 
 				}
 				.padding(.horizontal)
@@ -50,9 +55,6 @@ struct HandbookView: View {
 					}
 					.padding(.leading)
 				}
-			}
-			.navigationDestination(for: ChaperDestination.self) { dest in
-				HandbookReader(chapter: dest.chapter, index: dest.index)
 			}
 	}
 }
@@ -114,7 +116,8 @@ struct HandbookCards: View {
 }
 struct HandbookView_Previews: PreviewProvider {
     static var previews: some View {
-		HandbookView(handbookViewModel: HandbookViewModel())
+		@State var route = NavigationPath()
+		HandbookView(handbookViewModel: HandbookViewModel(), route: $route)
 			.background(Backgrounds())
     }
 }

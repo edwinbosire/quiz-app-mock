@@ -37,7 +37,7 @@ extension Exam {
 	}
 }
 
-struct ExamResult: Codable, Hashable, Equatable {
+struct ExamResult: Codable, Hashable, Equatable, Identifiable {
 	let id: UUID
 	let examId: Int
 	let questions: [Question]
@@ -79,6 +79,17 @@ struct ExamResult: Codable, Hashable, Equatable {
 		return dateFormatter.string(from: self.date)
 	}
 
+	var chartDate: String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .medium
+		dateFormatter.timeStyle = .none
+		dateFormatter.locale = Locale.current
+		dateFormatter.setLocalizedDateFormatFromTemplate("MMMd")
+
+		return dateFormatter.string(from: self.date)
+	}
+
+
 	init(exam: Exam) {
 		self.id = UUID()
 		self.examId = exam.id
@@ -90,5 +101,3 @@ struct ExamResult: Codable, Hashable, Equatable {
 		self.date = Date.now
 	}
 }
-
-extension ExamResult: Identifiable {}

@@ -9,13 +9,16 @@ import SwiftUI
 
 struct SummaryView: View {
 	@Environment(\.colorScheme) var colorScheme
+	@EnvironmentObject private var menuViewModel: MenuViewModel
+	@Binding var route: NavigationPath
+
 	var isDarkMode: Bool { colorScheme == .dark }
 	var handbookViewModel = HandbookViewModel()
 
 	@State private var averageScore = 0.0
 	@State private var readingProgress = 0.0
 	@State private var showProgressReport = false
-
+	@State private var showHandbook = false
 	var body: some View {
 		VStack {
 			Spacer()
@@ -40,8 +43,11 @@ struct SummaryView: View {
 				Spacer()
 					.frame(width: 20)
 
-				Button(action: { showProgressReport.toggle() } ) {
-					VStack {
+				Button(action: {
+					if let vm = handbookViewModel.handbook {
+						route.append(vm)
+					}}){
+						VStack {
 						CountingText(value: readingProgress, subtitle: "Total Progress")
 							.animation(.easeInOut(duration: 0.5), value: readingProgress)
 
@@ -68,7 +74,16 @@ struct SummaryView: View {
 
 		}
 		.sheet(isPresented: $showProgressReport) {
-			ProgressReport()
+			ProgressReport() {
+				showProgressReport = false
+
+				if let firstExam = menuViewModel.exams.first(where: {$0.examStatus == .unattempted}) {
+					route.append(firstExam)
+				}
+			}
+		}
+		.sheet(isPresented: $showHandbook) {
+			HanbookMainMenu()
 		}
 	}
 }
@@ -104,7 +119,8 @@ struct CountingText: View, Animatable {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-		SummaryView()
+		@State var route = NavigationPath()
+		SummaryView(route: $route)
 			.background(Backgrounds())
     }
 }

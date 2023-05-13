@@ -50,8 +50,8 @@ class FeatureFlags {
 	init() {
 		userDefaults.register(
 			defaults: [
-				progressTrackingEnabledKey: false,
-				fontSizeKey: 120.0,
+				progressTrackingEnabledKey: true,
+				fontSizeKey: 10.0,
 				timerEnabledKey: true,
 				examDurationKey: 25.0,
 				enableProFeaturesKey: true,

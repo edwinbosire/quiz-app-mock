@@ -15,6 +15,10 @@ struct HTMLView: UIViewRepresentable {
 //	@Binding var contentOffset: CGPoint?
 //	@Binding var contentSize: CGSize?
 
+	var fontJS: String {
+		"document.getElementsByTagName('body')[0].style.fontSize='\(fontSize)px'"
+	}
+
 	func makeUIView(context: Context) -> WKWebView {
 		let webView = WKWebView()
 
@@ -23,14 +27,15 @@ struct HTMLView: UIViewRepresentable {
 		webView.alpha = 0
 		webView.navigationDelegate = context.coordinator
 		webView.scrollView.delegate = context.coordinator
+		webView.allowsLinkPreview = true
+//		webView.evaluateJavaScript(fontJS, completionHandler: nil)
 		webView.loadHTMLString(headerString + html, baseURL: nil)
 
 		return webView
 	}
 
 	func updateUIView(_ uiView: WKWebView, context: Context) {
-		uiView.loadHTMLString(headerString + html, baseURL: nil)
-		return
+		uiView.evaluateJavaScript(fontJS, completionHandler: nil)
 	}
 
 	func makeCoordinator() -> Coordinator {
@@ -74,7 +79,7 @@ color-scheme: light dark;
 }
 
 body {
- font-size: \(fontSize)%;
+ font-size: \(fontSize)px;
  font-family: "-apple-system";
  color: var(--text);
  background-color: var(--background);
@@ -165,7 +170,7 @@ struct HTMLContentView: View {
 	@State private var scrollProgres: Double = .zero
 
 	var body: some View {
-		HTMLView(html: htmlString, fontSize: .constant(100), scrollProgress: $scrollProgres)
+		HTMLView(html: htmlString, fontSize: .constant(100.0), scrollProgress: $scrollProgres)
 	}
 }
 

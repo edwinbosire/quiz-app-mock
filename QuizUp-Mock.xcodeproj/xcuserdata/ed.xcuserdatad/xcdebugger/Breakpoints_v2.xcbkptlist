@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "76E4612E-06FC-4F17-8B71-4BDD853401E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9BF86022-F6E4-4051-B1E6-C93465CBEF2E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -142,8 +126,8 @@
             filePath = "QuizUp-Mock/Menu/Components/HandbookView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -183,22 +167,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FB6D67B9-F7A1-418F-9AC3-7F17FC7725EE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Menu/ViewModel/MainMenuViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "reloadExams()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A332366A-CF33-49B3-8D3F-05C583121463"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -222,8 +190,8 @@
             filePath = "QuizUp-Mock/Handbook/HTMLView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "updateUIView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -231,15 +199,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E0D55982-C6E3-41F3-A0D9-429BC0FDFCB4"
-            shouldBeEnabled = "Yes"
+            uuid = "0D9D9CAE-8E33-481D-8841-006DFC4EC485"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
+            filePath = "QuizUp-Mock/Handbook/HandbookReader.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -247,17 +215,191 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "92BF0234-1164-41F4-90B8-BC05CB1D422F"
-            shouldBeEnabled = "Yes"
+            uuid = "22D8C48F-C8B9-472E-A7B4-6DEB2BE78E65"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QuizUp-Mock/Exam/Question/Models/Exam.swift"
+            filePath = "QuizUp-Mock/Handbook/HandbookReader.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "formattedScore"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6549BE9-CC3F-47F5-A398-07E04CA835B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "F6549BE9-CC3F-47F5-A398-07E04CA835B2 - d53121ac67e62a9e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 ((index: Swift.Int, score: Swift.Double)) -&gt; Charts.BarMark in closure #1 () -&gt; &lt;&lt;opaque return type of static Charts.ChartContentBuilder.buildPartialBlock&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_0_0: Charts.ChartContent, &#x3c4;_0_1: Charts.ChartContent&gt;(accumulated: &#x3c4;_0_0, next: &#x3c4;_0_1) -&gt; some&gt;&gt;.0 in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "444">
+               </Location>
+               <Location
+                  uuid = "F6549BE9-CC3F-47F5-A398-07E04CA835B2 - a8b420dd95340dc3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Life_In_The_UK_Prep.ExamResult) -&gt; Charts.BarMark in closure #1 () -&gt; &lt;&lt;opaque return type of static Charts.ChartContentBuilder.buildPartialBlock&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_0_0: Charts.ChartContent, &#x3c4;_0_1: Charts.ChartContent&gt;(accumulated: &#x3c4;_0_0, next: &#x3c4;_0_1) -&gt; some&gt;&gt;.0 in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "668">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3C1A0EA-A6CA-46E6-93F0-653076F49CB8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "C3C1A0EA-A6CA-46E6-93F0-653076F49CB8 - 524334dd1d20739a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "227"
+                  endingLineNumber = "227"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "C3C1A0EA-A6CA-46E6-93F0-653076F49CB8 - c179023f9a29c273"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int, Life_In_The_UK_Prep.ExamResult) -&gt; (index: Swift.Int, score: Swift.Double) in closure #2 () -&gt; () in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "227"
+                  endingLineNumber = "227"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  uuid = "C3C1A0EA-A6CA-46E6-93F0-653076F49CB8 - fe2d73590d708762"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "227"
+                  endingLineNumber = "227"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "C3C1A0EA-A6CA-46E6-93F0-653076F49CB8 - e3db653225f91658"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int, Life_In_The_UK_Prep.ExamResult) -&gt; (index: Swift.Int, score: Swift.Double) in closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "227"
+                  endingLineNumber = "227"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33311ADA-2B42-49DA-AC1F-74E80B432BED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuizUp-Mock/ProgressReport/ProgressReport.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "33311ADA-2B42-49DA-AC1F-74E80B432BED - 73fc86fe144ce8db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of static Charts.ChartContentBuilder.buildPartialBlock&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_0_0: Charts.ChartContent, &#x3c4;_0_1: Charts.ChartContent&gt;(accumulated: &#x3c4;_0_0, next: &#x3c4;_0_1) -&gt; some&gt;&gt;.0 in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "988">
+               </Location>
+               <Location
+                  uuid = "33311ADA-2B42-49DA-AC1F-74E80B432BED - a8b420dd95340d24"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Life_In_The_UK_Prep.ExamResult) -&gt; Charts.BarMark in closure #1 () -&gt; &lt;&lt;opaque return type of static Charts.ChartContentBuilder.buildPartialBlock&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_0_0: Charts.ChartContent, &#x3c4;_0_1: Charts.ChartContent&gt;(accumulated: &#x3c4;_0_0, next: &#x3c4;_0_1) -&gt; some&gt;&gt;.0 in Life_In_The_UK_Prep.BarCharts.body.getter : some"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "211"
+                  endingLineNumber = "211"
+                  offsetFromSymbolStart = "448">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

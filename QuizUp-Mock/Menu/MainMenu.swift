@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainMenu: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
+	@State private var navigationPath = NavigationPath()
 	@Binding var route: Route
 	var namespace: Namespace.ID
 	@Namespace var searchAnimation
@@ -18,18 +19,30 @@ struct MainMenu: View {
 	@State private var queryString = ""
 
 	var body: some View {
-		NavigationStack {
+		NavigationStack(path: $navigationPath) {
 			ZStack(alignment: .topLeading) {
 				ScrollView {
 					VStack(spacing: 10.0) {
-						SummaryView()
-						HandbookView(handbookViewModel: menuViewModel.handbookViewModel)
+						SummaryView(route: $navigationPath)
+						HandbookView(handbookViewModel: menuViewModel.handbookViewModel, route: $navigationPath)
 						PracticeExamList()
 					}
 				}
 				WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
 			}
 			.gradientBackground()
+			.navigationDestination(for: ExamViewModel.self) { exam in
+				let exam = exam.examStatus != .unattempted ? exam.restartExam() : exam
+				ExamView(viewModel: exam, route: $menuViewModel.route, namespace: namespace)
+						.navigationBarBackButtonHidden()
+			}
+			.navigationDestination(for: ChaperDestination.self) { dest in
+				HandbookReader(chapter: dest.chapter, index: dest.index)
+			}
+			.navigationDestination(for: Handbook.self) { handbook in
+				HanbookMainMenu()
+			}
+
 		}
 		.overlay(
 			ZStack {
@@ -43,6 +56,7 @@ struct MainMenu: View {
 				await menuViewModel.reloadExams()
 			}
 		}
+
 	}
 }
 

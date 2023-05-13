@@ -9,10 +9,10 @@ import SwiftUI
 
 struct HandbookReader: View {
 	@Environment(\.featureFlags) var featureFlags
-
+	@AppStorage("ReaderFontSize") var fontSize: Double = 14
+//	@State private var readerFont: Double = 100
 	let chapter: Chapter
 	let index: Int
-	@State var fontSize: Double = 120
 	@State private var selection = 0
 
 	var body: some View {
@@ -28,11 +28,11 @@ struct HandbookReader: View {
 		.tabViewStyle(.page(indexDisplayMode: .never))
 		.navigationBarTitle(Text(chapter.title.components(separatedBy: ":").first ?? ""), displayMode: .inline)
 		.navigationBarItems(trailing: HStack {
-			Button(action: {fontSize += 10}) {
+			Button(action: {fontSize += 5}) {
 				Image(systemName: "textformat.size.larger")
 			}
 
-			Button(action: {fontSize -= 10}) {
+			Button(action: {fontSize -= 5}) {
 				Image(systemName: "textformat.size.smaller")
 			}
 
@@ -54,12 +54,13 @@ struct HandbookReader: View {
 		})
 		.toolbarBackground(Color.pink, for: .navigationBar)
 		.gradientBackground()
-		.onAppear {
-			selection = index
-			fontSize = featureFlags.fontSize
-		}
+//		.onAppear {
+//			selection = index
+//			fontSize = featureFlags.fontSize
+//		}
 		.onChange(of: fontSize) { newValue in
-			featureFlags.fontSize = newValue
+//			featureFlags.fontSize = newValue
+//			readerFont = fontSize
 		}
 
 	}

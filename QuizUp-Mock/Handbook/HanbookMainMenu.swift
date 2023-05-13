@@ -10,23 +10,30 @@ import SwiftUI
 struct HanbookMainMenu: View {
 	let bookViewModel = HandbookViewModel.shared
 	@State private var queryString = ""
+	@State var chapters: [Chapter] = []
 
 	init(queryString: String = "") {
 		self.queryString = queryString
 	}
 
 	var body: some View {
-		HandbookMainMenuList(chapters: filteredChapters, queryString: $queryString)
-			.navigationTitle("Handbook")
+		HandbookMainMenuList(chapters: chapters, queryString: $queryString)
 			.gradientBackground()
-	}
+			.onAppear {
+				chapters = bookViewModel.chapters
+			}
+			.onChange(of: queryString) { search in
+				guard !search.isEmpty else {
+					chapters = bookViewModel.chapters
+					return
+				}
 
-	private var filteredChapters: [Chapter] {
-		guard !queryString.isEmpty else {
-			return bookViewModel.chapters
-		}
+				chapters = bookViewModel.chapters.filter { $0.title.localizedCaseInsensitiveContains(search) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(search)}.count > 0 }
 
-		return bookViewModel.chapters.filter { $0.title.localizedCaseInsensitiveContains(queryString) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(queryString)}.count > 0 }
+			}
+			.navigationBarTitleDisplayMode(.inline)
+			.navigationTitle("Handbook")
+
 	}
 }
 
@@ -48,14 +55,13 @@ struct HandbookMainMenuList: View {
 				}
 			}
 		}
+		.padding(.top, 1)
+		.searchable(text: $queryString, placement: .navigationBarDrawer(displayMode: .automatic))
 		.listStyle(.insetGrouped)
 		.scrollContentBackground(.hidden)
-		.frame(maxHeight: .infinity)
-		.searchable(text: $queryString)
-		.navigationTitle("Handbook")
-//		.gradientBackground()
 	}
 }
+
 private struct BookChapterRow: View {
 	let title: String
 	@State private var readingProgress: Double = .zero
