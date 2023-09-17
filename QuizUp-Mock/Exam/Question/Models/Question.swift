@@ -44,11 +44,12 @@ class QuestionViewModel: ObservableObject, Identifiable {
 		selectedAnswers.count == answers.count
 	}
 
-	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil) {
+	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil, selectedAnswers: [Answer]? = nil) {
 		self.question = question
 		self.index = index
 		self.owner = owner
 		self.id = index
+		self.selectedAnswers = selectedAnswers ?? []
 		options.forEach { answerState[$0] = .notAttempted }
 	}
 

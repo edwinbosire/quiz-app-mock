@@ -84,7 +84,7 @@ struct ProgressReportContainer: View {
 	var startExamSelected: (() -> Void)?
 	var body: some View {
 		VStack {
-			BarCharts(results: results)
+			BarCharts(results: results.map { $0.scorePercentage})
 				.padding()
 
 			List {
@@ -98,12 +98,6 @@ struct ProgressReportContainer: View {
 						Rectangle()
 							.fill(Color.rowBackground.opacity(0.5))
 					)
-
-				} header: {
-					//					BarCharts(results: results)
-					//						.padding()
-					//						.listRowBackground(Color.clear)
-
 				}
 
 			}
@@ -191,44 +185,51 @@ struct ProgressReport_Previews: PreviewProvider {
 
 struct ProgressReportDetailView: View {
 	let result: ExamResult
+	@State private var questions:[QuestionViewModel] = []
 	var body: some View {
 		ScrollView {
-			ForEach(result.questions) { question in
-				let vm = QuestionViewModel(question: question)
-				ResultsRow(question: vm)
+			ForEach(questions) { question in
+				ResultsRow(question: question)
 					.padding()
 			}
 		}
 		.gradientBackground()
+		.onAppear {
+			questions = result.questionsViewModels()
+		}
 	}
 }
 
+extension ExamResult {
+	func questionsViewModels() -> [QuestionViewModel] {
+		var viewModels = [QuestionViewModel]()
+
+		for (ndx, question) in questions.enumerated() {
+			var currentSelectedAnsers = userSelectedAnswer?[question.id]
+			let vm = QuestionViewModel(question: question, index: ndx, selectedAnswers: currentSelectedAnsers)
+			viewModels.append(vm)
+		}
+		return viewModels
+	}
+}
 struct BarCharts: View {
-	let results: [ExamResult]
-
-
-	@State private var data: [(index: Int, score: Double)] = []
+	let results: [Double]
 
 	var body: some View {
 		Chart {
 			RuleMark(y: .value("Pass Mark", 75))
 				.foregroundStyle(Color.pink.opacity(0.5))
 
-			ForEach(Array(results.enumerated()), id: \.offset) { ndx, result in
+			ForEach(Array(results.enumerated()), id: \.0) { ndx, result in
 				BarMark(
-					x: .value("exam", result.chartDate),
-					y: .value("Exam Score", result.scorePercentage)
+					x: .value("Exam", String(ndx)),
+					y: .value("Score", result)
 				)
 			}
 		}
 		.chartYAxisLabel("Score")
 		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
 		.frame(height: 200, alignment: .center)
-		.onAppear {
-			Task {
-				data = results.enumerated().map { (index: $0, score: $1.scorePercentage)}
-			}
-		}
 	}
 }
 

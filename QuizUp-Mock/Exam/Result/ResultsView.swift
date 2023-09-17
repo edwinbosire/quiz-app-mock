@@ -34,7 +34,7 @@ struct ResultsViewContainer: View {
 					Spacer()
 				}
 				.onAppear {
-					ringProgress = result.score / 100
+					ringProgress = result.score
 				}
 			}
 
@@ -102,7 +102,7 @@ struct ResultsViewContainer: View {
 					.font(.title3)
 
 				CircularProgressView(progress: $ringProgress, score:
-										"\(result.score) / \(result.questions.count)",primaryColor: .pink)
+										"\(result.correctQuestions.count) / \(result.questions.count)",primaryColor: .pink)
 					.frame(width: 200)
 					.padding()
 				Spacer()
@@ -136,8 +136,6 @@ struct ResultsRow: View {
 
 							Text(answer.title)
 								.foregroundStyle(.secondary)
-
-
 							Spacer()
 						}
 						.background(RoundedRectangle(cornerRadius: 8)

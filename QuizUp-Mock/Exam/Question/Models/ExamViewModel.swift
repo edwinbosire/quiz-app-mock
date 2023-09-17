@@ -40,10 +40,10 @@ class ExamViewModel: ObservableObject {
 	}
 
 	// Each question has an array of possible selected answers
-	var userSelectedAnswers: [Int: [Answer]] {
-		availableQuestions.reduce([Int: [Answer]]()) { (dict, question) -> [Int: [Answer]] in
+	var userSelectedAnswers: [String: [Answer]] {
+		availableQuestions.reduce([String: [Answer]]()) { (dict, question) -> [String: [Answer]] in
 			var dict = dict
-			dict[question.id] = question.selectedAnswers
+			dict[question.question.id] = question.selectedAnswers
 			return dict
 		}
 	}

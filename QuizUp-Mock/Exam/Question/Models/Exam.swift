@@ -23,7 +23,7 @@ struct Exam: Codable, Hashable, Equatable {
 	var score: Int = 0
 	var correctQuestions: [Question] = []
 	var incorrectQuestions: [Question] = []
-	var userSelectedAnswer: [Int: [Answer]]?
+	var userSelectedAnswer: [String: [Answer]]?
 
 	static func == (lhs: Self, rhs: Self) -> Bool {
 		lhs.id == rhs.id &&
@@ -44,7 +44,7 @@ struct ExamResult: Codable, Hashable, Equatable, Identifiable {
 	var status: ExamStatus
 	var correctQuestions: [Question] = []
 	var incorrectQuestions: [Question] = []
-	var userSelectedAnswer: [Int: [Answer]]?
+	var userSelectedAnswer: [String: [Answer]]?
 	var date: Date
 	var score: Double {
 		Double(correctQuestions.count) / Double(questions.count)
