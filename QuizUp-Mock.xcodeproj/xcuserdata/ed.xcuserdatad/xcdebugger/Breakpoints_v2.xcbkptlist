@@ -401,6 +401,21 @@
                   endingLineNumber = "212"
                   offsetFromSymbolStart = "948">
                </Location>
+               <Location
+                  uuid = "A25C1D29-A61F-4225-8949-CCDAE05798D4 - d3bbab40700a4932"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Life_In_The_UK_Prep.ExamResult.questionsViewModels() -&gt; Swift.Array&lt;Life_In_The_UK_Prep.QuestionViewModel&gt;"
+                  moduleName = "Life In The UK Prep"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ed/Develop/Projects/QuizUp-Mock/QuizUp-Mock/ProgressReport/ProgressReport.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "972">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
