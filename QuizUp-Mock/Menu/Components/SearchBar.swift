@@ -38,7 +38,7 @@ struct SearchBar: View {
 			closeButton
 		)
 		.onAppear {
-//			isSearching = false
+			isSearching = false
 		}
 	}
 
@@ -47,7 +47,7 @@ struct SearchBar: View {
 			Spacer()
 			Button(action: {
 				withAnimation {
-					self.isSearching.toggle()
+					self.isSearching = false
 				}
 				self.text = ""
 

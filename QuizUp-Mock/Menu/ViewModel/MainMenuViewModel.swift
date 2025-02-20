@@ -10,12 +10,11 @@ import Combine
 
 @MainActor
 class MenuViewModel: ObservableObject {
-	private let viewModelFactor = ViewModelFactor()
+	private let viewModelFactory = ViewModelFactory()
 	private let repository: ExamRepository = .shared
 	@Published var exams: [ExamViewModel] = []
 	@Published var completedExams: [ExamViewModel]  = []
 
-	@Published var route: Route = .mainMenu
 	@Published var isShowingMonitizationPage = false
 	@Published var isSearching: Bool = false
 	@Published var searchQuery: String = ""
@@ -35,7 +34,7 @@ class MenuViewModel: ObservableObject {
 			})
 			.store(in: &bag)
 //		Task {
-//			exams = await viewModelFactor.buildExamViewModels()
+//			exams = await viewModelFactory.buildExamViewModels()
 //			completedExams = exams.filter { $0.exam.status == .finished }
 //		}
 		Task {
@@ -44,8 +43,8 @@ class MenuViewModel: ObservableObject {
 	}
 
 	func reloadExams() async {
-		exams = await viewModelFactor.buildExamViewModels()
-		completedExams = exams.filter { $0.exam.status == .finished }
+		exams = await viewModelFactory.buildExamViewModels()
+		completedExams = exams.filter { $0.exam.status == .finished || $0.exam.status == .didNotFinish}
 
 		do {
 			results = try await repository.loadResults()

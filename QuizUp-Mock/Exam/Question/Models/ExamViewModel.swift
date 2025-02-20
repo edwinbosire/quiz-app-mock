@@ -8,19 +8,22 @@
 import Foundation
 
 protocol QuestionOwner {
-	func progressToNextQuestions()
-	func allowProgressToNextQuestion()
+	func progressToNextQuestions() async
+	func allowProgressToNextQuestion() async
 }
 
+@MainActor
 class ExamViewModel: ObservableObject {
 	var exam: Exam
-	private let repository = ExamRepository()
+	private let repository: ExamRepository = .shared
 	private let questionsCount: Int
 
 	private var refreshTask: Task<Void, Error>?
 	@Published var progress: Int {
 		didSet {
-			progressTitle = "Question \(progress+1) of \(questionsCount)"
+			Task { @MainActor in
+				progressTitle = "Question \(progress+1) of \(questionsCount)"
+			}
 		}
 	}
 	@Published var progressTitle: String
@@ -28,7 +31,8 @@ class ExamViewModel: ObservableObject {
 	@Published var bookmarked: Bool = false
 
 	lazy var questions: [QuestionViewModel] = {
-		exam.questions.enumerated().map { i,q in QuestionViewModel(question: q, index: i, owner: self) }
+		exam.questions.enumerated().map { i, q in
+			QuestionViewModel(question: q, index: i, owner: self) }
 	}()
 
 	var correctQuestions: [Question] {
@@ -40,10 +44,10 @@ class ExamViewModel: ObservableObject {
 	}
 
 	// Each question has an array of possible selected answers
-	var userSelectedAnswers: [String: [Answer]] {
-		availableQuestions.reduce([String: [Answer]]()) { (dict, question) -> [String: [Answer]] in
+	var userSelectedAnswers: [String: [Choice]] {
+		availableQuestions.reduce([String: [Choice]]()) { (dict, question) -> [String: [Choice]] in
 			var dict = dict
-			dict[question.question.id] = question.selectedAnswers
+			dict[question.question.id] = Array(question.selectedChoices)
 			return dict
 		}
 	}
@@ -52,13 +56,13 @@ class ExamViewModel: ObservableObject {
 		var result = 0
 		for question in availableQuestions {
 			var questionWeight = 0
-			for answer in question.selectedAnswers {
+			for answer in question.selectedChoices {
 
 				if answer.isAnswer {
 					questionWeight += 1
 				}
 			}
-			if questionWeight == question.selectedAnswers.count {
+			if questionWeight == question.selectedChoices.count {
 				result += 1
 			}
 			questionWeight = 0
@@ -87,10 +91,18 @@ class ExamViewModel: ObservableObject {
 	}
 
 	var result: ExamResult {
-		ExamResult(exam: exam)
+		ExamResult(
+			examId: exam.id,
+			questions: exam.questions,
+			status: examStatus,
+			correctQuestions: correctQuestions,
+			incorrectQuestions: incorrectQuestions,
+			userSelectedAnswer: userSelectedAnswers
+		)
 	}
 
 	@Published var availableQuestions = [QuestionViewModel]()
+	@Published var viewState: ViewState = .loading
 
 
 	init(exam: Exam) {
@@ -100,6 +112,13 @@ class ExamViewModel: ObservableObject {
 		progressTitle = ""
 		examStatus = exam.status
 		prepareExam()
+	}
+
+	convenience init?(examId: Int) async {
+		guard let exam = try? await ExamRepository.shared.loadExam(with: examId) else {
+			return nil
+		}
+		self.init(exam: exam)
 	}
 
 	private func prepareExam() {
@@ -122,6 +141,15 @@ class ExamViewModel: ObservableObject {
 		return self
 	}
 
+	static func viewDidLoad(_ examId: Int) async -> ExamViewModel? {
+		if let viewModel = await ExamViewModel(examId: examId) {
+			viewModel.viewState = .content
+			return viewModel
+		} else {
+			return nil
+		}
+
+	}
 }
 
 extension ExamViewModel: QuestionOwner {
@@ -132,8 +160,10 @@ extension ExamViewModel: QuestionOwner {
 			availableQuestions.append(questions[next])
 			refreshTask?.cancel()
 			refreshTask = Task {
-				try await Task.sleep(until: .now + .seconds(1), clock: .continuous)
-				self.progress += 1
+				try await Task.sleep(until: .now + .seconds(1.5), clock: .continuous)
+				Task{ @MainActor in
+					self.progress += 1
+				}
 			}
 		} else {
 			finishExam()
@@ -153,17 +183,26 @@ extension ExamViewModel: QuestionOwner {
 
 
 	func finishExam() {
+		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
+		let status: ExamStatus
+		if finished {
+			status = .finished
+		} else {
+			status = .didNotFinish
+		}
+
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
 			guard let self = self else {return}
 			self.exam.correctQuestions = self.correctQuestions
 			self.exam.incorrectQuestions = self.incorrectQuestions
 			self.exam.userSelectedAnswer = self.userSelectedAnswers
 			self.exam.score = self.score
-			self.exam.status = .finished
+			self.exam.status = status
 			self.examStatus = .finished
 			Task {
 				do {
 					try await self.repository.save(exam: self.exam)
+					try await self.repository.save(result: self.result)
 				} catch {
 					print("Failed to save exam at the end of the quiz")
 				}
@@ -172,13 +211,13 @@ extension ExamViewModel: QuestionOwner {
 	}
 }
 
-extension ExamViewModel: Identifiable {
+extension ExamViewModel: @preconcurrency Identifiable {
 	var id: Int {
 		exam.id
 	}
 }
 
-extension ExamViewModel: Hashable {
+extension ExamViewModel: @preconcurrency Hashable {
 	static func == (lhs: ExamViewModel, rhs: ExamViewModel) -> Bool {
 		lhs.id == rhs.id
 	}
@@ -187,9 +226,13 @@ extension ExamViewModel: Hashable {
 		hasher.combine(id)
 	}
 }
+
 extension ExamViewModel {
 	static func mock() -> ExamViewModel {
-		let exam = Exam.mock()
+//		let exam = Task {
+//			 await Exam.mock()
+//		}.value
+		let exam = Exam(id: 00, questions: [], status: .unattempted)
 		let viewModel = ExamViewModel(exam: exam)
 		viewModel.availableQuestions = viewModel.questions
 		return viewModel

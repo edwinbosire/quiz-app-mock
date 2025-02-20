@@ -205,8 +205,8 @@ extension ExamResult {
 		var viewModels = [QuestionViewModel]()
 
 		for (ndx, question) in questions.enumerated() {
-			var currentSelectedAnsers = userSelectedAnswer?[question.id]
-			let vm = QuestionViewModel(question: question, index: ndx, selectedAnswers: currentSelectedAnsers)
+			let selectedAnswers = userSelectedAnswer[question.id] ?? []
+			let vm = QuestionViewModel(question: question, index: ndx, selectedAnswers: selectedAnswers)
 			viewModels.append(vm)
 		}
 		return viewModels

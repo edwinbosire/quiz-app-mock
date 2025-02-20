@@ -47,17 +47,17 @@ struct QuestionDTO: Codable {
 }
 
 extension QuestionDTO {
-	func toModel(with explanationText: String?) -> Question {
-		let correctAnswers = self.correct.compactMap { Int($0) }
-		let answers = self.choices.enumerated().map {
-			index, answer in Answer(title: answer, isAnswer: correctAnswers.contains(index))
+	func toModel(with hint: String?) -> Question {
+		let answers = self.correct.compactMap { Int($0) }
+		let choices = self.choices.enumerated().map { index, title in
+			Choice(title: title, isAnswer: answers.contains(index))
 		}.shuffled()
 
 		return Question(id: questionId,
 						sectionId: bookSectionId,
 						title: question,
-						hint: explanationText,
-						answers: answers)
+						hint: hint,
+						choices: choices)
 	}
 }
 
@@ -76,12 +76,24 @@ struct Question: Codable, Hashable {
 	let sectionId: String
 	let title: String
 	let hint: String?
-	let answers: [Answer]
+	let choices: [Choice]
+
+	enum CodingKeys: String, CodingKey {
+		case id
+		case sectionId
+		case title
+		case hint
+		case choices = "answers"
+	}
+
+	static func empty() -> Question {
+		.init(id: "", sectionId: "", title: "", hint: nil, choices: [])
+	}
 }
 
 extension Question: Identifiable {}
 
-struct Answer: Codable, Hashable {
+struct Choice: Codable, Hashable {
 	let title: String
 	let isAnswer: Bool
 
@@ -89,6 +101,10 @@ struct Answer: Codable, Hashable {
 		self.title = title
 		self.isAnswer = isAnswer
 	}
+}
+
+extension Choice: Identifiable {
+	var id: String { self.title }
 }
 
 struct ExplanationsDTOWrapper: Codable {

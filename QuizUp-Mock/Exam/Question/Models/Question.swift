@@ -9,15 +9,16 @@ import Foundation
 
 // This is for a single question in an exam of 25 questions.
 
-class QuestionViewModel: ObservableObject, Identifiable {
+@MainActor
+class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 	var id: Int
 	let question: Question
 	let index: Int
 
-	var title: String { question.title }
+	var questionTitle: String { question.title }
 	var hint: String { question.hint ?? ""}
-	var options: [Answer] { question.answers }
-	var answers: [Answer] { question.answers.compactMap { $0.isAnswer ? $0 : nil }}
+	var choices: [Choice] { question.choices }
+	var answers: [Choice] { question.choices.compactMap { $0.isAnswer ? $0 : nil }}
 	var prompt: String {
 		if answers.count == 1 {
 			return "Please select ONE answer"
@@ -26,80 +27,126 @@ class QuestionViewModel: ObservableObject, Identifiable {
 		}
 		return "Please select MULTIPLE answers"
 	}
-	var selectedAnswers = [Answer]()
+	var selectedChoices = Set<Choice>()
 	var shouldAllowDeselect = false
+
 	var isAnsweredCorrectly: Bool {
-		guard selectedAnswers.count == answers.count else { return false }
-		for selectedAnswer in selectedAnswers {
-			if answers.contains(selectedAnswer) == false { return false }
+		guard selectedChoices.count == answers.count else { return false }
+		for selectedAnswer in selectedChoices {
+			if !selectedAnswer.isAnswer {
+				return false
+			}
 		}
 		return true
 	}
-	@Published var answerState = [Answer : AnswerState]()
+
+	var allowChoiceSelection: Bool {
+		(selectedChoices.count < answers.count) && !answersAutoSelected
+	}
+
+	@Published var answerState = [Choice : AnswerState]()
 	@Published var attempts: Int = 0
 	@Published var showHint: Bool = false
 
 	var owner: QuestionOwner?
-	private var allQuesionsAnswered: Bool {
-		selectedAnswers.count == answers.count
+
+	private var answersAutoSelected: Bool = false
+	var allAnswersSelected: Bool {
+		selectedChoices.count == answers.count
 	}
 
-	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil, selectedAnswers: [Answer]? = nil) {
+	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil, selectedAnswers: [Choice] = []) {
 		self.question = question
 		self.index = index
 		self.owner = owner
 		self.id = index
-		self.selectedAnswers = selectedAnswers ?? []
-		options.forEach { answerState[$0] = .notAttempted }
+		self.selectedChoices = Set(selectedAnswers)
+		choices.forEach { answerState[$0] = .notAttempted }
 	}
 
-	func reset() {
-		options.forEach { answerState[$0] = .notAttempted }
-		selectedAnswers = []
-		answerState = [:]
-		showHint = false
-		attempts = 0
-	}
-
-	func state(for answer: Answer) -> AnswerState {
+	func state(for answer: Choice) -> AnswerState {
 		answerState[answer] ?? .notAttempted
 	}
 
-	func selected(_ answer: Answer) -> Void {
-		if selectedAnswers.contains(answer) && shouldAllowDeselect {
-			guard let index = selectedAnswers.firstIndex(where: {$0 == answer}) else { return }
-			selectedAnswers.remove(at: index)
-			answerState[answer] = .notAttempted
-			attempts = 0
-			showHint.toggle()
-			return
+	func selected(_ choice: Choice) {
 
-		} else if selectedAnswers.count < answers.count {
-			selectedAnswers.append(answer)
-			answerState[answer] = answer.isAnswer ? .correct : .wrong
-			if answers.contains(answer) {
-				if allQuesionsAnswered {
-					owner?.progressToNextQuestions()
-				}
-			} else {
-				highlightCorrectAnswers()
-				attempts += 1
-				owner?.allowProgressToNextQuestion()
-				showHint.toggle()
-			}
-		} else {
-			showHint.toggle()
+		guard allowChoiceSelection else {
+			fatalError("Allowing the user to select more answers than the question allows is not supported")
 		}
+
+		// 1. Handle answer deselection
+		if selectedChoices.contains(choice) && shouldAllowDeselect {
+			guard let index = selectedChoices.firstIndex(where: {$0 == choice}) else { return }
+			selectedChoices.remove(at: index)
+			answerState[choice] = .notAttempted
+			attempts += 1
+
+			// User could still have other choices selected
+			// consider this before showing/hiding hint
+			showHint = selectedChoices.filter({$0.isAnswer == false}).count > 0 ? true : false
+			return
+		}
+
+		selectedChoices.insert(choice)
+		answerState[choice] = choice.isAnswer ? .correct : .wrong
+
+		///
+		/// ------------------------| allAnswersSelected
+		///				 | YES  |  NO     |
+		/// Choice.isAnswer  |---------|----------|
+		/// 		 YES |   ⏭️    |	⏯️	|
+		/// 			 |---------|----------|
+		/// 		  NO |   🚩   |    🚦	|
+		/// 			 |---------|----------|
+		/// 		⏭️ Proceed to next question
+		/// 		⏯️ Allow user to select more choices
+		/// 		🚩 Display hint, allow  user to proceed to next question
+		/// 		🚦 Show hint, auto-select correct answers
+		switch (choice.isAnswer, allAnswersSelected) {
+			case (true, true):
+				Task { @MainActor in
+					await owner?.progressToNextQuestions()
+				}
+			case (true, false):
+				break
+			case (false, true):
+				fallthrough
+			case (false, false):
+				self.highlightCorrectAnswers()
+				self.attempts += 1
+				Task{ @MainActor in
+					await self.owner?.allowProgressToNextQuestion()
+				}
+		}
+
+		// if any selected answer is wrong, show hint
+		showHint = selectedChoices.filter({$0.isAnswer == false}).count > 0 ? true : false
 	}
 
+#warning("This potentially erase the users selected answers")
 	private func highlightCorrectAnswers() {
+		answersAutoSelected = true
 		answers.forEach { answer in
 			answerState[answer] = .correct
 		}
 	}
 
-	static func mock() -> QuestionViewModel {
-		let mockExam = PreviewModel().examMock()
-		return QuestionViewModel(question: mockExam.questions[0])
+	func reset() {
+		choices.forEach { answerState[$0] = .notAttempted }
+		selectedChoices.removeAll()
+		answerState.removeAll()
+		showHint = false
+		attempts = 0
+		answersAutoSelected = false
+	}
+}
+
+extension QuestionViewModel {
+	static func mock() async -> QuestionViewModel {
+		await PreviewModel.mockQuestionViewModel()
+	}
+
+	static func empty() -> QuestionViewModel {
+		QuestionViewModel(question: Question.empty())
 	}
 }

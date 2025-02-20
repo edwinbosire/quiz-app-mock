@@ -21,7 +21,7 @@ struct SearchResultsView: View {
 	var body: some View {
 //		NavigationStack {
 			ZStack {
-				Color.clear.ignoresSafeArea()
+				Color.teal.ignoresSafeArea()
 				VStack {
 					navigationBar
 						.onAppear {
@@ -63,9 +63,9 @@ struct SearchResultsView: View {
 				.gradientBackground()
 				.background(.ultraThinMaterial)
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-				.onChange(of: queryString, perform: { newValue in
+				.onChange(of: queryString){ _, newValue in
 					searchResults = searchResults(newValue)
-				})
+				}
 				.onAppear{ searchResults = bookViewModel.chapters }
 			}
 			.navigationBarHidden(true)

@@ -10,7 +10,7 @@ import SwiftUI
 struct MonitizationView: View {
 	@Environment(\.dismiss) var dismiss
 
-	@Binding var route: Route
+	@EnvironmentObject var router: Router
 	var body: some View {
 		VStack {
 			header()
@@ -68,11 +68,11 @@ struct MonitizationView: View {
 				HStack(alignment: .firstTextBaseline) {
 					Spacer()
 					Button {
-						route = .mainMenu
 						dismiss()
 					} label: {
 						Image(systemName: "xmark")
-							.font(.largeTitle)
+							.font(.headline)
+							.fontWeight(.light)
 					}
 					.padding()
 				}
@@ -121,7 +121,7 @@ struct MonitizationView: View {
 
 struct MonitizationView_Previews: PreviewProvider {
     static var previews: some View {
-		MonitizationView(route: .constant(.monetization))
+		MonitizationView()
     }
 }
 

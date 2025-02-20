@@ -22,13 +22,15 @@ struct HanbookMainMenu: View {
 			.onAppear {
 				chapters = bookViewModel.chapters
 			}
-			.onChange(of: queryString) { search in
+			.onChange(of: queryString) { _, search in
 				guard !search.isEmpty else {
 					chapters = bookViewModel.chapters
 					return
 				}
 
-				chapters = bookViewModel.chapters.filter { $0.title.localizedCaseInsensitiveContains(search) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(search)}.count > 0 }
+				chapters = bookViewModel
+					.chapters
+					.filter { $0.title.localizedCaseInsensitiveContains(search) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(search)}.count > 0 }
 
 			}
 			.navigationBarTitleDisplayMode(.inline)

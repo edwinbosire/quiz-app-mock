@@ -47,6 +47,18 @@ class FeatureFlags {
 		set { userDefaults.set(newValue, forKey: freeUserAllowanceKey) }
 	}
 
+	private let enableArticleSearchKey = "enableArticleSearch"
+	var enableContentSearch: Bool {
+		get { userDefaults.bool(forKey: enableArticleSearchKey) }
+		set { userDefaults.set(newValue, forKey: enableArticleSearchKey) }
+	}
+
+	private let enableDarkModeKey = "enableDarkMode"
+	var enableDarkMode: Bool {
+		get { userDefaults.bool(forKey: enableDarkModeKey) }
+		set { userDefaults.set(newValue, forKey: enableDarkModeKey) }
+	}
+
 	init() {
 		userDefaults.register(
 			defaults: [

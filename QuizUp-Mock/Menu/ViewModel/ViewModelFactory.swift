@@ -7,12 +7,15 @@
 
 import Foundation
 
-struct ViewModelFactor {
+@MainActor
+struct ViewModelFactory {
 	private var repository: ExamRepository = .shared
 
 	func buildExamViewModels() async -> [ExamViewModel] {
 		do {
-			return try await repository.load().map { ExamViewModel(exam: $0) }
+			return try await repository
+				.loadExams()
+				.map(ExamViewModel.init)
 		} catch (let error) {
 			print("Failed to build ExamViewModels with error: \(error)")
 			return []

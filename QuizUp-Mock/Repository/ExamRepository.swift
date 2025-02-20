@@ -21,8 +21,8 @@ enum ExamRepositoryErrors: Error {
 }
 
 protocol Repository {
-	func load() async throws -> [Exam]
-	func load(exam withId: Int) async throws -> Exam
+	func loadExams() async throws -> [Exam]
+	func loadExam(with withId: Int) async throws -> Exam
 
 	func save(exam: Exam) async throws
 
@@ -32,20 +32,20 @@ protocol Repository {
 class ExamRepository: Repository {
 	private var defaults: UserDefaults = UserDefaults.standard
 	static let shared = ExamRepository()
-	let savedExamsKey = "exams"
-	let examResultsKey = "ExamResultsKey"
+	static let SavedExamsKey = "exams"
+	static let ExamResultsKey = "ExamResultsKey"
 
-	func load(exam withId: Int) async throws -> Exam {
-		let exams = try await load()
+	func loadExam(with withId: Int) async throws -> Exam {
+		let exams = try await loadExams()
 		guard let exam = exams.first(where: { $0.id == withId }) else {
 			throw ExamRepositoryErrors.ExamNotFound
 		}
 		return exam
 	}
 
-	func load() async throws -> [Exam] {
+	func loadExams() async throws -> [Exam] {
 		// if its the first run of the app, generate exams
-		guard let savedExams = defaults.object(forKey: savedExamsKey) as? Data else {
+		guard let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data else {
 			print("Loading all exams from storage")
 			let exams = try await generateAllExams()
 			try await saveAll(exams: exams)
@@ -62,28 +62,52 @@ class ExamRepository: Repository {
 	}
 
 	func save(exam: Exam) async throws {
-		var results: [ExamResult] = []
-		if let savedResults = defaults.object(forKey: examResultsKey) as? Data {
+		var exams: [Exam] = []
+		if let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data {
 			do {
-				results = try JSONDecoder().decode([ExamResult].self, from: savedResults)
+				exams = try JSONDecoder().decode([Exam].self, from: savedExams)
 			} catch(let error) {
-				print("Failed to load exams results: \(error)")
+				print("Failed to load exams: \(error)")
 			}
-
 		}
 
-		results.append(ExamResult(exam: exam))
+		// update results
+		exams.append(exam)
 
-		if let examResult = try? JSONEncoder().encode(results) {
+		do {
+			let exams = try JSONEncoder().encode(exams)
 			let defaults = UserDefaults.standard
-			defaults.set(examResult, forKey: examResultsKey)
+			defaults.set(exams, forKey: Self.SavedExamsKey)
 			print("saved exam results")
-		} else {
+		} catch {
 			print("Failed to save exam results.")
 			throw ExamRepositoryErrors.UnableToSaveExamsResultToStorage
 		}
 	}
 
+	func save(result: ExamResult) async throws {
+		var results: [ExamResult] = []
+		if let savedResults = defaults.object(forKey: Self.ExamResultsKey) as? Data {
+			do {
+				results = try JSONDecoder().decode([ExamResult].self, from: savedResults)
+			} catch(let error) {
+				print("Failed to load exams results: \(error)")
+			}
+		}
+
+		// update results
+		results.append(result)
+
+		do {
+			let examResult = try JSONEncoder().encode(results)
+			let defaults = UserDefaults.standard
+			defaults.set(examResult, forKey: Self.ExamResultsKey)
+			print("saved results")
+		} catch {
+			print("Failed to save results.")
+			throw ExamRepositoryErrors.UnableToSaveExamsResultToStorage
+		}
+	}
 //	func migration() async {
 //		let exams = try! await self.load()
 //
@@ -95,7 +119,7 @@ class ExamRepository: Repository {
 //	}
 
 	func loadResults() async throws -> [ExamResult] {
-		guard let savedExamResults = defaults.object(forKey: examResultsKey) as? Data else {
+		guard let savedExamResults = defaults.object(forKey: Self.ExamResultsKey) as? Data else {
 				return []
 		}
 		do {
@@ -112,7 +136,7 @@ class ExamRepository: Repository {
 
 		if let exams = try? JSONEncoder().encode(exams) {
 			let defaults = UserDefaults.standard
-			defaults.set(exams, forKey: savedExamsKey)
+			defaults.set(exams, forKey: Self.SavedExamsKey)
 			print("saved exams")
 		} else {
 			print("Failed to save exam.")
@@ -121,7 +145,7 @@ class ExamRepository: Repository {
 	}
 
 	func reset() {
-		UserDefaults.standard.set(nil, forKey: savedExamsKey)
+		UserDefaults.standard.set(nil, forKey: Self.SavedExamsKey)
 	}
 }
 

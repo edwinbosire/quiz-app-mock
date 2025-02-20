@@ -12,7 +12,7 @@
 		642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642205D929CD2FD900BD663D /* HTMLView.swift */; };
 		6455B0D929BA7841008B6F39 /* AutoInflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0D829BA7841008B6F39 /* AutoInflection.swift */; };
 		6455B0DB29BA7F32008B6F39 /* QuestionPageViewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DA29BA7F32008B6F39 /* QuestionPageViewScrollView.swift */; };
-		6455B0DD29BBABCB008B6F39 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DC29BBABCB008B6F39 /* QuestionView.swift */; };
+		6455B0DD29BBABCB008B6F39 /* QuestionContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DC29BBABCB008B6F39 /* QuestionContainerView.swift */; };
 		6455B0DF29BD0074008B6F39 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0DE29BD0074008B6F39 /* Animation.swift */; };
 		6455B0E229BD00B2008B6F39 /* AnswerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0E129BD00B2008B6F39 /* AnswerRow.swift */; };
 		6455B0E429BDFB93008B6F39 /* ExamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0E329BDFB93008B6F39 /* ExamViewModel.swift */; };
@@ -25,8 +25,16 @@
 		6455B0F429BF3EB8008B6F39 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F329BF3EB8008B6F39 /* ResultsView.swift */; };
 		6455B0F729C13559008B6F39 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F629C13559008B6F39 /* CircularProgressView.swift */; };
 		6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0F829C1401D008B6F39 /* Confetti.swift */; };
-		6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0FD29C241AE008B6F39 /* MainMenu.swift */; };
+		6455B0FE29C241AE008B6F39 /* LandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B0FD29C241AE008B6F39 /* LandingPage.swift */; };
 		6455B10129C38A84008B6F39 /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */; };
+		64A09CA62D4C2D6300029CDC /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CA52D4C2D6300029CDC /* Sequence.swift */; };
+		64A09CA82D4D5E8800029CDC /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CA72D4D5E8800029CDC /* Appearance.swift */; };
+		64A09CAC2D4D928F00029CDC /* QuestionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CAB2D4D928F00029CDC /* QuestionPageView.swift */; };
+		64A09CAE2D4DA7E200029CDC /* FrameReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CAD2D4DA7E100029CDC /* FrameReader.swift */; };
+		64A09CB02D4DBA2700029CDC /* Chevrons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CAF2D4DBA2700029CDC /* Chevrons.swift */; };
+		64A09CB22D4DD60A00029CDC /* Rings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB12D4DD60A00029CDC /* Rings.swift */; };
+		64A09CB42D540DDB00029CDC /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB32D540DDB00029CDC /* AppRouter.swift */; };
+		64A09CB72D540E6A00029CDC /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB62D540E6A00029CDC /* Route.swift */; };
 		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
@@ -63,7 +71,7 @@
 		642205D929CD2FD900BD663D /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		6455B0D829BA7841008B6F39 /* AutoInflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInflection.swift; sourceTree = "<group>"; };
 		6455B0DA29BA7F32008B6F39 /* QuestionPageViewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPageViewScrollView.swift; sourceTree = "<group>"; };
-		6455B0DC29BBABCB008B6F39 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		6455B0DC29BBABCB008B6F39 /* QuestionContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionContainerView.swift; sourceTree = "<group>"; };
 		6455B0DE29BD0074008B6F39 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		6455B0E129BD00B2008B6F39 /* AnswerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerRow.swift; sourceTree = "<group>"; };
 		6455B0E329BDFB93008B6F39 /* ExamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamViewModel.swift; sourceTree = "<group>"; };
@@ -76,8 +84,16 @@
 		6455B0F329BF3EB8008B6F39 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		6455B0F629C13559008B6F39 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		6455B0F829C1401D008B6F39 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
-		6455B0FD29C241AE008B6F39 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		6455B0FD29C241AE008B6F39 /* LandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPage.swift; sourceTree = "<group>"; };
 		6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
+		64A09CA52D4C2D6300029CDC /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		64A09CA72D4D5E8800029CDC /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		64A09CAB2D4D928F00029CDC /* QuestionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPageView.swift; sourceTree = "<group>"; };
+		64A09CAD2D4DA7E100029CDC /* FrameReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameReader.swift; sourceTree = "<group>"; };
+		64A09CAF2D4DBA2700029CDC /* Chevrons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chevrons.swift; sourceTree = "<group>"; };
+		64A09CB12D4DD60A00029CDC /* Rings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rings.swift; sourceTree = "<group>"; };
+		64A09CB32D540DDB00029CDC /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		64A09CB62D540E6A00029CDC /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -124,7 +140,8 @@
 		6455B0E029BD0091008B6F39 /* Question */ = {
 			isa = PBXGroup;
 			children = (
-				6455B0DC29BBABCB008B6F39 /* QuestionView.swift */,
+				6455B0DC29BBABCB008B6F39 /* QuestionContainerView.swift */,
+				64A09CAB2D4D928F00029CDC /* QuestionPageView.swift */,
 				6455B0E129BD00B2008B6F39 /* AnswerRow.swift */,
 				64AB585F29CF9290000B8ECC /* HintView.swift */,
 				6455B0E529BDFB97008B6F39 /* Models */,
@@ -170,10 +187,12 @@
 		6455B0FA29C24169008B6F39 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				641C198629C613160018EE3D /* View+Extension.swift */,
 				6455B0DE29BD0074008B6F39 /* Animation.swift */,
+				64A09CAD2D4DA7E100029CDC /* FrameReader.swift */,
 				64ADD364272DFA81003F043D /* Color.swift */,
 				6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */,
-				641C198629C613160018EE3D /* View+Extension.swift */,
+				64A09CA52D4C2D6300029CDC /* Sequence.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -185,6 +204,8 @@
 				641C198429C553F00018EE3D /* Playground.swift */,
 				6455B0DA29BA7F32008B6F39 /* QuestionPageViewScrollView.swift */,
 				6455B0D829BA7841008B6F39 /* AutoInflection.swift */,
+				64A09CAF2D4DBA2700029CDC /* Chevrons.swift */,
+				64A09CB12D4DD60A00029CDC /* Rings.swift */,
 			);
 			path = Playground;
 			sourceTree = "<group>";
@@ -202,11 +223,20 @@
 		6455B0FF29C241B5008B6F39 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				6455B0FD29C241AE008B6F39 /* MainMenu.swift */,
+				6455B0FD29C241AE008B6F39 /* LandingPage.swift */,
 				64C5048329EA29DC00DCEDA3 /* Components */,
 				64C5048229EA29CC00DCEDA3 /* ViewModel */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		64A09CB52D540E3C00029CDC /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				64A09CB32D540DDB00029CDC /* AppRouter.swift */,
+				64A09CB62D540E6A00029CDC /* Route.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		64AB584F29CF7DDA000B8ECC /* Book */ = {
@@ -240,6 +270,8 @@
 			isa = PBXGroup;
 			children = (
 				64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */,
+				64A09CA72D4D5E8800029CDC /* Appearance.swift */,
+				64A09CB52D540E3C00029CDC /* Navigation */,
 				6455B0FF29C241B5008B6F39 /* Menu */,
 				6455B0FC29C24198008B6F39 /* Exam */,
 				64B7EDEC29C6B6E5001F6717 /* Monitization */,
@@ -401,6 +433,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6458DFA62B7AC16700EF589E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -429,19 +462,25 @@
 				64B5BA4329F9C1E200875667 /* ResultsViewModel.swift in Sources */,
 				64B5BA4129F7A9A600875667 /* HandbookReader.swift in Sources */,
 				64B5BA552A05E55500875667 /* TopicProgressView.swift in Sources */,
+				64A09CA62D4C2D6300029CDC /* Sequence.swift in Sources */,
 				64B5BA4529F9C58100875667 /* PreviewModel.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,
-				6455B0FE29C241AE008B6F39 /* MainMenu.swift in Sources */,
+				64A09CB72D540E6A00029CDC /* Route.swift in Sources */,
+				6455B0FE29C241AE008B6F39 /* LandingPage.swift in Sources */,
+				64A09CA82D4D5E8800029CDC /* Appearance.swift in Sources */,
 				6455B0E729BDFBAA008B6F39 /* Exam.swift in Sources */,
 				64B5BA4F29FD681800875667 /* HandbookRepository.swift in Sources */,
 				6455B0E429BDFB93008B6F39 /* ExamViewModel.swift in Sources */,
 				64B7EDE329C6A114001F6717 /* QuestionBankView.swift in Sources */,
 				6455B0E229BD00B2008B6F39 /* AnswerRow.swift in Sources */,
 				64B7EDE029C6A083001F6717 /* HanbookMainMenu.swift in Sources */,
+				64A09CB02D4DBA2700029CDC /* Chevrons.swift in Sources */,
+				64A09CB42D540DDB00029CDC /* AppRouter.swift in Sources */,
 				6455B0DF29BD0074008B6F39 /* Animation.swift in Sources */,
+				64A09CB22D4DD60A00029CDC /* Rings.swift in Sources */,
 				6455B0D929BA7841008B6F39 /* AutoInflection.swift in Sources */,
 				64B7EDE929C6AD01001F6717 /* SettingsView.swift in Sources */,
-				6455B0DD29BBABCB008B6F39 /* QuestionView.swift in Sources */,
+				6455B0DD29BBABCB008B6F39 /* QuestionContainerView.swift in Sources */,
 				64B5FF9029CD0CCB001F22E8 /* MainMenuViewModel.swift in Sources */,
 				64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */,
 				6455B10129C38A84008B6F39 /* RoundedCornerShape.swift in Sources */,
@@ -450,6 +489,7 @@
 				6455B0E929BDFBBF008B6F39 /* Question.swift in Sources */,
 				6455B0F729C13559008B6F39 /* CircularProgressView.swift in Sources */,
 				642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */,
+				64A09CAC2D4D928F00029CDC /* QuestionPageView.swift in Sources */,
 				6455B0EB29BE7C00008B6F39 /* ExamView.swift in Sources */,
 				64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */,
 				64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */,
@@ -465,6 +505,7 @@
 				6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */,
 				64C5047F29EA1F0D00DCEDA3 /* SummaryView.swift in Sources */,
 				64B5BA4729F9D2DB00875667 /* ViewModelFactory.swift in Sources */,
+				64A09CAE2D4DA7E200029CDC /* FrameReader.swift in Sources */,
 				64B5BA4D29FD669000875667 /* Handbook.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,7 +649,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -643,7 +684,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

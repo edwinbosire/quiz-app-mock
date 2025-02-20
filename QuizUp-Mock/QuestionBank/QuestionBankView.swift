@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct QuestionBankView: View {
-	@Binding var route: Route
+	@EnvironmentObject var router: Router
 	var body: some View {
 		VStack {
 			HStack {
 				Spacer()
-				Button {route = .mainMenu} label: {
+				Button {
+					router.popToRoot()
+				} label: {
 					Image(systemName: "xmark")
 						.font(.largeTitle)
 				}
@@ -54,7 +56,7 @@ struct QuestionBankView2: View {
 					currentSelection = max(min(newIndex, colors.count - 1), 0)
 				})
 		)
-		.onChange(of: xoffset) { newValue in
+		.onChange(of: xoffset) { _, newValue in
 			print("xOffset \(newValue)")
 		}
 	}
@@ -72,12 +74,12 @@ struct PageView: View {
 
 			Toggle("Swipe Enabled", isOn: $swipeEnabled)
 				.padding()
-				.onChange(of: swipeEnabled, perform: { _ in
+				.onChange(of: swipeEnabled) {
 					// Refresh the page when swipeEnabled changes
 					#if os(iOS)
 					UIAccessibility.post(notification: .layoutChanged, argument: nil)
 					#endif
-				})
+				}
 		}
 	}
 }

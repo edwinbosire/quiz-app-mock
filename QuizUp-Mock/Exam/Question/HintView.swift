@@ -31,7 +31,9 @@ struct HintView: View {
 				Button(action: {
 					withAnimation(.easeInOut) {
 						isPresented = false
-						viewModel.owner?.progressToNextQuestions()
+						Task {@MainActor in
+							await viewModel.owner?.progressToNextQuestions()
+						}
 					}
 
 				}) {

@@ -9,28 +9,21 @@ import Foundation
 
 struct PreviewModel {
 
-	func mockExam(questions limit: Int = 25) async -> Exam {
-		do {
-			let questionBank = try await ExamRepository.parseJSONData()
-			let exam = Array(questionBank[0..<limit])
-			return Exam(id: 0, questions: exam, status: .unattempted)
-		} catch {
-			print("Failed to generate mock exam")
-			return Exam(id: 00, questions: [], status: .unattempted)
+	static func mockExam(questions limit: Int = 25) async -> Exam {
+		guard let questionBank = try? await ExamRepository.parseJSONData() else {
+			fatalError("Failed to generate mock exam")
 		}
+		let exam = Array(questionBank[0..<limit])
+		return Exam(id: 0, questions: exam, status: .unattempted)
 	}
 
-	func mockQuestionViewModel() async -> QuestionViewModel {
-		let mockExam = await mockExam(questions: 1)
-		return QuestionViewModel(question: mockExam.questions[0])
+	static func mockQuestionViewModel() async -> QuestionViewModel {
+		let mockExam = await Self.mockExam(questions: 1)
+		return await QuestionViewModel(question: mockExam.questions[0])
 	}
 
-	func mockExamViewModel() async -> ExamViewModel {
-		let exam = examMock()
-		return ExamViewModel(exam: exam)
-	}
-
-	func examMock() -> Exam {
-		Exam.mock()
+	static func mockExamViewModel() async -> ExamViewModel {
+		let exam = await PreviewModel.mockExam()
+		return await ExamViewModel(exam: exam)
 	}
 }

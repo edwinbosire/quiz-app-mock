@@ -10,26 +10,28 @@ import SwiftUI
 struct SettingsView: View {
 	@Environment(\.dismiss) var dismiss
 	@Environment(\.featureFlags) var featureFlags
+	@AppStorage("appearance") private var appearance: Appearance = .system
 
 	@State private var isTimerEnabled = true
 	@State private var examDuration = 25.0
-	@State private var isDarkModeEnabled = false
+	@State private var enableDarkMode = false
 	@State private var isProEnabled = true
 	@State private var freeExams: Int = 3
 	@State private var progressTrackingEnabaled = false
+	@State private var enableContentSearch = false
 
 
 	var body: some View {
 		VStack {
 			HStack {
 				Text("Settings")
-					.font(.largeTitle)
+					.font(.title)
 					.bold()
 
 				Spacer()
 				Button {dismiss()} label: {
 					Image(systemName: "xmark")
-						.font(.largeTitle)
+						.font(.title)
 				}
 			}
 			.padding()
@@ -50,10 +52,7 @@ struct SettingsView: View {
 				Section("App Settings") {
 					// add reset button
 
-					Toggle(isOn: $isDarkModeEnabled) {
-						Text("Enable Dark Mode")
-					}
-
+					AppearanceSettings()
 					Toggle(isOn: $isProEnabled) {
 						Text("Enable Pro features")
 					}
@@ -62,24 +61,43 @@ struct SettingsView: View {
 						Text("Progress tracking")
 					}
 
-
+					Toggle(isOn: $enableContentSearch) {
+						Text("Enable Content Search")
+					}
 				}
 
 				Section("Version") {
-					LabeledContent("Version number", value: "1.0")
-					LabeledContent("Build number", value: "1.0")
+					LabeledContent("Version number", value: "1.0 (11)")
 				}
 			}
 		}
+		.preferredColorScheme(appearance.colorScheme)
 		.onAppear {
 			isTimerEnabled = featureFlags.timerEnabled
 			progressTrackingEnabaled = featureFlags.progressTrackingEnabled
+			enableContentSearch = featureFlags.enableContentSearch
+			enableDarkMode = featureFlags.enableDarkMode
 		}
-		.onChange(of: isTimerEnabled) { newValue in
+		.onChange(of: isTimerEnabled) { _, newValue in
 			featureFlags.timerEnabled = newValue
 		}
-		.onChange(of: progressTrackingEnabaled) { newValue in
+		.onChange(of: progressTrackingEnabaled) { _, newValue in
 			featureFlags.progressTrackingEnabled = newValue
+		}
+		.onChange(of: enableContentSearch) { _, newValue in
+			featureFlags.enableContentSearch = newValue
+		}
+		.onChange(of: enableDarkMode) { _, newValue in
+			featureFlags.enableDarkMode = newValue
+		}
+
+	}
+
+	@ViewBuilder func AppearanceSettings() -> some View {
+		Picker("Appearance", selection: $appearance) {
+			ForEach(Appearance.allCases) { appearance in
+				Text(appearance.rawValue.capitalized)
+			}
 		}
 	}
 
@@ -98,7 +116,7 @@ struct SettingsView: View {
 		.onAppear {
 			examDuration = featureFlags.examDuration
 		}
-		.onChange(of: examDuration) { newValue in
+		.onChange(of: examDuration) { _, newValue in
 			featureFlags.examDuration = newValue
 		}
 
@@ -113,7 +131,7 @@ struct SettingsView: View {
 		.onAppear {
 			freeExams = featureFlags.freeUserExamAllowance
 		}
-		.onChange(of: freeExams) { newValue in
+		.onChange(of: freeExams) { _, newValue in
 			featureFlags.freeUserExamAllowance = newValue
 		}
 

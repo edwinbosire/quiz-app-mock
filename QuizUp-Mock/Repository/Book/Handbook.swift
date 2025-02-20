@@ -20,7 +20,13 @@ struct Chapter: Codable, Identifiable, Hashable {
 	var id: String { title }
 	let title : String
 	let topics: [Topic]
-	var chapterTitle: String { title.replacingOccurrences(of: title, with: "").replacingOccurrences(of: ":", with: "") }
+
+	/// Input = "Chapter 1:   This is chapter one"
+	/// Pattern = "^Chapter \\d+:\\s*"
+	/// Output = "This is chapter one"
+	var chapterTitle: String {
+		String(title.trimmingPrefix(/^Chapter\s*\d+\s*:\s*/))
+	}
 
 	enum CodingKeys: String, CodingKey {
 		case title

@@ -10,7 +10,7 @@ import SwiftUI
 struct PracticeExamList: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Environment(\.featureFlags) var featureFlags
-//	@Binding var route: Route
+	@EnvironmentObject var router: Router
 	@Namespace var namespace
 
 	@Environment(\.colorScheme) var colorScheme
@@ -18,76 +18,67 @@ struct PracticeExamList: View {
 	@State private var freeUserAllowance: Int = 3
 
 	var body: some View {
-		VStack(alignment: .leading, spacing: 10.0) {
-			Text("Practice Exams")
-				.bold()
-				.font(.title2)
-				.padding(.leading)
-				.foregroundColor(.titleText)
+		VStack(alignment: .leading) {
+			Title()
 
-
-			ZStack {
-				Color.clear
-					.defaultShadow()
-
-				LazyVStack {
-					ForEach(menuViewModel.exams) { exam in
-						if exam.id < freeUserAllowance {
-							NavigationLink(value: exam) {
-								PracticeExamListRow(exam: exam, locked: false)
-							}
-						} else {
-							PracticeExamListRow(exam: exam, locked: true)
-								.contentShape(Rectangle())
-								.onTapGesture {
-									menuViewModel.isShowingMonitizationPage.toggle()
-								}
-						}
-					}
-				}
-				.background(.thickMaterial)
+			ForEach(menuViewModel.exams) { exam in
+				PracticeExamListRow(viewModel: exam, locked: exam.id > freeUserAllowance)
 			}
 		}
-		.sheet(isPresented:  $menuViewModel.isShowingMonitizationPage, content: {
-			MonitizationView(route: $menuViewModel.route)
-		})
+		.padding()
+		.background(Color.clear.defaultShadow())
 		.task {
 			await menuViewModel.reloadExams()
-		}
-		.onAppear {
 			freeUserAllowance = featureFlags.freeUserExamAllowance
 		}
-		.onChange(of: featureFlags.freeUserExamAllowance) { newValue in
+		.onChange(of: featureFlags.freeUserExamAllowance) { _, newValue in
 			freeUserAllowance = newValue
 		}
+	}
+
+	@ViewBuilder
+	func Title() -> some View {
+		Text("Start Practising")
+			.bold()
+			.font(.title2)
+			.foregroundColor(.titleText)
 	}
 }
 
 struct PracticeExamListRow: View {
-	let exam: ExamViewModel
+	@EnvironmentObject var router: Router
+
+	let viewModel: ExamViewModel
 	let locked: Bool
 	var body: some View {
-		VStack {
-			HStack {
-				Image(systemName: locked ? "lock.slash" : "lock.open")
-					.foregroundColor(locked ? .gray : .bodyText)
-				Text("Mock Exam \(exam.id)")
-					.font(.subheadline)
-					.foregroundStyle(.primary)
-					.foregroundColor(locked ? .gray : .bodyText)
-				Spacer()
-				Text(exam.formattedScore)
-					.font(.body)
-					.foregroundColor(locked ? .bodyText : .green)
+		HStack {
+			Image(systemName: locked ? "lock.slash" : "lock.open")
+				.font(.caption)
+				.foregroundColor(locked ? .gray : .secondary)
+			Text("Mock Exam \(viewModel.id)")
+				.font(.body)
+				.foregroundStyle(.primary)
+				.foregroundColor(locked ? .gray : .primary)
+			Spacer()
+			Text(viewModel.formattedScore)
+				.font(.body)
+				.foregroundStyle(.secondary)
+				.foregroundColor(Color.secondary)
+				.opacity(locked ? 0.0 : 1)
 
-			}
-			.padding(.leading)
-			.padding(.bottom, 8)
-			Divider()
 		}
-		.padding(.top, 8)
+		.padding()
+		.background(.background.opacity(0.8))
+		.clipShape(Capsule())
+		.shadow(color: .red.opacity(0.15), radius: 3, x: 0, y: 3)
 		.contentShape(Rectangle())
-		.padding(.horizontal)
+		.onTapGesture {
+			if locked {
+				router.navigate(to: .monetization, navigationType: .sheet)
+			} else {
+				router.navigate(to: .mockTest(viewModel.id), navigationType: .fullScreenCover)
+			}
+		}
 	}
 }
 
@@ -97,9 +88,11 @@ struct PracticeExamList_Previews: PreviewProvider {
 		@Namespace var namespace
 		@StateObject private var menuViewModel = MenuViewModel.shared
 		var body: some View {
-			PracticeExamList(namespace: _namespace)
-				.background(Backgrounds())
-			.environmentObject(menuViewModel)
+			ScrollView {
+				PracticeExamList(namespace: _namespace)
+					.background(Backgrounds())
+					.environmentObject(menuViewModel)
+			}
 		}
 	}
 

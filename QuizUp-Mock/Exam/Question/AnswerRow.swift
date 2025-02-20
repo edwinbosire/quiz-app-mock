@@ -15,16 +15,16 @@ enum AnswerState {
 
 struct AnswerRow: View {
 	@Environment(\.colorScheme) var colorScheme
-	@State var selectedAnswer: Answer?
-	let answer: Answer
+	@State var selectedAnswer: Choice?
+	let answer: Choice
 	let isLastRow: Bool
 	let answerState: AnswerState
-	var selected: ((Answer) -> Void)?
+	var selected: ((Choice) -> Void)?
 	private var isDarkMode: Bool { colorScheme == .dark }
 
 	@State var attempts: Int = 0
 
-	init(answer: Answer, isLastRow: Bool = false, answerState: AnswerState, selected: ( (Answer) -> Void)? = nil) {
+	init(answer: Choice, isLastRow: Bool = false, answerState: AnswerState, selected: ((Choice) -> Void)? = nil) {
 		self.answer = answer
 		self.isLastRow = isLastRow
 		self.answerState = answerState
@@ -131,10 +131,10 @@ struct AnswerRow: View {
 
 struct AnswerRow_Previews: PreviewProvider {
 	static var previews: some View {
-		let viewModel = QuestionViewModel.mock()
-		let answer1 = viewModel.options[1]
-		let answer2 = viewModel.options[2]
-		let answer3 = viewModel.options[3]
+		@State var viewModel = QuestionViewModel.empty()
+		@State var answer1 = Choice(title: "")
+		@State var answer2 = Choice(title: "")
+		@State var answer3 = Choice(title: "")
 
 		Group {
 			
@@ -156,6 +156,12 @@ struct AnswerRow_Previews: PreviewProvider {
 				.previewDisplayName("correct answer")
 		}
 		.background(Backgrounds())
+		.task {
+			viewModel = await QuestionViewModel.mock()
+			answer1 = viewModel.choices[1]
+			answer2 = viewModel.choices[2]
+			answer3 = viewModel.choices[3]
+		}
 	}
 }
 

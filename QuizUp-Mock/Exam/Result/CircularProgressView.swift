@@ -9,53 +9,46 @@ import SwiftUI
 
 struct CircularProgressView: View {
 	@Binding var progress: Double
-	let score: String
 	var primaryColor: Color = .pink
-	var secondaryColor: Color = .pink.opacity(0.3)
-	var primaryLineWidth: Double = 30.0
-	var secondaryLineWidth: Double = 30.0
+	var primaryLineWidth: Double = 20.0
 
 	var body: some View {
 		ZStack {
 			Circle()
-				.stroke( // 1
-					secondaryColor,
-					lineWidth: secondaryLineWidth
-				)
+				.stroke(lineWidth: primaryLineWidth)
+				.foregroundColor(primaryColor)
+				.opacity(0.4)
 
 			Circle() // 2
-				.trim(from: 0, to: progress)
+				.trim(from: 0.0, to: progress)
 				.stroke(
-					AngularGradient(colors: [.red, .yellow, .green, .red], center: .center),
+					AngularGradient(colors: [primaryColor], center: .center),
 					style: StrokeStyle(
-						lineWidth: secondaryLineWidth,
+						lineWidth: primaryLineWidth,
 						lineCap: .round
 					)
 				)
 				.rotationEffect(Angle(degrees: -90))
 				.animation(.spring(response: 0.9, dampingFraction: 0.4, blendDuration: 1.0), value: progress)
 
-			VStack {
-				Text(String(format: "%.0f%%", min(self.progress, 1.0)*100.0))
-					.font(.largeTitle)
-					.monospacedDigit()
-					.bold()
-
-				Text(score)
-					.font(.caption)
-					.foregroundStyle(.secondary)
-			}
 		}
 	}
 }
 
 struct CircularProgressViewContainer: View {
 	@State var progress = 0.3
+	@State var progress2 = 0.3
+
 	let score: String = "20/24"
 	var body: some View {
 		VStack {
-			CircularProgressView(progress: $progress, score: score)
-				.frame(width: 200)
+			ZStack {
+				CircularProgressView(progress: $progress)
+					.frame(width: 200)
+
+				CircularProgressView(progress: $progress2, primaryColor: .blue)
+					.frame(width: 150)
+			}
 
 			Spacer()
 				.frame(height: 30)
@@ -66,9 +59,17 @@ struct CircularProgressViewContainer: View {
 						Image(systemName: "arrow.counterclockwise")
 						Text("Reset")
 					}
-				
-
 			}
+
+			HStack {
+				Slider(value: $progress2)
+
+				HStack {
+						Image(systemName: "arrow.counterclockwise")
+						Text("Reset")
+					}
+			}
+
 		}
 		.padding()
 	}

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct WelcomeBackHeaderView: View {
+	@Environment(\.featureFlags) var featureFlags
+	@EnvironmentObject var router: Router
+
 	@State private var queryString: String = ""
 	@Binding var isSearching: Bool
 	var animation: Namespace.ID
@@ -15,62 +18,64 @@ struct WelcomeBackHeaderView: View {
 	@State var isShowingSettings = false
 	@State private var count = 0
 	@State private var presentHandbookView = false
-	let subTitle = "British Citizenship Exam Preparation"
+	let subTitle = "British Citizenship Exam Preparation 2025"
 
 	var body: some View {
-			VStack {
-				VStack(alignment: .leading) {
-					HStack {
-						Text("Welcome Back")
-							.font(.largeTitle)
-							.bold()
-							.foregroundColor(.titleText)
-						Spacer()
+		VStack(alignment: .leading) {
+			Header()
+			Subheading()
+
+			if featureFlags.enableContentSearch {
+				SearchBar(text: $queryString, isSearching: $isSearching)
+					.matchedGeometryEffect(id: isSearching ? "SEARCHBARID" : "", in: animation)
+			}
+		}
+		.padding()
+		.background(Color.rowBackground)
+		.background(.ultraThinMaterial)
+		.shadow(color: Color.gray, radius: 8, y: 2)
+		.sheet(isPresented: $isShowingSettings) {
+			SettingsView()
+		}
+		.onChange(of: queryString, { _, newValue in
+			presentHandbookView = !newValue.isEmpty
+		})
+		.sheet(isPresented: $presentHandbookView) {
+//			router.navigate(to: .handbook(chapter: query)
+			NavigationView {
+				HanbookMainMenu(queryString: queryString)
+			}
+
+		}
+	}
+
+	@ViewBuilder func Header() -> some View {
+		HStack {
+			Text("Welcome Back")
+				.font(.largeTitle)
+				.bold()
+				.foregroundColor(.titleText)
+			Spacer()
 //#if DEBUG
-						Button(action: { isShowingSettings.toggle() }) {
-							Image(systemName: "gear")
-								.font(.title3)
-								.foregroundColor(.titleText)
-						}
+			Button(action: { isShowingSettings.toggle() }) {
+				Image(systemName: "gear")
+					.font(.title3)
+					.foregroundColor(.titleText)
+			}
 //#endif
-					}
-
-					TypewriterText(subTitle, count: count)
-						.foregroundColor(.subTitleText)
-						.foregroundStyle(.secondary)
-						.animation(.easeInOut(duration: 1.1), value: count)
-						.onAppear {
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-								count = subTitle.count
-							}
-						}
-
-					if isSearching {
-						SearchBar(text: $queryString, isSearching: $isSearching)
-					} else {
-						SearchBar(text: $queryString, isSearching: $isSearching)
-							.matchedGeometryEffect(id: "SEARCHBARID", in: animation)
-					}
-
+		}
+	}
+	
+	@ViewBuilder func Subheading() -> some View {
+		TypewriterText(subTitle, count: count)
+			.foregroundColor(.subTitleText)
+			.foregroundStyle(.secondary)
+			.animation(.easeInOut(duration: 1.1), value: count)
+			.onAppear {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+					count = subTitle.count
 				}
-				.padding()
 			}
-			//		.background(Color.rowBackground)
-			.background(.ultraThinMaterial)
-			.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-			.sheet(isPresented: $isShowingSettings) {
-				SettingsView()
-			}
-
-//			.onChange(of: queryString) { newValue in
-//				presentHandbookView = !newValue.isEmpty
-//			}
-//			.sheet(isPresented: $presentHandbookView) {
-//				NavigationView {
-//					HanbookMainMenu(queryString: queryString)
-//				}
-//
-//			}
 	}
 }
 

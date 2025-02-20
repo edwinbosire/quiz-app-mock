@@ -58,7 +58,7 @@ struct HandbookReader: View {
 //			selection = index
 //			fontSize = featureFlags.fontSize
 //		}
-		.onChange(of: fontSize) { newValue in
+		.onChange(of: fontSize) { _, newValue in
 //			featureFlags.fontSize = newValue
 //			readerFont = fontSize
 		}
@@ -79,7 +79,7 @@ struct  HandbookTopicReader: View {
 
 			}
 			.frame(maxHeight: .infinity)
-			.onChange(of: scrollProgress) { newValue in
+			.onChange(of: scrollProgress) { _, newValue in
 				if UserDefaults.standard.double(forKey: topic.title) < newValue {
 					UserDefaults.standard.set(newValue, forKey: topic.title)
 				}
