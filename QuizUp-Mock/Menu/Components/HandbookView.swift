@@ -40,9 +40,7 @@ struct HandbookView: View {
 			.foregroundStyle(.tertiary)
 			.containerShape(Rectangle())
 			.onTapGesture {
-				if let vm = handbookViewModel.handbook {
-					router.navigate(to: .handbook(chapter: 0))
-				}
+				router.navigate(to: .handbook)
 			}
 		}
 		.padding()
@@ -50,16 +48,16 @@ struct HandbookView: View {
 
 	@ViewBuilder
 	func HandbookChapters() -> some View {
-			ScrollView(.horizontal, showsIndicators: false) {
-				HStack {
-					ForEach(Array(handbookViewModel.chapters.enumerated()), id: \.offset) { ndx, chapter in
-						HandbookCards(chapter: chapter, index: ndx+1)
-					}
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack {
+				ForEach(Array(handbookViewModel.chapters.enumerated()), id: \.offset) { ndx, chapter in
+					HandbookCards(chapter: chapter, index: ndx+1)
 				}
-				.scrollTargetLayout()
-				.padding([.leading, .bottom])
 			}
-			.scrollTargetBehavior(.viewAligned)
+			.scrollTargetLayout()
+			.padding([.leading, .bottom])
+		}
+		.scrollTargetBehavior(.viewAligned)
 	}
 }
 
@@ -101,18 +99,18 @@ struct HandbookCards: View {
 				.lineLimit(1)
 				.padding(.top, -stripeHeight*3)
 
-				Text(chapterTitle)
-					.font(.body)
-					.foregroundStyle(.primary)
-					.foregroundColor(.primary)
-					.multilineTextAlignment(.leading)
-					.lineLimit(2)
-					.layoutPriority(1.0)
+			Text(chapterTitle)
+				.font(.subheadline)
+				.foregroundStyle(.primary)
+				.foregroundColor(.primary)
+				.multilineTextAlignment(.leading)
+				.lineLimit(2)
+				.layoutPriority(1.0)
 
-				Spacer()
+			Spacer()
 
-				ProgressIndicator()
-					.padding(.bottom, 0.0)
+			ProgressIndicator()
+				.padding(.bottom, 0.0)
 		}
 		.padding([.horizontal])
 		.padding(.top, stripeHeight*5)
@@ -142,7 +140,7 @@ struct HandbookCards: View {
 			}
 		}
 		.onTapGesture {
-			router.navigate(to: .handbook(chapter: index))
+			router.navigate(to: .handbookChapter(index))
 		}
 
 	}

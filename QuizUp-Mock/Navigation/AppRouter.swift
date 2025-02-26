@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RouterView<Content: View>: View {
+	@EnvironmentObject private var menuViewModel: MenuViewModel
+
 	@State private var isPresentingFullScreen: Bool = false
 	@State private var isPresentingSheet: Bool = false
 
@@ -26,10 +28,8 @@ struct RouterView<Content: View>: View {
 					view(for: destination)
 				}
 		}
-		.sheet(isPresented: $isPresentingSheet, onDismiss: router.dismiss) {
-			if let destination = router.presentingSheet {
-				view(for: destination)
-			}
+		.sheet($isPresentingSheet, router: router, onDismiss: router.dismiss) { destination in
+			view(for: destination)
 		}
 		.fullScreen($isPresentingFullScreen, router: router) { destination in
 			view(for:destination)
@@ -45,16 +45,25 @@ struct RouterView<Content: View>: View {
 
 	@ViewBuilder func view(for destination: Destination) -> some View {
 		switch destination {
-			case .mainMenu, .progressReport, .settings:
+			case .mainMenu:
 				LandingPage()
 			case let .mockTest(testId):
 				ExamView(examId: testId)
 			case .handbook:
-				HanbookMainMenu()
+				HandbookMainMenu()
+			case .handbookSearch(let queryString):
+				HandbookMainMenu(queryString: queryString)
+			case .handbookChapter(let index):
+				let chp = menuViewModel.handbookViewModel.chapters[index]
+				HandbookReader(chapter: chp, index: index)
 			case .questionbank:
 				QuestionBankView()
 			case .monetization:
 				MonitizationView()
+			case .settings:
+				SettingsView()
+			case .progressReport:
+				ProgressReport()
 		}
 
 	}

@@ -11,6 +11,8 @@ import Foundation
 struct Handbook: Codable, Hashable {
 	let chapters: [Chapter]
 
+	static let empty: Handbook = .init(chapters: [])
+
 	enum CodingKeys: String, CodingKey {
 		case chapters = "data"
 	}

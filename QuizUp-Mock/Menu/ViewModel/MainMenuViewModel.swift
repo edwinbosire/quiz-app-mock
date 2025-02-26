@@ -23,7 +23,8 @@ class MenuViewModel: ObservableObject {
 	public static let shared = MenuViewModel()
 	private var bag = Set<AnyCancellable>()
 	var handbookViewModel = HandbookViewModel()
-	var results: [ExamResult] = []
+	@Published private(set) var results: [ExamResult] = []
+
 	init() {
 
 		$searchQuery
@@ -33,16 +34,13 @@ class MenuViewModel: ObservableObject {
 				self?.debouncedQuery = value
 			})
 			.store(in: &bag)
-//		Task {
-//			exams = await viewModelFactory.buildExamViewModels()
-//			completedExams = exams.filter { $0.exam.status == .finished }
-//		}
+
 		Task {
 			await reloadExams()
 		}
 	}
 
-	func reloadExams() async {
+	@discardableResult func reloadExams() async -> [ExamResult] {
 		exams = await viewModelFactory.buildExamViewModels()
 		completedExams = exams.filter { $0.exam.status == .finished || $0.exam.status == .didNotFinish}
 
@@ -51,5 +49,7 @@ class MenuViewModel: ObservableObject {
 		} catch {
 			results = []
 		}
+		return results
+
 	}
 }

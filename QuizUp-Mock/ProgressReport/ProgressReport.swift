@@ -27,9 +27,6 @@ struct ProgressReport: View {
 						scale = 1.0
 					}
 				}
-				.task {
-					await menuViewModel.reloadExams()
-				}
 				.toolbar{
 					ToolbarItem(placement: .navigationBarLeading) {
 						Text("Results")
@@ -50,29 +47,27 @@ struct ProgressReport: View {
 					}
 				}
 				.gradientBackground()
-				.onAppear {
-					Task {
-						results = menuViewModel.results
-					}
-				}
 				.overlay {
-					if results.isEmpty {
-						ZStack(alignment: .top) {
-							VStack {
-								Spacer()
-								Text("No exam results available, complete at least one exam for the results to appear here.")
-									.padding()
+					ZStack(alignment: .top) {
+						VStack {
+							Spacer()
+							Text("No exam results available, complete at least one exam for the results to appear here.")
+								.padding()
 
-								FilledButton(title: "Start Exam", action: { startExamSelected?() })
-								Spacer()
-								Spacer()
-							}
-
-							.frame(maxWidth: .infinity, maxHeight: .infinity)
+							FilledButton(title: "Start Exam", action: { startExamSelected?() })
+							Spacer()
+							Spacer()
 						}
-						.background(.ultraThinMaterial)
+
+						.frame(maxWidth: .infinity, maxHeight: .infinity)
 					}
+					.background(.ultraThinMaterial)
+					.opacity(results.isEmpty ? 1.0 : 0.0)
 				}
+				.task {
+					results = await menuViewModel.reloadExams()
+				}
+
 
 		}
 	}
@@ -123,7 +118,7 @@ struct ProgressReportRow: View {
 	let result: ExamResult
 	var body: some View {
 		HStack {
-//			Image(systemName: "newspaper")
+			//			Image(systemName: "newspaper")
 
 			VStack(alignment: .leading, spacing: 5.0) {
 				Text("Practice Test \(result.examId)")
@@ -161,8 +156,8 @@ struct ProgressReportRow: View {
 				.foregroundColor(.titleText)
 
 
-//			Image(systemName: "chevron.right")
-//				.font(.title)
+			//			Image(systemName: "chevron.right")
+			//				.font(.title)
 
 		}
 		.padding(.horizontal)

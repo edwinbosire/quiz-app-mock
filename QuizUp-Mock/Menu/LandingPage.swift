@@ -10,7 +10,6 @@ import Charts
 
 struct LandingPage: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
-	@State private var navigationPath = NavigationPath()
 	@Namespace var namespace
 	@Namespace var searchAnimation
 	@State private var queryString = ""
@@ -18,23 +17,16 @@ struct LandingPage: View {
 	var body: some View {
 		VStack(spacing: 0.0) {
 			WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
-			Rectangle()
-				.fill(.gray.opacity(0.5))
-				.frame(height: 1)
+			HeaderSeparator()
 			LandingPageContent()
 				.gradientBackground()
 		}
-		.overlay(
-			SearchResultsView(viewModel: menuViewModel, animation: searchAnimation)
-				.opacity(menuViewModel.isSearching ? 1.0 : 0.0)
-				.animation(.smooth, value: menuViewModel.isSearching)
-		)
-		.onAppear {
-			Task {
-				await menuViewModel.reloadExams()
-			}
-		}
-
+		// TODO: Implement search properly
+//		.overlay {
+//			SearchResultsView(viewModel: menuViewModel, animation: searchAnimation)
+//				.opacity(menuViewModel.isSearching ? 1.0 : 0.0)
+//				.animation(.smooth, value: menuViewModel.isSearching)
+//		}
 	}
 
 	@ViewBuilder func LandingPageContent() -> some View {
@@ -45,6 +37,13 @@ struct LandingPage: View {
 				PracticeExamList()
 			}
 		}
+	}
+
+	@ViewBuilder func HeaderSeparator() -> some View {
+		Rectangle()
+			.fill(GradientColors.bluPurpl.getGradient().opacity(0.5))
+			.frame(height: 1)
+
 	}
 }
 

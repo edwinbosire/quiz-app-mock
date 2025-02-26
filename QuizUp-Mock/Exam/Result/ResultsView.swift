@@ -47,16 +47,12 @@ struct ResultsViewContainer: View {
 				TryAgainButton()
 				NextQuizButton()
 			}
-				.padding(.horizontal)
+			.padding(.horizontal)
 
 
 		}
-		.overlay {
-			confetti()
-		}
-		.background(
-			background()
-		)
+		.overlay(confetti())
+		.background(background())
 	}
 
 	@ViewBuilder func TryAgainButton() -> some View {
@@ -153,20 +149,20 @@ struct ResultsViewContainer: View {
 			HStack {
 
 				CircularProgressView(progress: $ringProgress, primaryColor: .teal)
-				.frame(width: 150)
-				.overlay {
-					VStack {
-						Text(String(format: "%.0f%%", min(ringProgress, 1.0)*100.0))
-							.font(.largeTitle)
-							.monospacedDigit()
-							.bold()
+					.frame(width: 150)
+					.overlay {
+						VStack {
+							Text(String(format: "%.0f%%", min(ringProgress, 1.0)*100.0))
+								.font(.largeTitle)
+								.monospacedDigit()
+								.bold()
 
-						Text(score)
-							.font(.caption)
-							.foregroundStyle(.secondary)
+							Text(score)
+								.font(.caption)
+								.foregroundStyle(.secondary)
+						}
+
 					}
-
-				}
 
 				Spacer()
 				VStack(alignment: .trailing) {
@@ -212,14 +208,14 @@ struct ResultsViewContainer: View {
 
 		}
 		.padding()
-		 .background(
+		.background(
 			Color("Background")
 				.ignoresSafeArea()
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
 
 				.padding(.top, -450)
-		 )
+		)
 	}
 }
 

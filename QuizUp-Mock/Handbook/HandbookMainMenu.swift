@@ -7,35 +7,42 @@
 
 import SwiftUI
 
-struct HanbookMainMenu: View {
+struct HandbookMainMenu: View {
 	let bookViewModel = HandbookViewModel.shared
+	let selectedChapter: Int = 0
 	@State private var queryString = ""
 	@State var chapters: [Chapter] = []
 
-	init(queryString: String = "") {
+	init(selectedChapter: Int = 0, queryString: String = "") {
 		self.queryString = queryString
 	}
 
 	var body: some View {
 		HandbookMainMenuList(chapters: chapters, queryString: $queryString)
 			.gradientBackground()
+			.navigationBarTitleDisplayMode(.inline)
+			.navigationTitle("Handbook")
+			.onChange(of: queryString) {_, newValue in
+				if newValue.isEmpty {
+					chapters = bookViewModel.chapters
+				} else {
+					chapters = searchChapters(with: newValue)
+				}
+			}
 			.onAppear {
 				chapters = bookViewModel.chapters
 			}
-			.onChange(of: queryString) { _, search in
-				guard !search.isEmpty else {
-					chapters = bookViewModel.chapters
-					return
-				}
+	}
 
-				chapters = bookViewModel
-					.chapters
-					.filter { $0.title.localizedCaseInsensitiveContains(search) || $0.topics.filter { $0.title.localizedCaseInsensitiveContains(search)}.count > 0 }
-
+	private func searchChapters(with query: String) -> [Chapter] {
+		 bookViewModel
+			.chapters
+			.filter {
+				$0.title.localizedCaseInsensitiveContains(query) ||
+				$0.topics.filter {
+					$0.title.localizedCaseInsensitiveContains(query)
+				}.count > 0
 			}
-			.navigationBarTitleDisplayMode(.inline)
-			.navigationTitle("Handbook")
-
 	}
 }
 
@@ -83,23 +90,21 @@ private struct BookChapterRow: View {
 struct HanbookMainMenu_Previews: PreviewProvider {
     static var previews: some View {
 		NavigationStack {
-			HanbookMainMenu()
+			HandbookMainMenu()
 		}
     }
 }
 
 
-class HandbookViewModel {
+class HandbookViewModel: ObservableObject {
 	static let shared = HandbookViewModel()
 
 	let repository = HandbookRepository()
 
-	var handbook: Handbook? {
-		repository.handbook
-	}
+	@Published var handbook: Handbook = .empty
 
 	lazy var chapters: [Chapter] = {
-		repository.loadChapters()
+		handbook.chapters
 	}()
 
 	var totalProgress: Double {
@@ -112,4 +117,17 @@ class HandbookViewModel {
 		}
 		return totalProgress / Double(chapters.count)
 	}
+
+	init() {
+		Task {
+			if let handbook = try? await repository.loadHandbook() {
+				self.handbook = handbook
+			}
+		}
+	}
+
+	func load(chapter: Chapter) async -> Chapter? {
+		return chapters.first(where: { $0 == chapter} )
+	}
+
 }

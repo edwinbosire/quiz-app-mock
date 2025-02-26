@@ -15,7 +15,6 @@ struct WelcomeBackHeaderView: View {
 	@Binding var isSearching: Bool
 	var animation: Namespace.ID
 
-	@State var isShowingSettings = false
 	@State private var count = 0
 	@State private var presentHandbookView = false
 	let subTitle = "British Citizenship Exam Preparation 2025"
@@ -33,20 +32,11 @@ struct WelcomeBackHeaderView: View {
 		.padding()
 		.background(Color.rowBackground)
 		.background(.ultraThinMaterial)
-		.shadow(color: Color.gray, radius: 8, y: 2)
-		.sheet(isPresented: $isShowingSettings) {
-			SettingsView()
+//		.shadow(color: Color.gray.opacity(0.4), radius: 5, y: 2)
+		.onChange(of: queryString) { _, newValue in
+			router.navigate(to: .handbookSearch(queryString))
 		}
-		.onChange(of: queryString, { _, newValue in
-			presentHandbookView = !newValue.isEmpty
-		})
-		.sheet(isPresented: $presentHandbookView) {
-//			router.navigate(to: .handbook(chapter: query)
-			NavigationView {
-				HanbookMainMenu(queryString: queryString)
-			}
 
-		}
 	}
 
 	@ViewBuilder func Header() -> some View {
@@ -56,16 +46,17 @@ struct WelcomeBackHeaderView: View {
 				.bold()
 				.foregroundColor(.titleText)
 			Spacer()
-//#if DEBUG
-			Button(action: { isShowingSettings.toggle() }) {
+
+			Button(action: {
+				router.navigate(to: .settings, navigationType: .sheet)
+			}) {
 				Image(systemName: "gear")
 					.font(.title3)
 					.foregroundColor(.titleText)
 			}
-//#endif
 		}
 	}
-	
+
 	@ViewBuilder func Subheading() -> some View {
 		TypewriterText(subTitle, count: count)
 			.foregroundColor(.subTitleText)

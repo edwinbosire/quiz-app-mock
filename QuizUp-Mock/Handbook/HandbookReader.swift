@@ -54,13 +54,12 @@ struct HandbookReader: View {
 		})
 		.toolbarBackground(Color.pink, for: .navigationBar)
 		.gradientBackground()
-//		.onAppear {
-//			selection = index
-//			fontSize = featureFlags.fontSize
-//		}
+		.onAppear {
+			selection = index
+			fontSize = featureFlags.fontSize
+		}
 		.onChange(of: fontSize) { _, newValue in
-//			featureFlags.fontSize = newValue
-//			readerFont = fontSize
+			featureFlags.fontSize = newValue
 		}
 
 	}

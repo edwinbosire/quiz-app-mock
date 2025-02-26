@@ -13,33 +13,12 @@ enum HanbookError: Error {
 }
 
 class HandbookRepository {
-	var handbook: Handbook?
+	var handbook: Handbook = Handbook(chapters: [])
 
-	init() {
-		Task {
-			do {
-				self.handbook = try await loadHandbook()
-			} catch {
-				print("Failed to initialise handbook: Error: \(error)")
-			}
-		}
-	}
-
+	@discardableResult
 	func loadHandbook() async throws -> Handbook {
-		try parseJSONData()
-	}
-
-	func loadChapters() -> [Chapter] {
-		handbook?.chapters ?? []
-	}
-
-	func load(chapter: Chapter) async -> Chapter? {
-		guard let handbook = self.handbook else {
-			print("could not find chapter \(chapter)")
-			return nil
-		}
-
-		return handbook.chapters.first(where: { $0 == chapter} )
+		self.handbook = try parseJSONData()
+		return handbook
 	}
 
 	func parseJSONData() throws -> Handbook {

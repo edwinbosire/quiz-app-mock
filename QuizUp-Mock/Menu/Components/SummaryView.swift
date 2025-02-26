@@ -14,11 +14,9 @@ struct SummaryView: View {
 	@EnvironmentObject var router: Router
 
 	var isDarkMode: Bool { colorScheme == .dark }
-	var handbookViewModel = HandbookViewModel()
 
 	@State private var averageScore = 0.0
 	@State private var readingProgress = 0.0
-	@State private var showProgressReport = false
 	@State private var showHandbook = false
 
 	var body: some View {
@@ -28,62 +26,54 @@ struct SummaryView: View {
 			HandbookButton()
 		}
 		.padding()
-		.background(.thinMaterial)
+		.padding(.top)
+//		.background(.ultraThinMaterial)
 		.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 20))
 		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 				averageScore = 75.5
-				readingProgress = handbookViewModel.totalProgress
+				readingProgress = menuViewModel.handbookViewModel.totalProgress
 			}
-		}
-		.sheet(isPresented: $showProgressReport) {
-			ProgressReport() {
-				showProgressReport = false
-				if let firstExam = menuViewModel.exams.first(where: {$0.examStatus == .unattempted}) {
-					router.navigate(to: .mockTest(firstExam.id))
-				}
-			}
-		}
-		.sheet(isPresented: $showHandbook) {
-			HanbookMainMenu()
 		}
 	}
 
 	@ViewBuilder
 	func ProgressReportButton() -> some View {
-		Button(action: { showProgressReport.toggle()} ) {
+		Button(action: {
+			router.navigate(to: .progressReport, navigationType: .fullScreenCover)
+		}) {
 			VStack {
 				CountingText(value: averageScore, subtitle: "Average Score")
 					.animation(.easeInOut(duration: 0.5), value: averageScore)
-
 			}
 			.frame(maxWidth: .infinity)
 			.frame(height: 150)
-			.background(
+			.background {
 				RoundedRectangle(cornerRadius: 10)
-				.fill(Color.pink)
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-			)
+					.fill(Color.pink)
+					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+			}
 		}
 	}
 
 	@ViewBuilder
 	func HandbookButton() -> some View {
 		Button(action: {
-			if let vm = handbookViewModel.handbook {
-//				route.append(vm)
-			}}){
-				VStack {
+			router.navigate(to: .handbook)
+		}){
+			VStack {
 				CountingText(value: readingProgress, subtitle: "Total Progress")
 					.animation(.easeInOut(duration: 0.5), value: readingProgress)
 
 			}
 			.frame(maxWidth: .infinity)
 			.frame(height: 150)
-			.background(RoundedRectangle(cornerRadius: 10)
-				.fill(Color.teal)
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
+			.background {
+				RoundedRectangle(cornerRadius: 10)
+					.fill(.teal)
+					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+			}
 		}
 
 	}
@@ -105,12 +95,12 @@ struct CountingText: View, Animatable {
 				.font(.largeTitle)
 				.bold()
 				.foregroundStyle(.primary)
-//				.foregroundColor(Color.titleText)
+			//				.foregroundColor(Color.titleText)
 				.foregroundColor(.white)
 			Text(subtitle)
 				.font(.title3)
 				.foregroundStyle(.secondary)
-//				.foregroundColor(Color.titleText)
+			//				.foregroundColor(Color.titleText)
 				.foregroundColor(.white)
 
 
@@ -119,9 +109,9 @@ struct CountingText: View, Animatable {
 }
 
 struct SummaryView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		@State var route = NavigationPath()
 		SummaryView()
 			.background(Backgrounds())
-    }
+	}
 }

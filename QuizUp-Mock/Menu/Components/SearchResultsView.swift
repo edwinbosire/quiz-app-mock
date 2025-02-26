@@ -19,59 +19,62 @@ struct SearchResultsView: View {
 
 	@FocusState var searchBarFocus: Bool
 	var body: some View {
-//		NavigationStack {
-			ZStack {
-				Color.teal.ignoresSafeArea()
-				VStack {
-					navigationBar
-						.onAppear {
-							DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-								searchBarFocus = true
-							})
 
-						}
+			VStack {
+				navigationBar
+//					.onAppear {
+//						DispatchQueue.main
+//							.asyncAfter(deadline: .now() + 1, execute: {
+//								searchBarFocus = true
+//							})
+//
+//					}
 
-					if queryString.isEmpty && searchResults.isEmpty{
-						Text("Enter search terms")
-							.font(.footnote)
-							.foregroundStyle(.secondary)
-					}
-					if !searchResults.isEmpty && !queryString.isEmpty {
-						Text("Found ") +
-						Text("\(searchResults.count) ").bold() +
-						Text("chapters")
-					}
-					if !searchResults.isEmpty {
-						HandbookMainMenuList(chapters: searchResults, queryString: $queryString)
-						//						.gradientBackground()
-
-					} else if searchResults.isEmpty && !queryString.isEmpty {
-						ZStack(alignment: .top) {
-							Color.defaultBackground
-								.blur(radius: 40)
-								.ignoresSafeArea()
-							Group {
-								Text("No results matching search ").font(.footnote) +
-								Text(queryString)
-									.font(.callout)
-									.bold()
-							}.foregroundStyle(.secondary)
-						}
-
-					}
+				if queryString.isEmpty && searchResults.isEmpty{
+					Text("Enter search terms")
+						.font(.footnote)
+						.foregroundStyle(.secondary)
 				}
-				.gradientBackground()
-				.background(.ultraThinMaterial)
-				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-				.onChange(of: queryString){ _, newValue in
-					searchResults = searchResults(newValue)
+				if !searchResults.isEmpty && !queryString.isEmpty {
+					Text("Found ") +
+					Text("\(searchResults.count) ").bold() +
+					Text("chapters")
 				}
-				.onAppear{ searchResults = bookViewModel.chapters }
+				if !searchResults.isEmpty {
+					HandbookMainMenuList(
+						chapters: searchResults,
+						queryString: $queryString
+					)
+
+				} else if searchResults.isEmpty && !queryString.isEmpty {
+					ZStack(alignment: .top) {
+						Color.defaultBackground
+							.blur(radius: 40)
+							.ignoresSafeArea()
+						Group {
+							Text("No results matching search ")
+								.font(.footnote) +
+							Text(queryString)
+								.font(.callout)
+								.bold()
+						}.foregroundStyle(.secondary)
+					}
+
+				}
 			}
-			.navigationBarHidden(true)
-//		} // Stackview
+			.gradientBackground()
+			.background(Color.teal.ignoresSafeArea())
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
+			.onChange(of: queryString) { _, newValue in
+				if !newValue.isEmpty {
+					searchResults = search(newValue)
+				}
+			}
+			.onAppear {
+				searchResults = bookViewModel.chapters
+			}
 
-    }
+	}
 
 	var navigationBar: some View {
 		HStack(spacing: 15) {
@@ -93,8 +96,11 @@ struct SearchResultsView: View {
 					.autocorrectionDisabled()
 					.padding([.top, .bottom, .trailing], 10)
 					.tint(Color.titleText)
+					.keyboardType(.default)
+					.submitLabel(.search)
+					.onSubmit { viewModel.isSearching = false }
 					.onTapGesture {
-//								self.isSearching = true
+						viewModel.isSearching = true
 					}
 					.focused($searchBarFocus)
 			}
@@ -112,7 +118,7 @@ struct SearchResultsView: View {
 		.padding(.vertical, 12)
 	}
 
-	func searchResults(_ query: String) -> [Chapter] {
+	func search(_ query: String) -> [Chapter] {
 		guard !query.isEmpty else {
 			return bookViewModel.chapters
 		}

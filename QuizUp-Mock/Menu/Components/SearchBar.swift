@@ -22,21 +22,20 @@ struct SearchBar: View {
 				.autocorrectionDisabled()
 				.padding([.top, .bottom, .trailing], 8)
 				.tint(Color.titleText)
+				.keyboardType(.default)
+				.submitLabel(.search)
+				.onSubmit { isSearching = false }
 				.onTapGesture {
-					withAnimation(.easeInOut) {
-						isSearching.toggle()
-					}
+					isSearching.toggle()
 				}
-		}
+			}
 		.background(
 			Capsule()
 				.strokeBorder(Color.purple.opacity(0.4), lineWidth: 0.8)
 				.background(.ultraThinMaterial)
 				.clipShape(Capsule())
 		)
-		.overlay(
-			closeButton
-		)
+		.overlay(closeButton)
 		.onAppear {
 			isSearching = false
 		}
@@ -45,13 +44,11 @@ struct SearchBar: View {
 	var closeButton: some View {
 		HStack {
 			Spacer()
-			Button(action: {
-				withAnimation {
-					self.isSearching = false
-				}
+			Button {
+				self.isSearching = false
 				self.text = ""
 
-			}) {
+			} label: {
 				Image(systemName: "xmark")
 					.foregroundColor(Color.primary)
 					.foregroundStyle(.primary)

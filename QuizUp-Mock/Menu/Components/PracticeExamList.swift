@@ -26,7 +26,17 @@ struct PracticeExamList: View {
 			}
 		}
 		.padding()
-		.background(Color.clear.defaultShadow())
+		.background {
+			LinearGradient(colors: [
+				Color.blue.opacity(0.1),
+				Color.blue.opacity(0.5),
+				Color.defaultBackground,
+				Color.defaultBackground,
+				Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+				.blur(radius: 75)
+				.ignoresSafeArea()
+		}
+//		.background(.ultraThinMaterial)
 		.task {
 			await menuViewModel.reloadExams()
 			freeUserAllowance = featureFlags.freeUserExamAllowance
@@ -56,7 +66,8 @@ struct PracticeExamListRow: View {
 				.font(.caption)
 				.foregroundColor(locked ? .gray : .secondary)
 			Text("Mock Exam \(viewModel.id)")
-				.font(.body)
+				.font(.headline)
+				.fontWeight(.medium)
 				.foregroundStyle(.primary)
 				.foregroundColor(locked ? .gray : .primary)
 			Spacer()
@@ -68,9 +79,13 @@ struct PracticeExamListRow: View {
 
 		}
 		.padding()
-		.background(.background.opacity(0.8))
-		.clipShape(Capsule())
-		.shadow(color: .red.opacity(0.15), radius: 3, x: 0, y: 3)
+//		.background(.background.opacity(0.8))
+		.background {
+			RoundedRectangle(cornerRadius: 10)
+				.fill(Color("Background"))
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+		}
+//		.shadow(color: .red.opacity(0.15), radius: 3, x: 0, y: 3)
 		.contentShape(Rectangle())
 		.onTapGesture {
 			if locked {
