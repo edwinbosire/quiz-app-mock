@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuestionView: View {
-	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Environment(\.dismiss) var dismiss
 
 	@ObservedObject var viewModel: ExamViewModel
 	@EnvironmentObject var router: Router
@@ -21,7 +21,7 @@ struct QuestionView: View {
 	var body: some View {
 		VStack {
 			toolbarContent()
-			ExamProgressView(currentPage: $viewModel.progress, pages: viewModel.questions.count)
+			ExamProgressView(currentPage: $viewModel.progress, questions: viewModel.questions)
 
 			HStack(alignment: .firstTextBaseline) {
 				QuestionCounter(progressTitle: viewModel.progressTitle)
@@ -34,8 +34,7 @@ struct QuestionView: View {
 			TabView(selection: $viewModel.progress) {
 				ForEach(viewModel.questions) { question in
 					QuestionPageView(viewModel: question)
-						.frame(maxWidth: .infinity)
-						.frame(maxHeight: .infinity)
+						.frame(maxWidth: .infinity, maxHeight: .infinity)
 						.tag(question.index)
 				}
 			}
@@ -51,13 +50,14 @@ struct QuestionView: View {
 			selectedPage = newValue
 		}
 		.actionSheet(isPresented: $isShowingMenu) {
-			ActionSheet(title: Text(""), message: nil, buttons: [
-				.default(Text("Report Issue")),
-				.default(Text("Restart Test")){ promptRestartExam.toggle() },
-				.default(Text("Quit Test")){ presentationMode.wrappedValue.dismiss()},
-				.cancel()
-
-			])
+			ActionSheet(title: Text(""),
+						message: nil,
+						buttons: [
+							.default(Text("Report Issue")),
+							.default(Text("Restart Test")){ promptRestartExam.toggle() },
+							.destructive(Text("Quit Test")) { router.dismiss() },
+							.cancel()
+						])
 		}
 		.alert("Restart Exam?", isPresented: $promptRestartExam, actions: {
 			Button("Cancel", role: .cancel, action: {})
@@ -75,7 +75,6 @@ struct QuestionView: View {
 		HStack {
 			Button(action: {}) {
 				Text("Mock Test")
-					.matchedGeometryEffect(id: "mockTestTitle-0", in: namespace)
 					.font(.title3)
 					.bold()
 			}
@@ -99,11 +98,12 @@ struct QuestionView: View {
 
 struct TimerView: View {
 	@Environment(\.colorScheme) var colorScheme
-	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	@Environment(\.featureFlags) var featureFlags
+
 	@ObservedObject var viewModel: ExamViewModel
-	@State var timeRemaining = 1*5
-	@State var minutes = 00
-	@State var seconds = 00
+
+	@State private var timer: Timer? = nil
+	@State var timeRemaining = 1*1*60
 
 	var body: some View {
 		HStack {
@@ -111,42 +111,55 @@ struct TimerView: View {
 				.foregroundStyle(.tertiary)
 				.font(.subheadline)
 
-			Text(String(format: "%02d : %02d", minutes, seconds))
+			Text("\(timeString(timeRemaining))")
 				.font(.subheadline)
 				.monospacedDigit()
 				.padding(.trailing)
 				.foregroundStyle(.tertiary)
 				.shadow(color: colorScheme == .dark ? .clear : Color.white.opacity(0.5), radius: 1, x: 2, y: 1)
-
 		}
 		.background(.clear)
-		.onReceive(timer) { t in
+		.onAppear {
+			timeRemaining = featureFlags.examDuration
+			startTimer()
+		}
+
+	}
+
+	// MARK: - Timer Functionality
+	func startTimer() {
+		timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
 			if timeRemaining > 0 {
 				timeRemaining -= 1
-
-				minutes = (timeRemaining % 3600) / 60
-				seconds = (timeRemaining % 3600) % 60
 			} else {
-				// TODO: Work on the DNF screen
-				viewModel.finishExam()
-				minutes = 00
-				seconds = 00
+				timer?.invalidate()
+				Task {@MainActor in
+					viewModel.finishExam()
+				}
 			}
 		}
+	}
+
+	func timeString(_ time: Int) -> String {
+		let minutes = time / 60
+		let seconds = time % 60
+		return String(format: "%02d:%02d", minutes, seconds)
 	}
 }
 
 struct ExamProgressView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var currentPage: Int
-	let pages: Int
+	let questions: [QuestionViewModel]
 
 	var body: some View {
 		GeometryReader { reader in
+			let width = reader.size.width/CGFloat(questions.count)
 			HStack(spacing: 0) {
-				ForEach(0..<pages, id:\.self) { i in
+				ForEach(0..<questions.count, id:\.self) { i in
 					Rectangle()
-						.fill( fillColor(at: i))
+						.fill( getProgressColor(for: i))
+						.frame(width: width)
 						.border(colorScheme == .dark ? .black.opacity(0.08) : .white.opacity(0.07))
 						.animation(.easeIn, value: i)
 				}
@@ -156,14 +169,17 @@ struct ExamProgressView: View {
 		.frame(height: 5)
 	}
 
-
-	func fillColor(at index: Int) -> Color {
-		if  index < currentPage {
-			return Color.progressBarTint
-		} else if currentPage == index {
+	func getProgressColor(for index: Int) -> Color {
+		if index == currentPage {
 			return Color.paletteBlue.opacity(0.5)
 		}
-		return Color.paletteBlue.opacity(0.1)
+		if questions[index].isAnsweredCorrectly {
+			return Color.green
+		} else if !questions[index].isAnsweredCorrectly && questions[index].attempts > 0 {
+			return Color.red
+		} else {
+			return Color.paletteBlue.opacity(0.1)
+		}
 	}
 }
 

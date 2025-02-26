@@ -30,8 +30,8 @@ class FeatureFlags {
 	}
 
 	private let examDurationKey = "examDuration"
-	var examDuration: Double {
-		get { userDefaults.double(forKey: examDurationKey) }
+	var examDuration: Int {
+		get { userDefaults.integer(forKey: examDurationKey) }
 		set { userDefaults.set(newValue, forKey: examDurationKey)}
 	}
 
@@ -65,7 +65,7 @@ class FeatureFlags {
 				progressTrackingEnabledKey: true,
 				fontSizeKey: 10.0,
 				timerEnabledKey: true,
-				examDurationKey: 25.0,
+				examDurationKey: 25,
 				enableProFeaturesKey: true,
 				freeUserAllowanceKey: 4
 			]

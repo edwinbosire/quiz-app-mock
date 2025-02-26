@@ -38,7 +38,7 @@ struct MonitizationView: View {
 
 			}
 			.padding(.top, 40)
-//			Spacer()
+			//			Spacer()
 
 			VStack(alignment: .leading, spacing: 10) {
 				Text("You can cancel your subscription anytime through your Apple Store account settings, or it will automattivally renew.")
@@ -59,24 +59,27 @@ struct MonitizationView: View {
 
 	func header() -> some View {
 		VStack {
-			ZStack(alignment: .center) {
+			ZStack(alignment: .top) {
 				Text("Go Pro!")
 					.font(.largeTitle)
 					.bold()
+					.frame(maxWidth: .infinity, alignment: .center)
 
-
-				HStack(alignment: .firstTextBaseline) {
+				HStack {
 					Spacer()
+
 					Button {
 						dismiss()
 					} label: {
 						Image(systemName: "xmark")
-							.font(.headline)
+							.font(.title)
 							.fontWeight(.light)
 					}
-					.padding()
 				}
+				.frame(maxWidth: .infinity, alignment: .trailing)
+
 			}
+			.padding()
 			.padding(.bottom, 20)
 
 
@@ -115,14 +118,13 @@ struct MonitizationView: View {
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.06), radius: 9, x:0.0, y: 8.0)
 		)
-
 	}
 }
 
 struct MonitizationView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		MonitizationView()
-    }
+	}
 }
 
 
