@@ -51,7 +51,7 @@ struct HandbookView: View {
 		ScrollView(.horizontal, showsIndicators: false) {
 			HStack {
 				ForEach(Array(handbookViewModel.chapters.enumerated()), id: \.offset) { ndx, chapter in
-					HandbookCards(chapter: chapter, index: ndx+1)
+					HandbookCards(chapter: chapter, index: ndx)
 				}
 			}
 			.scrollTargetLayout()
@@ -71,7 +71,7 @@ struct HandbookCards: View {
 	@State private var chapterProgress: Double = .zero
 
 	var title: String {
-		"Chapter \(index)"
+		"Chapter \(index+1)"
 	}
 
 	var chapterTitle: String {
