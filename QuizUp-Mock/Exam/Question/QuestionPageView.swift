@@ -16,8 +16,7 @@ struct QuestionPageView: View {
 	@Namespace var topID
 	@Namespace var bottomID
 
-	@State private var showHintView = false
-	@State private var dynamicHintHeight: CGFloat = 0.0
+	@State private var showHintView = true
 	@State private var dynamicQuestionHeight: CGFloat = 0.0
 
 	var body: some View {
@@ -41,21 +40,15 @@ struct QuestionPageView: View {
 					.listRowInsets(EdgeInsets())
 					.listRowBackground(Color.defaultBackground.opacity(0.9))
 					.onChange(of: showHintView) { _, show in
-						_ = {print("show hint toggle")}
-						Task {
-							try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-
-							withAnimation(Animation.easeInOut(duration: 0.3).delay(1.21)) {
-								proxy.scrollTo(show ? bottomID : topID)
-							}
-
+						withAnimation(Animation.easeInOut) {
+							proxy.scrollTo(show ? bottomID : topID)
 						}
 					}
 
-					HintView()
-						.transition(transition)
-						.opacity(showHintView ? 1.0 : 0.0)
-						.id(bottomID)
+						HintView()
+							.opacity(showHintView ? 1.0 : 0.0)
+							.id(bottomID)
+							.animation(.easeInOut.delay(0.3), value: showHintView)
 
 				} // ScrollViewProxy
 			} // ScrollView
@@ -112,20 +105,23 @@ struct QuestionPageView: View {
 
 	@ViewBuilder
 	func AnswersView() -> some View {
-		VStack(spacing: 0.0) {
-				ForEach(Array(viewModel.choices.enumerated()), id: \.offset) { index, choice in
-					AnswerRow(answer: choice, isLastRow: isLastRow(index), answerState: viewModel.state(for: choice)) {
-						selected($0)
-					}
-					.shake(viewModel.state(for: choice) == .wrong)
-					.disabled(!viewModel.allowChoiceSelection)
+		VStack(alignment: .leading) {
+			ForEach(Array(viewModel.choices.enumerated()), id: \.offset) { index, choice in
+				AnswerRow(answer: choice,
+						  isLastRow: isLastRow(index),
+						  answerState: viewModel.state(for: choice)) {
+					selected($0)
 				}
+						  .shake(viewModel.state(for: choice) == .wrong)
+						  .disabled(!viewModel.allowChoiceSelection)
 			}
-			.background(
-				Color.rowBackground
-					.background(.ultraThinMaterial)
-					.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
-			)
+		}
+		.padding()
+		.background(
+			Color.rowBackground
+				.background(.ultraThinMaterial)
+				.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
+		)
 
 
 	}
@@ -136,12 +132,31 @@ struct QuestionPageView: View {
 
 	@ViewBuilder
 	func HintView() -> some View {
-		Text(viewModel.hint)
-			.font(.callout)
-			.lineSpacing(12.0)
-			.foregroundStyle(.primary)
-			.padding(.horizontal)
-			.readHeight($dynamicHintHeight)
+		VStack(spacing: 8.0) {
+			HStack {
+				Image(systemName: "info.circle")
+					.foregroundStyle(Color.blue)
+					.padding(.trailing, 4.0)
+				Text("Explanation")
+					.foregroundStyle(.secondary)
+
+				Spacer()
+			}
+			.font(.footnote)
+//			.padding()
+
+			Text(viewModel.hint)
+				.font(.callout)
+				.foregroundStyle(.primary)
+				.padding(.top, 4)
+		}
+		.padding()
+		.background {
+			RoundedRectangle(cornerRadius: 8.0)
+				.fill(Color.blue.opacity(0.1))
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+		}
+		.padding()
 	}
 
 	func selected(_ answer: Choice) -> Void {

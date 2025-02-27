@@ -14,13 +14,13 @@ struct QuestionView: View {
 	@EnvironmentObject var router: Router
 	@Namespace var namespace
 
-	@State private var selectedPage: Int = 0
+//	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
 	@State private var promptRestartExam: Bool = false
 
 	var body: some View {
 		VStack {
-			toolbarContent()
+			ToolBarContentView(viewModel: viewModel, isShowingMenu: $isShowingMenu)
 			ExamProgressView(currentPage: $viewModel.progress, questions: viewModel.questions)
 
 			HStack(alignment: .firstTextBaseline) {
@@ -34,21 +34,13 @@ struct QuestionView: View {
 			TabView(selection: $viewModel.progress) {
 				ForEach(viewModel.questions) { question in
 					QuestionPageView(viewModel: question)
-						.frame(maxWidth: .infinity, maxHeight: .infinity)
 						.tag(question.index)
 				}
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))
-			Spacer()
-			Spacer()
+			.animation(.easeOut(duration: 0.2), value: viewModel.progress)
 		}
 		.gradientBackground()
-		.onAppear {
-			selectedPage = viewModel.progress
-		}
-		.onChange(of: viewModel.progress) { _, newValue in
-			selectedPage = newValue
-		}
 		.actionSheet(isPresented: $isShowingMenu) {
 			ActionSheet(title: Text(""),
 						message: nil,
@@ -70,10 +62,16 @@ struct QuestionView: View {
 	func restartExam() {
 		_ = viewModel.restartExam()
 	}
+}
 
-	@ViewBuilder func toolbarContent() -> some View {
+private struct ToolBarContentView: View {
+	@Environment(\.colorScheme) var colorScheme
+	@ObservedObject var viewModel: ExamViewModel
+	@Binding var isShowingMenu: Bool
+
+	var body: some View {
 		HStack {
-			Button(action: {}) {
+			Button(action: { isShowingMenu.toggle() }) {
 				Text("Mock Test")
 					.font(.title3)
 					.bold()
@@ -92,7 +90,6 @@ struct QuestionView: View {
 			.foregroundColor(.paletteBlue)
 		}
 		.padding()
-
 	}
 }
 
@@ -150,7 +147,7 @@ struct TimerView: View {
 struct ExamProgressView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var currentPage: Int
-	let questions: [QuestionViewModel]
+	var questions: [QuestionViewModel]
 
 	var body: some View {
 		GeometryReader { reader in
@@ -158,10 +155,10 @@ struct ExamProgressView: View {
 			HStack(spacing: 0) {
 				ForEach(0..<questions.count, id:\.self) { i in
 					Rectangle()
-						.fill( getProgressColor(for: i))
+						.fill(getProgressColor(for: i))
 						.frame(width: width)
-						.border(colorScheme == .dark ? .black.opacity(0.08) : .white.opacity(0.07))
-						.animation(.easeIn, value: i)
+						.border(colorScheme == .light ? .gray.opacity(0.1) : .white.opacity(0.07))
+						.animation(.easeIn, value: currentPage)
 				}
 			}
 
@@ -171,12 +168,9 @@ struct ExamProgressView: View {
 
 	func getProgressColor(for index: Int) -> Color {
 		if index == currentPage {
-			return Color.paletteBlue.opacity(0.5)
-		}
-		if questions[index].isAnsweredCorrectly {
-			return Color.green
-		} else if !questions[index].isAnsweredCorrectly && questions[index].attempts > 0 {
-			return Color.red
+			return Color.paletteBlueSecondary.opacity(0.5)
+		} else if questions[index].isAnswered {
+			return  questions[index].isAnsweredCorrectly ? Color.green : .red
 		} else {
 			return Color.paletteBlue.opacity(0.1)
 		}

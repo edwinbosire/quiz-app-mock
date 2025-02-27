@@ -32,25 +32,25 @@ struct AnswerRow: View {
 	}
 
 	var body: some View {
-		VStack(alignment: .leading) {
-			HStack {
-				Image(systemName: radialImage)
-					.symbolRenderingMode(.palette)
-					.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
-					.animation(.easeIn, value: radialImage)
-					.transition(.move(edge: .bottom))
+		HStack {
+			Image(systemName: radialImage)
+				.symbolRenderingMode(.palette)
+				.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
+				.animation(.easeIn, value: radialImage)
+				.transition(.move(edge: .bottom))
 
-				Text(answer.title)
-					.font(.title3)
-					.foregroundColor(titleForegroundColor)
-					.padding(.vertical, 12)
-			}
-			.padding(.leading)
-			Divider()
-				.padding(.leading, isLastRow ? 0 : 20)
+			Text(answer.title)
+				.font(.title3)
+				.foregroundColor(titleForegroundColor)
+				.frame(maxWidth: .infinity, alignment: .leading)
 		}
+		.padding()
+		.background(
+			RoundedRectangle(cornerRadius: 10)
+				.fill(background)
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+		)
 		.contentShape(Rectangle())
-		.background(background)
 		.onTapGesture {
 			selected?(answer)
 			haptic( answer.isAnswer)
@@ -103,7 +103,7 @@ struct AnswerRow: View {
 	var background: Color {
 		switch answerState {
 			case .notAttempted:
-				return .rowBackground
+				return .defaultBackground
 			case .correct:
 				return .green
 			case .wrong:
@@ -137,7 +137,7 @@ struct AnswerRow_Previews: PreviewProvider {
 		@State var answer3 = Choice(title: "")
 
 		Group {
-			
+
 			AnswerRow(answer: answer1, answerState: .notAttempted)  { selectedAnswer in
 				print("user selected \(selectedAnswer.title)")
 			}
@@ -166,9 +166,9 @@ struct AnswerRow_Previews: PreviewProvider {
 }
 
 extension Binding {
-  static func mock(_ value: Value) -> Self {
-	var value = value
-	return Binding(get: { value },
-				   set: { value = $0 })
-  }
+	static func mock(_ value: Value) -> Self {
+		var value = value
+		return Binding(get: { value },
+					   set: { value = $0 })
+	}
 }

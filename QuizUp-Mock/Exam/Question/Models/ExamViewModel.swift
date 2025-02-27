@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol QuestionOwner {
 	func progressToNextQuestions() async
@@ -16,7 +17,9 @@ protocol QuestionOwner {
 class ExamViewModel: ObservableObject {
 	var exam: Exam
 	private let repository: ExamRepository = .shared
-	private let questionsCount: Int
+	private var questionsCount: Int {
+		exam.questions.count
+	}
 
 	private var refreshTask: Task<Void, Error>?
 	@Published var progress: Int {
@@ -29,11 +32,7 @@ class ExamViewModel: ObservableObject {
 	@Published var progressTitle: String
 	@Published var examStatus: ExamStatus
 	@Published var bookmarked: Bool = false
-
-	lazy var questions: [QuestionViewModel] = {
-		exam.questions.enumerated().map { i, q in
-			QuestionViewModel(question: q, index: i, owner: self) }
-	}()
+	@Published var questions: [QuestionViewModel] = []
 
 	var correctQuestions: [Question] {
 		availableQuestions.filter { $0.isAnsweredCorrectly }.map { $0.question }
@@ -101,17 +100,19 @@ class ExamViewModel: ObservableObject {
 		)
 	}
 
-	@Published var availableQuestions = [QuestionViewModel]()
+	var availableQuestions = [QuestionViewModel]()
 	@Published var viewState: ViewState = .loading
 
 
 	init(exam: Exam) {
 		self.exam = exam
 		progress = 0
-		questionsCount = exam.questions.count
 		progressTitle = ""
 		examStatus = exam.status
-		prepareExam()
+
+		self.questions = exam.questions.enumerated().map { i, q in
+			QuestionViewModel(question: q, index: i, owner: self)
+		}
 	}
 
 	convenience init?(examId: Int) async {
@@ -119,13 +120,6 @@ class ExamViewModel: ObservableObject {
 			return nil
 		}
 		self.init(exam: exam)
-	}
-
-	private func prepareExam() {
-		if let first = questions.first {
-			availableQuestions.append(first)
-			progress = availableQuestions.count - 1
-		}
 	}
 
 	func restartExam() -> ExamViewModel{
@@ -136,7 +130,6 @@ class ExamViewModel: ObservableObject {
 		progress = 0
 		progressTitle = ""
 		examStatus = .unattempted
-		prepareExam()
 
 		return self
 	}
@@ -155,14 +148,16 @@ class ExamViewModel: ObservableObject {
 extension ExamViewModel: QuestionOwner {
 	func progressToNextQuestions() {
 		print("progress to next question")
-		if progress < questions.count-1 {
+		if progress < questions.count {
 			let next = progress + 1
 			availableQuestions.append(questions[next])
 			refreshTask?.cancel()
 			refreshTask = Task {
-				try await Task.sleep(until: .now + .seconds(1.5), clock: .continuous)
+				try await Task.sleep(until: .now + .seconds(1.0), clock: .continuous)
 				Task{ @MainActor in
-					self.progress += 1
+					withAnimation {
+						self.progress += 1
+					}
 				}
 			}
 		} else {

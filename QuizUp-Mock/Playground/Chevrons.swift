@@ -24,7 +24,7 @@ struct MovingRightIndicator: View {
 					.opacity(moveRight ? Double(index + 1) * 0.4 : 0.2) // Fading effect
 					.offset(x: moveRight ? 10 : -10) // Move right and left
 					.animation(
-						Animation.easeInOut(duration: 0.6)
+						Animation.easeInOut(duration: 1.6)
 							.repeatForever()
 							.delay(Double(index) * 0.2), // Staggered movement
 						value: moveRight

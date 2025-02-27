@@ -13,7 +13,7 @@ struct SettingsView: View {
 	@AppStorage("appearance") private var appearance: Appearance = .system
 
 	@State private var isTimerEnabled = true
-	@State private var examDuration: Int = 25
+	@State private var examDuration: Double = 25.0
 	@State private var enableDarkMode = false
 	@State private var isProEnabled = true
 	@State private var freeExams: Int = 3
@@ -101,32 +101,20 @@ struct SettingsView: View {
 		}
 	}
 
-	var intProxy: Binding<Double>{
-		Binding<Double>(
-			get: { Double(examDuration) },
-			set: { examDuration = Int($0)}
-		)
-	}
-
 	var examDurationView: some View {
 		VStack(alignment: .leading) {
 			HStack {
 				Text("Exam duration")
 				Spacer()
-				Text("\(String(format: "%.0f", examDuration)) minutes")
+				Text("\(Int(examDuration)) minutes")
 					.monospacedDigit()
 					.foregroundStyle(.secondary)
 
 			}
-			Slider(value: intProxy, in: 1.0...60.0, step: 1.0)
+			Slider(value: $examDuration, in: 1...45, step: 1.0) { _ in
+				featureFlags.examDuration = Int(examDuration)
+			}
 		}
-		.onAppear {
-			examDuration = featureFlags.examDuration
-		}
-		.onChange(of: examDuration) { _, newValue in
-			featureFlags.examDuration = newValue
-		}
-
 	}
 
 	var freeExamsLimitView: some View {

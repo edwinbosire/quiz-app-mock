@@ -31,13 +31,12 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 	var shouldAllowDeselect = false
 
 	var isAnsweredCorrectly: Bool {
-		guard selectedChoices.count == answers.count else { return false }
-		for selectedAnswer in selectedChoices {
-			if !selectedAnswer.isAnswer {
-				return false
-			}
-		}
-		return true
+		guard isAnswered else { return false }
+		return selectedChoices.filter({$0.isAnswer == false}).count > 0 ? false : true
+	}
+
+	var isAnswered: Bool {
+		selectedChoices.count == answers.count || answersAutoSelected
 	}
 
 	var allowChoiceSelection: Bool {
@@ -125,9 +124,12 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 
 #warning("This potentially erase the users selected answers")
 	private func highlightCorrectAnswers() {
+
 		answersAutoSelected = true
-		answers.forEach { answer in
-			answerState[answer] = .correct
+		choices.forEach { choice in
+			if choice.isAnswer {
+				answerState[choice] = .correct
+			}
 		}
 	}
 
