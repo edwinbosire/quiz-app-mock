@@ -117,7 +117,7 @@ struct TimerView: View {
 		}
 		.background(.clear)
 		.onAppear {
-			timeRemaining = featureFlags.examDuration
+			timeRemaining = featureFlags.examDuration*60
 			startTimer()
 		}
 

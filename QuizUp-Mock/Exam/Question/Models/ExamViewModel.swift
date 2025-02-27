@@ -148,7 +148,7 @@ class ExamViewModel: ObservableObject {
 extension ExamViewModel: QuestionOwner {
 	func progressToNextQuestions() {
 		print("progress to next question")
-		if progress < questions.count {
+		if progress+1 < questions.count {
 			let next = progress + 1
 			availableQuestions.append(questions[next])
 			refreshTask?.cancel()
@@ -180,11 +180,7 @@ extension ExamViewModel: QuestionOwner {
 	func finishExam() {
 		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
 		let status: ExamStatus
-		if finished {
-			status = .finished
-		} else {
-			status = .didNotFinish
-		}
+		self.examStatus = finished ? .finished : .didNotFinish
 
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
 			guard let self = self else {return}
@@ -192,7 +188,7 @@ extension ExamViewModel: QuestionOwner {
 			self.exam.incorrectQuestions = self.incorrectQuestions
 			self.exam.userSelectedAnswer = self.userSelectedAnswers
 			self.exam.score = self.score
-			self.exam.status = status
+			self.exam.status = self.examStatus
 			self.examStatus = .finished
 			Task {
 				do {
