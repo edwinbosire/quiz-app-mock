@@ -57,6 +57,11 @@ struct QuestionView: View {
 		}, message: {
 			Text("You will lose all progress")
 		})
+		.onChange(of: viewModel.examStatus) { oldValue, newValue in
+			if newValue == .finished {
+				router.navigate(to: .resultsView(viewModel.result), navigationType: .fullScreenCover)
+			}
+		}
 	}
 
 	func restartExam() {

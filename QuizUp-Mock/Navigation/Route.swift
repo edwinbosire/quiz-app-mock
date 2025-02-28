@@ -17,6 +17,7 @@ public enum NavigationType {
 enum Destination: Hashable, Equatable {
 	case mainMenu
 	case mockTest(Int)
+	case resultsView(ExamResult)
 	case handbook
 	case handbookChapter(Int)
 	case handbookSearch(String)

@@ -173,13 +173,11 @@ extension ExamViewModel: QuestionOwner {
 		} else {
 			finishExam()
 		}
-
 	}
 
 
 	func finishExam() {
 		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
-		let status: ExamStatus
 		self.examStatus = finished ? .finished : .didNotFinish
 
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in

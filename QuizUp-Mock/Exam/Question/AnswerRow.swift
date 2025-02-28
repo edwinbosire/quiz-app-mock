@@ -36,15 +36,19 @@ struct AnswerRow: View {
 			Image(systemName: radialImage)
 				.symbolRenderingMode(.palette)
 				.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
-				.animation(.easeIn, value: radialImage)
+				.animation(.spring, value: answerState)
 				.transition(.move(edge: .bottom))
 
 			Text(answer.title)
 				.font(.title3)
+				.lineLimit(3)
+				.allowsTightening(true)
+				.minimumScaleFactor(0.5)
 				.foregroundColor(titleForegroundColor)
 				.frame(maxWidth: .infinity, alignment: .leading)
 		}
 		.padding()
+		.padding(.trailing, 4.0)
 		.background(
 			RoundedRectangle(cornerRadius: 10)
 				.fill(background)
@@ -53,7 +57,7 @@ struct AnswerRow: View {
 		.contentShape(Rectangle())
 		.onTapGesture {
 			selected?(answer)
-			haptic( answer.isAnswer)
+			haptic(answer.isAnswer)
 		}
 	}
 
@@ -123,7 +127,7 @@ struct AnswerRow: View {
 			selectionFeedback.selectionChanged()
 		} else {
 			let generator = UINotificationFeedbackGenerator()
-			generator.notificationOccurred(.warning)
+			generator.notificationOccurred(.success)
 		}
 	}
 

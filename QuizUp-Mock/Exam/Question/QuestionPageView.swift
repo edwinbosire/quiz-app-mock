@@ -16,51 +16,39 @@ struct QuestionPageView: View {
 	@Namespace var topID
 	@Namespace var bottomID
 
-	@State private var showHintView = true
-	@State private var dynamicQuestionHeight: CGFloat = 0.0
-
 	var body: some View {
-		GeometryReader { geometry in
-			ScrollView {
-				ScrollViewReader { proxy in
-					VStack(alignment: .leading) {
-						GeometryReader { geo in
-							let offsetY = geo.frame(in: .global).minY
-							QuestionText()
-								.frame(maxHeight: .infinity)
-								.id(topID)
-								.offset(y: offsetY < 25.0 ? -offsetY : 0.0)
+		GeometryReader { geo in
+			ScrollViewReader { proxy in
+				ScrollView {
+					VStack {
+						VStack(alignment: .leading) {
+							VStack {
+								QuestionText()
+									.layoutPriority(2)
+									.id(topID)
+								Spacer()
+								PromptView()
+							}
+							Spacer()
+							AnswersView()
+								.layoutPriority(1)
 						}
-						Spacer()
-						PromptView()
-						Spacer()
-						AnswersView()
-					}
-					.frame(height: geometry.size.height)
-					.listRowInsets(EdgeInsets())
-					.listRowBackground(Color.defaultBackground.opacity(0.9))
-					.onChange(of: showHintView) { _, show in
-						withAnimation(Animation.easeInOut) {
-							proxy.scrollTo(show ? bottomID : topID)
-						}
-					}
+						.frame(width: geo.size.width, height: geo.size.height)
 
 						HintView()
-							.opacity(showHintView ? 1.0 : 0.0)
+							.opacity(viewModel.showHint ? 1.0 : 0.0)
 							.id(bottomID)
-							.animation(.easeInOut.delay(0.3), value: showHintView)
+							.animation(.easeInOut.delay(0.3), value: viewModel.showHint)
+							.onChange(of: viewModel.showHint) { _, show in
+								withAnimation(.easeInOut.delay(0.5)) {
+									proxy.scrollTo(show ? bottomID : topID)
+								}
+							}
+					}
 
-				} // ScrollViewProxy
-			} // ScrollView
+				} // ScrollView
+			} // ScrollViewProxy
 		}// Georeader
-		.onChange(of: viewModel.showHint) { _,  newValue in
-			withAnimation(Animation.easeInOut(duration: 0.3).delay(1.5)) {
-				self.showHintView = newValue
-			}
-		}
-		.onAppear {
-			self.showHintView = false
-		}
 	}
 
 	@ViewBuilder
@@ -73,10 +61,9 @@ struct QuestionPageView: View {
 				.foregroundColor(Color.paletteBlueDark)
 				.padding(.horizontal)
 				.shadow(color: colorScheme == .dark ? .clear : .white.opacity(0.5), radius: 1, x: 2.0, y: 1)
-				.readHeight($dynamicQuestionHeight)
 
 		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.frame(maxWidth: .infinity)
 
 	}
 
@@ -90,15 +77,14 @@ struct QuestionPageView: View {
 				.padding(.leading)
 
 			Spacer()
-			if showHintView {
-				Button {
-					Task {
-						await viewModel.owner?.progressToNextQuestions()
-					}
-				} label: {
-					MovingRightIndicator()
+			Button {
+				Task {
+					await viewModel.owner?.progressToNextQuestions()
 				}
+			} label: {
+				MovingRightIndicator()
 			}
+			.opacity(viewModel.showHint ? 1.0 : 0.0)
 
 		}
 	}
@@ -116,6 +102,8 @@ struct QuestionPageView: View {
 						  .disabled(!viewModel.allowChoiceSelection)
 			}
 		}
+		.listRowInsets(EdgeInsets())
+		.listRowBackground(Color.defaultBackground.opacity(0.9))
 		.padding()
 		.background(
 			Color.rowBackground
@@ -132,7 +120,7 @@ struct QuestionPageView: View {
 
 	@ViewBuilder
 	func HintView() -> some View {
-		VStack(spacing: 8.0) {
+		VStack(alignment: .leading, spacing: 8.0) {
 			HStack {
 				Image(systemName: "info.circle")
 					.foregroundStyle(Color.blue)
@@ -143,7 +131,6 @@ struct QuestionPageView: View {
 				Spacer()
 			}
 			.font(.footnote)
-//			.padding()
 
 			Text(viewModel.hint)
 				.font(.callout)

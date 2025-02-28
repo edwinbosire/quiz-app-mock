@@ -49,6 +49,8 @@ struct RouterView<Content: View>: View {
 				LandingPage()
 			case let .mockTest(testId):
 				ExamView(examId: testId)
+			case .resultsView(let result):
+				ResultsView(result: result)
 			case .handbook:
 				HandbookMainMenu()
 			case .handbookSearch(let queryString):

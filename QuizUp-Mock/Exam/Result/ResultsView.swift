@@ -129,7 +129,7 @@ struct ResultsViewContainer: View {
 				Spacer()
 				Text("Report Card")
 					.font(.title)
-					.fontWeight(.bold)
+					.fontWeight(.semibold)
 					.foregroundStyle(.primary)
 
 				Spacer()
@@ -140,7 +140,6 @@ struct ResultsViewContainer: View {
 				} label: {
 					Image(systemName: "xmark")
 						.font(.largeTitle)
-						.bold()
 						.foregroundStyle(.secondary)
 				}
 			}
@@ -167,29 +166,28 @@ struct ResultsViewContainer: View {
 				Spacer()
 				VStack(alignment: .trailing) {
 					Text("You're score")
-						.font(.title3)
-						.fontWeight(.bold)
+						.font(.headline)
+						.fontWeight(.semibold)
 						.foregroundStyle(.primary)
 					Text(String(format: "%0.1f %%",result.scorePercentage))
-						.font(.headline)
+						.font(.subheadline)
 						.foregroundStyle(.primary)
 						.padding(.bottom, 8.0)
 
 					Text("Wrong Answers")
-						.font(.title3)
-						.fontWeight(.bold)
+						.font(.headline)
 						.foregroundStyle(.primary)
 					Text("\(result.correctQuestions.count)")
-						.font(.headline)
+						.font(.subheadline)
 						.foregroundStyle(.primary)
 						.padding(.bottom, 8.0)
 
 					Text("Minimum to pass")
-						.font(.title3)
+						.font(.headline)
 						.fontWeight(.bold)
 						.foregroundStyle(.primary)
 					Text("18/24")
-						.font(.headline)
+						.font(.subheadline)
 						.foregroundStyle(.primary)
 						.padding(.bottom, 8.0)
 
