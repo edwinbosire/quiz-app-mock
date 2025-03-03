@@ -79,13 +79,11 @@ struct PracticeExamListRow: View {
 
 		}
 		.padding()
-//		.background(.background.opacity(0.8))
 		.background {
 			RoundedRectangle(cornerRadius: 10)
 				.fill(Color("Background"))
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 		}
-//		.shadow(color: .red.opacity(0.15), radius: 3, x: 0, y: 3)
 		.contentShape(Rectangle())
 		.onTapGesture {
 			if locked {

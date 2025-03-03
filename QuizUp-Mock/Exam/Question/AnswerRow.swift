@@ -15,7 +15,6 @@ enum AnswerState {
 
 struct AnswerRow: View {
 	@Environment(\.colorScheme) var colorScheme
-	@State var selectedAnswer: Choice?
 	let answer: Choice
 	let isLastRow: Bool
 	let answerState: AnswerState
@@ -36,11 +35,14 @@ struct AnswerRow: View {
 			Image(systemName: radialImage)
 				.symbolRenderingMode(.palette)
 				.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
+				.foregroundColor(.white)
+				.frame(width: 24, height: 24)
 				.animation(.spring, value: answerState)
 				.transition(.move(edge: .bottom))
 
 			Text(answer.title)
-				.font(.title3)
+//				.font(.title3)
+				.font(.system(size: 16))
 				.lineLimit(3)
 				.allowsTightening(true)
 				.minimumScaleFactor(0.5)
@@ -100,7 +102,7 @@ struct AnswerRow: View {
 			case .correct:
 				return "checkmark.circle"
 			case .wrong:
-				return "xmark.circle"
+				return "xmark.circle.fill"
 		}
 	}
 
@@ -142,9 +144,7 @@ struct AnswerRow_Previews: PreviewProvider {
 
 		Group {
 
-			AnswerRow(answer: answer1, answerState: .notAttempted)  { selectedAnswer in
-				print("user selected \(selectedAnswer.title)")
-			}
+			AnswerRow(answer: answer1, answerState: .notAttempted)
 			.previewLayout(PreviewLayout.sizeThatFits)
 			.padding()
 			.previewDisplayName("Default")

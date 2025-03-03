@@ -38,12 +38,12 @@ struct HandbookView: View {
 			}
 			.foregroundColor(.titleText)
 			.foregroundStyle(.tertiary)
-			.containerShape(Rectangle())
-			.onTapGesture {
-				router.navigate(to: .handbook)
-			}
 		}
 		.padding()
+		.containerShape(Rectangle())
+		.onTapGesture {
+			router.navigate(to: .handbook)
+		}
 	}
 
 	@ViewBuilder

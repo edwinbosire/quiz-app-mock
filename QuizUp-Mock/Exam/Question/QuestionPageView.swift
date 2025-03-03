@@ -140,7 +140,8 @@ struct QuestionPageView: View {
 		.padding()
 		.background {
 			RoundedRectangle(cornerRadius: 8.0)
-				.fill(Color.blue.opacity(0.1))
+				.fill(Color(UIColor.systemGray6))
+//				.background(Color(UIColor.systemGray6))
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 		}
 		.padding()

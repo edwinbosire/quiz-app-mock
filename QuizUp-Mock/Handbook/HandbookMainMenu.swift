@@ -19,7 +19,16 @@ struct HandbookMainMenu: View {
 
 	var body: some View {
 		HandbookMainMenuList(chapters: chapters, queryString: $queryString)
-			.gradientBackground()
+//			.background {
+//				LinearGradient(colors: [
+//					Color.blue.opacity(0.1),
+//					Color.blue.opacity(0.5),
+//					Color.defaultBackground,
+//					Color.defaultBackground,
+//					Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+//				.blur(radius: 75)
+//				.ignoresSafeArea()
+//			}
 			.navigationBarTitleDisplayMode(.inline)
 			.navigationTitle("Handbook")
 			.onChange(of: queryString) {_, newValue in
@@ -35,7 +44,7 @@ struct HandbookMainMenu: View {
 	}
 
 	private func searchChapters(with query: String) -> [Chapter] {
-		 bookViewModel
+		bookViewModel
 			.chapters
 			.filter {
 				$0.title.localizedCaseInsensitiveContains(query) ||
@@ -51,36 +60,63 @@ struct HandbookMainMenuList: View {
 	@Binding var queryString: String
 	var body: some View {
 		List {
-			ForEach(chapters) { chapter in
-				Section(chapter.title) {
-					ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
-						NavigationLink {
-							HandbookReader(chapter: chapter, index: ndx)
-						} label: {
-							BookChapterRow(title: topic.title)
-						}
+			ForEach(Array(chapters.enumerated()), id: \.offset) { ndx, chapter in
+				Section {
+					ForEach(Array(chapter.topics.enumerated()), id: \.offset) { paragraph, topic in
+						BookChapterRow(title: topic.title, chapter: ndx, paragraph: ndx)
 					}
-					.listRowBackground(Color.defaultBackground)
+					.listRowInsets(EdgeInsets(top: 0.0, leading: 16.0, bottom: 1.0, trailing: 0.0))
+					.listRowBackground(Color.clear)
+					.listRowSeparator(.hidden)
+
+				} header : {
+					Text(chapter.title)
+						.bold()
+						.font(.title2)
+						.foregroundColor(.titleText)
+						.frame(maxWidth: .infinity, alignment: .leading)
 				}
 			}
 		}
-		.padding(.top, 1)
 		.searchable(text: $queryString, placement: .navigationBarDrawer(displayMode: .automatic))
-		.listStyle(.insetGrouped)
+		.listStyle(.inset)
 		.scrollContentBackground(.hidden)
+		.background(Color("Background"))
 	}
 }
 
 private struct BookChapterRow: View {
-	let title: String
+	@EnvironmentObject var router: Router
 	@State private var readingProgress: Double = .zero
+	let title: String
+	let chapter: Int
+	let paragraph: Int
+
 	var body: some View {
-		HStack() {
-			TopicProgressView(value: readingProgress/100)
-				.frame(width: 20)
-				.padding(.vertical, 4)
-			Text(title)
-				.font(.subheadline)
+		VStack(spacing: 1.0) {
+			HStack {
+				TopicProgressView(value: readingProgress/100)
+					.frame(width: 20)
+					.padding(.vertical, 4)
+				Text(title)
+					.font(.subheadline)
+				Spacer()
+				Image(systemName: "chevron.right")
+					.font(.caption)
+					.fontWeight(.light)
+			}
+			.padding()
+			//			Divider()
+			//				.background(Color.black)
+			//				.padding(.leading, 30.0)
+			//				.padding(.trailing, -10.0)
+		}
+		.background(
+			Color.rowBackground
+				.background(.ultraThinMaterial)
+		)
+		.onTapGesture {
+			router.navigate(to: .handbookChapter(chapter))
 		}
 		.onAppear {
 			readingProgress = UserDefaults.standard.double(forKey: title)
@@ -88,11 +124,11 @@ private struct BookChapterRow: View {
 	}
 }
 struct HanbookMainMenu_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		NavigationStack {
 			HandbookMainMenu()
 		}
-    }
+	}
 }
 
 
