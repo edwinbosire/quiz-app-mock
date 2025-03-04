@@ -62,74 +62,24 @@ struct HTMLView: UIViewRepresentable {
 			print("webview did finish loading")
 			webView.alpha = 1.0
 		}
+
+		
 	}
+	private static let baseStylesheet: String = {
+		guard let fileURL = Bundle.main.url(forResource: "gutenbergContentStyles", withExtension: "css"),
+			  let string = try? String(contentsOf: fileURL, encoding: .utf8) else {
+			assertionFailure("css missing")
+			return ""
+		}
+		return string
+	}()
 
 	var headerString: String {
  """
 <header>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover'>
 <style>
-:root {
-color-scheme: light dark;
---background:#ffffff;
---text: #212121;
---accent: #6C10EA;
---h3_background: #F0F8FF;
---list-background: #F0F8FF80;
-}
-
-body {
- font-size: \(fontSize)px;
- font-family: "-apple-system";
- color: var(--text);
- background-color: var(--background);
-}
-h1 {
- font:-apple-system-largeTitle3;
-}
-h3 {
- padding: 10px 15px 10px 10px;
- font:-apple-system-headline;
- background-color: var(--h3_background);
- position: sticky;
- top: 0;
-}
-
-ul {
-list-style-type: none;
-list-style-position: inside;
-list-style-type: circle;
-margin: 0;
-padding: 0;
-}
-
-li {
-background-color: var(--list-background);
-margin: 1px;
-padding: 10px;
-text-transform: capitalize;
-}
-
-a:link {
-background-color: #DDFFBB;
-color: red;
-padding: 2px 2px 0px 2px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-text-transform: lowercase;
-border-radius: 8px;
-}
-
-@media screen and (prefers-color-scheme: dark) {
-:root {
-color-scheme: light dark;
---background:#11192e;
---text: #E4E4E4;
---accent: #6C10EA;
---h3_background: #2B3964;
---list-background: #2B396480
-}
+\(HTMLView.baseStylesheet)
 </style>
 </header>
 """

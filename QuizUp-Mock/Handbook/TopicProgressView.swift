@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopicProgressView: View {
 	var value: CGFloat = 0.5
-	var lineWidth: Double = 4
+	var lineWidth: Double = 2
 
 	@State var appear = false
 

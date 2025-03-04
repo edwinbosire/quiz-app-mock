@@ -18,6 +18,11 @@ struct HandbookView: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0.0) {
 			SectionHeaderView()
+				.containerShape(Rectangle())
+				.onTapGesture {
+					router.navigate(to: .handbook)
+				}
+
 			HandbookChapters()
 		}
 	}
@@ -40,10 +45,6 @@ struct HandbookView: View {
 			.foregroundStyle(.tertiary)
 		}
 		.padding()
-		.containerShape(Rectangle())
-		.onTapGesture {
-			router.navigate(to: .handbook)
-		}
 	}
 
 	@ViewBuilder

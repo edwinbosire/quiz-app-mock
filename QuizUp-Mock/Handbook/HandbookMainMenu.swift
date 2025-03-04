@@ -19,16 +19,16 @@ struct HandbookMainMenu: View {
 
 	var body: some View {
 		HandbookMainMenuList(chapters: chapters, queryString: $queryString)
-//			.background {
-//				LinearGradient(colors: [
-//					Color.blue.opacity(0.1),
-//					Color.blue.opacity(0.5),
-//					Color.defaultBackground,
-//					Color.defaultBackground,
-//					Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-//				.blur(radius: 75)
-//				.ignoresSafeArea()
-//			}
+		//			.background {
+		//				LinearGradient(colors: [
+		//					Color.blue.opacity(0.1),
+		//					Color.blue.opacity(0.5),
+		//					Color.defaultBackground,
+		//					Color.defaultBackground,
+		//					Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+		//				.blur(radius: 75)
+		//				.ignoresSafeArea()
+		//			}
 			.navigationBarTitleDisplayMode(.inline)
 			.navigationTitle("Handbook")
 			.onChange(of: queryString) {_, newValue in
@@ -61,27 +61,24 @@ struct HandbookMainMenuList: View {
 	var body: some View {
 		List {
 			ForEach(Array(chapters.enumerated()), id: \.offset) { ndx, chapter in
-				Section {
-					ForEach(Array(chapter.topics.enumerated()), id: \.offset) { paragraph, topic in
-						BookChapterRow(title: topic.title, chapter: ndx, paragraph: ndx)
-					}
-					.listRowInsets(EdgeInsets(top: 0.0, leading: 16.0, bottom: 1.0, trailing: 0.0))
-					.listRowBackground(Color.clear)
-					.listRowSeparator(.hidden)
-
-				} header : {
-					Text(chapter.title)
-						.bold()
-						.font(.title2)
-						.foregroundColor(.titleText)
-						.frame(maxWidth: .infinity, alignment: .leading)
+				ChapterSection(title: chapter.title)
+				ForEach(Array(chapter.topics.enumerated()), id: \.offset) { paragraph, topic in
+					BookChapterRow(title: topic.title, chapter: ndx+1, paragraph: paragraph+1)
 				}
 			}
+			.listRowInsets(EdgeInsets())
+			.listRowBackground(Color.clear)
+			.listRowSeparator(.hidden)
+
 		}
 		.searchable(text: $queryString, placement: .navigationBarDrawer(displayMode: .automatic))
 		.listStyle(.inset)
 		.scrollContentBackground(.hidden)
-		.background(Color("Background"))
+		.background {
+			Rectangle()
+				.fill(GradientColors.bluPurpl.getGradient())
+				.ignoresSafeArea()
+		}
 	}
 }
 
@@ -93,28 +90,26 @@ private struct BookChapterRow: View {
 	let paragraph: Int
 
 	var body: some View {
-		VStack(spacing: 1.0) {
-			HStack {
-				TopicProgressView(value: readingProgress/100)
-					.frame(width: 20)
-					.padding(.vertical, 4)
-				Text(title)
-					.font(.subheadline)
-				Spacer()
-				Image(systemName: "chevron.right")
-					.font(.caption)
-					.fontWeight(.light)
-			}
-			.padding()
-			//			Divider()
-			//				.background(Color.black)
-			//				.padding(.leading, 30.0)
-			//				.padding(.trailing, -10.0)
+		HStack {
+			TopicProgressView(value: readingProgress/100)
+				.frame(width: 20)
+				.padding(.vertical, 4)
+			Text("\(chapter).\(paragraph) \(title)")
+				.font(.body)
+			Spacer()
+			Image(systemName: "chevron.right")
+				.font(.caption)
+				.fontWeight(.light)
 		}
+		.padding()
 		.background(
-			Color.rowBackground
-				.background(.ultraThinMaterial)
+			RoundedRectangle(cornerRadius: 10)
+				.fill(Color.defaultBackground)
+				.shadow(color: Color.black.opacity(0.1), radius: 4, y: 2)
 		)
+		.padding(.leading, 24.0)
+		.padding(.trailing)
+		.padding(.bottom, 4)
 		.onTapGesture {
 			router.navigate(to: .handbookChapter(chapter))
 		}
@@ -131,7 +126,57 @@ struct HanbookMainMenu_Previews: PreviewProvider {
 	}
 }
 
+// Chapter Section Component
+struct ChapterSection: View {
+	let title: String
 
+	var body: some View {
+		HStack {
+			Text(title)
+				.font(.title3)
+				.fontWeight(.semibold)
+				.foregroundColor(.titleText)
+			Spacer()
+		}
+		.padding()
+		.frame(maxWidth: .infinity, alignment: .leading)
+		.padding(.bottom, 2.0)
+	}
+}
+
+// Topic Row Component
+struct TopicRow: View {
+	let title: String
+	let isCompleted: Bool
+	let color: Color
+
+	var body: some View {
+		ZStack {
+			RoundedRectangle(cornerRadius: 12)
+				.fill(Color.white)
+				.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+
+			HStack(spacing: 16) {
+				ZStack {
+					Circle()
+						.fill(color)
+						.frame(width: 40, height: 40)
+
+					Image(systemName: "checkmark")
+						.font(.system(size: 20, weight: .bold))
+						.foregroundColor(.white)
+				}
+
+				Text(title)
+					.font(.system(size: 16, weight: .medium))
+
+				Spacer()
+			}
+			.padding()
+		}
+		.frame(height: 70)
+	}
+}
 class HandbookViewModel: ObservableObject {
 	static let shared = HandbookViewModel()
 

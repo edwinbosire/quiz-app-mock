@@ -36,6 +36,7 @@
 		64A09CB42D540DDB00029CDC /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB32D540DDB00029CDC /* AppRouter.swift */; };
 		64A09CB72D540E6A00029CDC /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB62D540E6A00029CDC /* Route.swift */; };
 		64A09CE02D67CE9100029CDC /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CDF2D67CE8900029CDC /* Colors.swift */; };
+		64A09CEC2D76844E00029CDC /* gutenbergContentStyles.css in Resources */ = {isa = PBXBuildFile; fileRef = 64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */; };
 		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
@@ -96,6 +97,7 @@
 		64A09CB32D540DDB00029CDC /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		64A09CB62D540E6A00029CDC /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		64A09CDF2D67CE8900029CDC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = gutenbergContentStyles.css; sourceTree = "<group>"; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 		64AB584F29CF7DDA000B8ECC /* Book */ = {
 			isa = PBXGroup;
 			children = (
+				64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */,
 				64B5BA4A29FD58DE00875667 /* handbook.json */,
 				64B5BA4C29FD669000875667 /* Handbook.swift */,
 				64B5BA4E29FD681800875667 /* HandbookRepository.swift */,
@@ -424,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */,
+				64A09CEC2D76844E00029CDC /* gutenbergContentStyles.css in Resources */,
 				64B5BA4B29FD58DE00875667 /* handbook.json in Resources */,
 				6455B0EF29BF25CD008B6F39 /* questions.json in Resources */,
 				64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */,

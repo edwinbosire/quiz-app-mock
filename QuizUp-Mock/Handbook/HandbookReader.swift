@@ -74,7 +74,7 @@ struct  HandbookTopicReader: View {
 			ZStack(alignment: .leading) {
 				let title = "<H1>\(topic.title) </H1>"
 				HTMLView(html: "\(title) \(topic.content)", fontSize: $fontSize, scrollProgress: $scrollProgress)
-					.frame(maxHeight: .infinity)
+					.frame(maxWidth: .infinity ,maxHeight: .infinity)
 
 			}
 			.frame(maxHeight: .infinity)
