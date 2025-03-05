@@ -35,7 +35,7 @@ struct TopicProgressView: View {
 	var backgroundRing: some View {
 		Circle()
 			.stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-			.fill(Color.gray.opacity(00.3))
+			.fill(Color.green40)
 	}
 }
 

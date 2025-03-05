@@ -12,7 +12,6 @@ struct HandbookView: View {
 	@Environment(\.featureFlags) var featureFlags
 	@EnvironmentObject var router: Router
 
-	var isDarkMode: Bool { colorScheme == .dark }
 	var handbookViewModel: HandbookViewModel
 
 	var body: some View {
@@ -81,11 +80,11 @@ struct HandbookCards: View {
 
 	var headerColor: Color {
 		switch index {
-			case 0: return .blue
-			case 1: return .green
-			case 2: return .yellow
-			case 3: return .orange
-			case 4: return .pink
+			case 0: return PastelTheme.blue
+			case 1: return PastelTheme.green
+			case 2: return PastelTheme.yellow
+			case 3: return PastelTheme.orange
+			case 4: return PastelTheme.deepOrange
 			default:
 				return .red
 		}
@@ -93,43 +92,45 @@ struct HandbookCards: View {
 	var body: some View {
 
 		VStack(alignment: .leading, spacing: 0.0) {
-			Text(title)
-				.font(.title2)
-				.fontWeight(.heavy)
-				.foregroundColor(.white)
-				.lineLimit(1)
-				.padding(.top, -stripeHeight*3)
+			VStack(alignment: .leading) {
+				Text(title)
+					.font(.title2)
+					.fontWeight(.heavy)
+					.foregroundColor(PastelTheme.title)
+					.lineLimit(1)
+					.padding()
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+			.background(headerColor)
 
-			Text(chapterTitle)
-				.font(.subheadline)
-				.foregroundStyle(.primary)
-				.foregroundColor(.primary)
-				.multilineTextAlignment(.leading)
-				.lineLimit(2)
-				.layoutPriority(1.0)
 
-			Spacer()
+			VStack(alignment: .leading) {
+				Text(chapterTitle)
+					.font(.headline)
+					.fontWeight(.medium)
+					.foregroundStyle(PastelTheme.bodyText)
+					.multilineTextAlignment(.leading)
+					.lineLimit(2)
+			}
+			.padding()
+			.frame(height: 80.0)
+			.frame(maxWidth: .infinity, alignment: .leading)
 
 			ProgressIndicator()
-				.padding(.bottom, 0.0)
+				.padding(.bottom)
+				.padding(.horizontal, 4.0)
 		}
-		.padding([.horizontal])
-		.padding(.top, stripeHeight*5)
 		.background {
-			ZStack(alignment: .top) {
-				Rectangle()
-					.fill(.background)
-					.opacity(0.3)
-				Rectangle()
-					.frame(maxHeight: stripeHeight*4.5)
-			}
-			.foregroundColor(headerColor)
-			.background(.thinMaterial)
-
+			RoundedRectangle(cornerRadius: CornerRadius)
+				.fill(PastelTheme.rowBackground.darken)
+				.overlay {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(PastelTheme.rowBackground.lighten(by: 0.1))
+						.offset(y: -4.0)
+				}
 		}
+		.frame(width: 200)
 		.clipShape(RoundedRectangle(cornerRadius: stripeHeight, style: .continuous))
-		.frame(width: 200, height: 200)
-		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
 		.onAppear {
 			if featureFlags.progressTrackingEnabled {
 				var totalProgress = 0.0
@@ -149,16 +150,8 @@ struct HandbookCards: View {
 	@ViewBuilder
 	func ProgressIndicator() -> some View {
 		HStack {
-			ProgressView("", value: chapterProgress, total: 100)
-				.padding(.bottom)
-				.tint(.purple)
-				.foregroundStyle(.secondary)
-
-			Spacer()
-			Text("\(String(format: "%.0f%%", chapterProgress))")
-				.foregroundStyle(.secondary)
-				.foregroundColor(.purple)
-				.font(.footnote)
+			ProgressView("\(String(format: "%.0f%%", chapterProgress))", value: chapterProgress, total: 100)
+				.tint(Color(hex: "2A5E9D"))
 		}
 		.opacity(featureFlags.progressTrackingEnabled ? 1.0 : 0.0)
 	}

@@ -14,14 +14,14 @@ struct SearchBar: View {
 	var body: some View {
 		HStack {
 			Image(systemName: "magnifyingglass")
-				.foregroundStyle(.tertiary)
+				.foregroundStyle(PastelTheme.subTitle.darken)
 				.padding(.leading)
 
 			TextField("Search...", text: $text)
 				.textCase(.lowercase)
 				.autocorrectionDisabled()
 				.padding([.top, .bottom, .trailing], 8)
-				.tint(Color.titleText)
+				.tint(PastelTheme.bodyText)
 				.keyboardType(.default)
 				.submitLabel(.search)
 				.onSubmit { isSearching = false }
@@ -31,8 +31,8 @@ struct SearchBar: View {
 			}
 		.background(
 			Capsule()
-				.strokeBorder(Color.purple.opacity(0.4), lineWidth: 0.8)
-				.background(.ultraThinMaterial)
+				.strokeBorder(PastelTheme.searchBarBorder, lineWidth: 0.8)
+				.background(PastelTheme.searchBarBackground)
 				.clipShape(Capsule())
 		)
 		.overlay(closeButton)

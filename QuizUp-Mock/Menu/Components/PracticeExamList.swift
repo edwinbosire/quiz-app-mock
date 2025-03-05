@@ -26,16 +26,6 @@ struct PracticeExamList: View {
 			}
 		}
 		.padding()
-		.background {
-			LinearGradient(colors: [
-				Color.blue.opacity(0.1),
-				Color.blue.opacity(0.5),
-				Color.defaultBackground,
-				Color.defaultBackground,
-				Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-				.blur(radius: 75)
-				.ignoresSafeArea()
-		}
 //		.background(.ultraThinMaterial)
 		.task {
 			await menuViewModel.reloadExams()
@@ -62,13 +52,14 @@ struct PracticeExamListRow: View {
 	let locked: Bool
 	var body: some View {
 		HStack {
-			Image(systemName: locked ? "lock.slash" : "lock.open")
+			Image(systemName: "lock.slash")
 				.font(.caption)
-				.foregroundColor(locked ? .gray : .secondary)
+				.foregroundColor(PastelTheme.subTitle)
+				.opacity(locked ? 1 : 0)
 			Text("Mock Exam \(viewModel.id)")
 				.font(.headline)
 				.fontWeight(.medium)
-				.foregroundStyle(.primary)
+				.foregroundStyle(PastelTheme.bodyText)
 				.foregroundColor(locked ? .gray : .primary)
 			Spacer()
 			Text(viewModel.formattedScore)
@@ -76,13 +67,24 @@ struct PracticeExamListRow: View {
 				.foregroundStyle(.secondary)
 				.foregroundColor(Color.secondary)
 				.opacity(locked ? 0.0 : 1)
+			Image(systemName: "chevron.right")
+				.font(.caption)
+				.fontWeight(.light)
+				.foregroundStyle(PastelTheme.bodyText)
+
 
 		}
 		.padding()
 		.background {
-			RoundedRectangle(cornerRadius: 10)
-				.fill(Color("Background"))
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+			RoundedRectangle(cornerRadius: CornerRadius)
+				.fill(PastelTheme.rowBackground.darken)
+//				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+				.overlay {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(PastelTheme.rowBackground.lighten)
+						.offset(y: -2)
+				}
+				.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
 		}
 		.contentShape(Rectangle())
 		.onTapGesture {

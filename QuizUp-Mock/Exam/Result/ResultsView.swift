@@ -67,7 +67,7 @@ struct ResultsViewContainer: View {
 
 			}
 			.frame(maxWidth: .infinity)
-			.background(					RoundedRectangle(cornerRadius: 10)
+			.background(					RoundedRectangle(cornerRadius: CornerRadius)
 				.fill(Color("Background"))
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 			)
@@ -88,7 +88,7 @@ struct ResultsViewContainer: View {
 
 			}
 			.frame(maxWidth: .infinity)
-			.background(					RoundedRectangle(cornerRadius: 10)
+			.background(					RoundedRectangle(cornerRadius: CornerRadius)
 				.fill(Color("Background"))
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 			)

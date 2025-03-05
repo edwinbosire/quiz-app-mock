@@ -335,7 +335,7 @@ struct PopularTopics: View {
 						.frame(width: 75, height: 75)
 						.background(Color(hex: "434343"))
 						.foregroundColor(Color(hex:"C4C4C4"))
-						.cornerRadius(10)
+						.cornerRadius(CornerRadius)
 
 					}
 				}

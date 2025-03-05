@@ -52,7 +52,7 @@ struct AnswerRow: View {
 		.padding()
 		.padding(.trailing, 4.0)
 		.background(
-			RoundedRectangle(cornerRadius: 10)
+			RoundedRectangle(cornerRadius: CornerRadius)
 				.fill(background)
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 		)

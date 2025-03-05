@@ -30,8 +30,8 @@ struct WelcomeBackHeaderView: View {
 			}
 		}
 		.padding()
-		.background(Color.rowBackground)
-		.background(.ultraThinMaterial)
+		.background(PastelTheme.navBackground)
+		.background(.regularMaterial)
 //		.shadow(color: Color.gray.opacity(0.4), radius: 5, y: 2)
 		.onChange(of: queryString) { _, newValue in
 			router.navigate(to: .handbookSearch(queryString))
@@ -44,7 +44,7 @@ struct WelcomeBackHeaderView: View {
 			Text("Welcome Back")
 				.font(.largeTitle)
 				.bold()
-				.foregroundColor(.titleText)
+				.foregroundColor(PastelTheme.title)
 			Spacer()
 
 			Button(action: {
@@ -59,8 +59,7 @@ struct WelcomeBackHeaderView: View {
 
 	@ViewBuilder func Subheading() -> some View {
 		TypewriterText(subTitle, count: count)
-			.foregroundColor(.subTitleText)
-			.foregroundStyle(.secondary)
+			.foregroundColor(PastelTheme.subTitle)
 			.animation(.easeInOut(duration: 1.1), value: count)
 			.onAppear {
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

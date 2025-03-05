@@ -8,6 +8,7 @@
 import SwiftUI
 import Charts
 
+public let CornerRadius: CGFloat = 10.0
 struct LandingPage: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Namespace var namespace
@@ -19,7 +20,6 @@ struct LandingPage: View {
 			WelcomeBackHeaderView(isSearching: $menuViewModel.isSearching, animation: searchAnimation)
 			HeaderSeparator()
 			LandingPageContent()
-				.gradientBackground()
 		}
 		// TODO: Implement search properly
 //		.overlay {
@@ -37,11 +37,12 @@ struct LandingPage: View {
 				PracticeExamList()
 			}
 		}
+		.background(PastelTheme.background)
 	}
 
 	@ViewBuilder func HeaderSeparator() -> some View {
 		Rectangle()
-			.fill(GradientColors.bluPurpl.getGradient().opacity(0.5))
+			.fill(PastelTheme.background.darken(by: 0.8))
 			.frame(height: 1)
 
 	}

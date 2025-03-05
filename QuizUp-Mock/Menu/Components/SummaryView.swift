@@ -50,10 +50,17 @@ struct SummaryView: View {
 			.frame(maxWidth: .infinity)
 			.frame(height: 150)
 			.background {
-				RoundedRectangle(cornerRadius: 10)
-					.fill(Color.pink)
+				RoundedRectangle(cornerRadius: CornerRadius)
+					.fill(Color.pink.darken)
 					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+					.overlay {
+						RoundedRectangle(cornerRadius: CornerRadius)
+							.fill(Color.pink.lighten)
+							.offset(y: -4.0)
+					}
 			}
+			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+
 		}
 	}
 
@@ -70,10 +77,16 @@ struct SummaryView: View {
 			.frame(maxWidth: .infinity)
 			.frame(height: 150)
 			.background {
-				RoundedRectangle(cornerRadius: 10)
-					.fill(.teal)
+				RoundedRectangle(cornerRadius: CornerRadius)
+					.fill(.teal.darken)
 					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+					.overlay {
+						RoundedRectangle(cornerRadius: CornerRadius)
+							.fill(Color.teal.lighten)
+							.offset(y: -4.0)
+					}
 			}
+			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
 		}
 
 	}

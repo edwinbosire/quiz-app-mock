@@ -7,18 +7,48 @@
 
 import SwiftUI
 
+struct PastelTheme {
+	static var navBackground: Color { Color.green0 }
+	static var background: Color { Color.green60 }
+	static var title: Color { Color.white }
+	static var subTitle: Color {  Color.white.darken  }
+	static var bodyText: Color { Color.white }
+
+	static var rowBackground: Color { Color.green0.darken }
+	static var searchBarBorder: Color { Color.orange70 }
+	static var searchBarBackground: Color { Color.green0.darken(by: 0.65) }
+
+	static var blue = Color(hex: "264653").darken(by: 0.4)
+	static var green = Color(hex: "2A9D8F").darken(by: 0.4)
+	static var yellow = Color(hex: "E9C46A").darken(by: 0.4)
+	static var orange = Color(hex: "F4A261").darken(by: 0.4)
+	static var deepOrange = Color(hex: "E76F51").darken(by: 0.4)
+}
+
 extension Color {
-	static var defaultBackground: Color { Color("Background") }
-	static var rowBackground: Color { Color("RowBackground2")}
+	static var defaultBackground: Color { Color.green40 }
+	static var rowBackground: Color { Color.green0 }
 	static var paletteBlue: Color { Color("primary") }
 	static var paletteBlueDark: Color { Color("primary") }
 	static var paletteBlueSecondary: Color { Color("secondary_1") }
 	static var paletteBlueSecondaryDark: Color { Color("secondary") }
-	static var titleText: Color { Color("primary") }
-	static var subTitleText: Color {  Color("secondary-text") }
-	static var bodyText: Color { Color("primary_light") }
+	static var titleText: Color { white }
+	static var subTitleText: Color {  white.darken  }
+	static var bodyText: Color { white }
 
 	static var progressBarTint: Color { Color("secondary-text") }
+}
+
+extension Color {
+	static var white: Color { Color(hex:"FAFAFA") }
+
+	static var darkGray: Color { Color(hex:"264653") }
+	static var green0: Color { Color(hex:"2A9D8F") }
+	static var green40: Color { Color(hex:"2A9D8F").darken(by: 0.4)}
+	static var green60: Color { Color(hex:"2A9D8F").darken(by: 0.6)}
+	static var green70: Color { Color(hex:"2A9D8F").darken(by: 0.7)}
+
+	static var orange70: Color { Color(hex:"E76F51").darken(by: 0.7)}
 }
 
 extension Color {
@@ -46,4 +76,48 @@ extension Color {
 			opacity: Double(a) / 255
 		)
 	}
+}
+
+extension Color {
+	func darken(by percentage: Double) -> Color {
+		let uiColor = UIColor(self)
+		var red: CGFloat = 0
+		var green: CGFloat = 0
+		var blue: CGFloat = 0
+		var alpha: CGFloat = 0
+
+		uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+
+		// Multiply each component by (1 - percentage) to add black
+		return Color(
+			red: red * (1 - percentage),
+			green: green * (1 - percentage),
+			blue: blue * (1 - percentage)
+		)
+	}
+	var darken: Color {
+		self.darken(by: 0.2)
+	}
+
+	var lighten: Color {
+		self.lighten(by: 0.2)
+	}
+
+	func lighten(by percentage: Double) -> Color {
+		let uiColor = UIColor(self)
+		var red: CGFloat = 0
+		var green: CGFloat = 0
+		var blue: CGFloat = 0
+		var alpha: CGFloat = 0
+
+		uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+
+		// Add white by moving each component toward 1.0 by the given percentage
+		return Color(
+			red: red + ((1 - red) * percentage),
+			green: green + ((1 - green) * percentage),
+			blue: blue + ((1 - blue) * percentage)
+		)
+	}
+
 }
