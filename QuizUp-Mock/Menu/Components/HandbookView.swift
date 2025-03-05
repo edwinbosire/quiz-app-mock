@@ -118,7 +118,7 @@ struct HandbookCards: View {
 
 			ProgressIndicator()
 				.padding(.bottom)
-				.padding(.horizontal, 4.0)
+				.padding(.horizontal)
 		}
 		.background {
 			RoundedRectangle(cornerRadius: CornerRadius)
@@ -151,7 +151,7 @@ struct HandbookCards: View {
 	func ProgressIndicator() -> some View {
 		HStack {
 			ProgressView("\(String(format: "%.0f%%", chapterProgress))", value: chapterProgress, total: 100)
-				.tint(Color(hex: "2A5E9D"))
+				.tint(PastelTheme.background)
 		}
 		.opacity(featureFlags.progressTrackingEnabled ? 1.0 : 0.0)
 	}

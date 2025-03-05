@@ -134,15 +134,15 @@ text-transform: lowercase;
 border-radius: 8px;
 }
 
-@media screen and (prefers-color-scheme: dark) {
-:root {
-color-scheme: light dark;
---background:#11192e;
---text: #E4E4E4;
---accent: #6C10EA;
---h3_background: #2B3964;
---list-background: #2B396480
-}
+//@media screen and (prefers-color-scheme: dark) {
+//:root {
+//color-scheme: light dark;
+//--background:#11192e;
+//--text: #E4E4E4;
+//--accent: #6C10EA;
+//--h3_background: #2B3964;
+//--list-background: #2B396480
+//}
 </style>
 </header>
 """

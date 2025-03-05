@@ -53,7 +53,7 @@ struct HandbookReader: View {
 			}
 		})
 		.toolbarBackground(Color.pink, for: .navigationBar)
-		.gradientBackground()
+		.background(PastelTheme.background)
 		.onAppear {
 			selection = index
 			fontSize = featureFlags.fontSize

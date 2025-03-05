@@ -163,7 +163,7 @@ struct ExamProgressView: View {
 					Rectangle()
 						.fill(getProgressColor(for: i))
 						.frame(width: width)
-						.border(colorScheme == .light ? .gray.opacity(0.1) : .white.opacity(0.07))
+						.border(PastelTheme.background.darken)
 						.animation(.easeIn, value: currentPage)
 				}
 			}
@@ -174,11 +174,11 @@ struct ExamProgressView: View {
 
 	func getProgressColor(for index: Int) -> Color {
 		if index == currentPage {
-			return Color.paletteBlueSecondary.opacity(0.5)
+			return PastelTheme.blue
 		} else if questions[index].isAnswered {
-			return  questions[index].isAnsweredCorrectly ? Color.green : .red
+			return  questions[index].isAnsweredCorrectly ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground
 		} else {
-			return Color.paletteBlue.opacity(0.1)
+			return PastelTheme.green.darken
 		}
 	}
 }

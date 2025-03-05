@@ -33,16 +33,16 @@ struct AnswerRow: View {
 	var body: some View {
 		HStack {
 			Image(systemName: radialImage)
-				.symbolRenderingMode(.palette)
-				.foregroundStyle(radialImageBackgroundPrimary, radialImageBackgroundSecondary)
-				.foregroundColor(.white)
+//				.symbolRenderingMode(.palette)
+				.foregroundColor(titleForegroundColor)
 				.frame(width: 24, height: 24)
 				.animation(.spring, value: answerState)
 				.transition(.move(edge: .bottom))
 
 			Text(answer.title)
-//				.font(.title3)
-				.font(.system(size: 16))
+				.font(.body)
+				.fontWeight(.medium)
+//				.font(.system(size: 16))
 				.lineLimit(3)
 				.allowsTightening(true)
 				.minimumScaleFactor(0.5)
@@ -70,7 +70,7 @@ struct AnswerRow: View {
 	var titleForegroundColor: Color {
 		switch answerState {
 			case .notAttempted:
-				return .paletteBlueSecondaryDark
+				return PastelTheme.green
 			case .correct:
 				return .white
 			case .wrong:
@@ -115,9 +115,9 @@ struct AnswerRow: View {
 			case .notAttempted:
 				return PastelTheme.answerRowBackground
 			case .correct:
-				return PastelTheme.answerRowSelectedBackground
+				return PastelTheme.answerCorrectBackground
 			case .wrong:
-				return PastelTheme.answerRowWrongBackground
+				return PastelTheme.answerWrongBackground
 		}
 	}
 
