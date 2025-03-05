@@ -57,10 +57,9 @@ struct QuestionPageView: View {
 			Text(viewModel.questionTitle)
 				.multilineTextAlignment(.center)
 				.font(.title)
-				.foregroundStyle(.primary)
-				.foregroundColor(Color.paletteBlueDark)
+				.foregroundColor(PastelTheme.title)
 				.padding(.horizontal)
-				.shadow(color: colorScheme == .dark ? .clear : .white.opacity(0.5), radius: 1, x: 2.0, y: 1)
+//				.shadow(color: colorScheme == .dark ? .clear : .white.opacity(0.5), radius: 1, x: 2.0, y: 1)
 
 		}
 		.frame(maxWidth: .infinity)
@@ -71,9 +70,8 @@ struct QuestionPageView: View {
 	func PromptView() -> some View {
 		HStack(alignment: .bottom) {
 			Text(viewModel.prompt)
-				.foregroundStyle(.tertiary)
 				.font(.subheadline)
-				.foregroundColor(.secondary)
+				.foregroundColor(PastelTheme.subTitle)
 				.padding(.leading)
 
 			Spacer()
@@ -103,10 +101,10 @@ struct QuestionPageView: View {
 			}
 		}
 		.listRowInsets(EdgeInsets())
-		.listRowBackground(Color.defaultBackground.opacity(0.9))
+		.listRowBackground(PastelTheme.background)
 		.padding()
 		.background(
-			Color.rowBackground
+			PastelTheme.background
 				.background(.ultraThinMaterial)
 				.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
 		)

@@ -17,6 +17,10 @@ struct PastelTheme {
 	static var rowBackground: Color { Color.green0.darken }
 	static var searchBarBorder: Color { Color.orange70 }
 	static var searchBarBackground: Color { Color.green0.darken(by: 0.65) }
+	static var answerRowBackground: Color { Color.white }
+	static var answerRowSelectedBackground: Color { Color.green0 }
+	static var answerRowWrongBackground: Color { Color.pink }
+
 
 	static var blue = Color(hex: "264653").darken(by: 0.4)
 	static var green = Color(hex: "2A9D8F").darken(by: 0.4)

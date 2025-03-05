@@ -53,8 +53,12 @@ struct AnswerRow: View {
 		.padding(.trailing, 4.0)
 		.background(
 			RoundedRectangle(cornerRadius: CornerRadius)
-				.fill(background)
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+				.fill(background.darken)
+				.overlay {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(background.lighten)
+						.offset(y: -4.0)
+				}
 		)
 		.contentShape(Rectangle())
 		.onTapGesture {
@@ -109,11 +113,11 @@ struct AnswerRow: View {
 	var background: Color {
 		switch answerState {
 			case .notAttempted:
-				return .defaultBackground
+				return PastelTheme.answerRowBackground
 			case .correct:
-				return .green
+				return PastelTheme.answerRowSelectedBackground
 			case .wrong:
-				return .pink
+				return PastelTheme.answerRowWrongBackground
 		}
 	}
 

@@ -40,7 +40,7 @@ struct QuestionView: View {
 			.tabViewStyle(.page(indexDisplayMode: .never))
 			.animation(.easeOut(duration: 0.2), value: viewModel.progress)
 		}
-		.gradientBackground()
+		.background(PastelTheme.background.ignoresSafeArea())
 		.actionSheet(isPresented: $isShowingMenu) {
 			ActionSheet(title: Text(""),
 						message: nil,
@@ -80,6 +80,7 @@ private struct ToolBarContentView: View {
 				Text("Mock Test")
 					.font(.title3)
 					.bold()
+					.foregroundStyle(PastelTheme.bodyText)
 			}
 
 			Spacer()
@@ -87,12 +88,12 @@ private struct ToolBarContentView: View {
 			Button(action: {viewModel.bookmarked.toggle()}) {
 				Image(systemName: viewModel.bookmarked ? "bookmark.fill" : "bookmark")
 			}
-			.foregroundColor(.paletteBlue)
+			.foregroundColor(PastelTheme.bodyText)
 
 			Button(action: {isShowingMenu.toggle()}) {
 				Image(systemName: isShowingMenu ? "ellipsis.circle.fill" : "ellipsis.circle")
 			}
-			.foregroundColor(.paletteBlue)
+			.foregroundColor(PastelTheme.bodyText)
 		}
 		.padding()
 	}
@@ -110,15 +111,15 @@ struct TimerView: View {
 	var body: some View {
 		HStack {
 			Image(systemName: "clock")
-				.foregroundStyle(.tertiary)
+				.foregroundStyle(PastelTheme.subTitle)
 				.font(.subheadline)
 
 			Text("\(timeString(timeRemaining))")
 				.font(.subheadline)
 				.monospacedDigit()
 				.padding(.trailing)
-				.foregroundStyle(.tertiary)
-				.shadow(color: colorScheme == .dark ? .clear : Color.white.opacity(0.5), radius: 1, x: 2, y: 1)
+				.foregroundStyle(PastelTheme.subTitle)
+//				.shadow(color: colorScheme == .dark ? .clear : Color.white.opacity(0.5), radius: 1, x: 2, y: 1)
 		}
 		.background(.clear)
 		.onAppear {
@@ -192,8 +193,8 @@ struct QuestionCounter: View {
 			Text(progressTitle)
 				.font(.subheadline)
 				.monospacedDigit()
-				.foregroundColor(.secondary)
-				.foregroundStyle(.tertiary)
+//				.foregroundColor(.secondary)
+				.foregroundStyle(PastelTheme.bodyText)
 			Spacer()
 		}
 		.padding(.bottom)
