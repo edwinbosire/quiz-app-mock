@@ -36,12 +36,11 @@ struct HandbookView: View {
 
 			Spacer()
 
-			HStack {
-				Text("View all")
-				Image(systemName: "chevron.right")
-			}
-			.foregroundColor(.titleText)
-			.foregroundStyle(.tertiary)
+			Image(systemName: "arrowshape.right.circle.fill")
+				.font(.title)
+				.foregroundColor(.titleText)
+				.foregroundStyle(PastelTheme.title)
+
 		}
 		.padding()
 	}

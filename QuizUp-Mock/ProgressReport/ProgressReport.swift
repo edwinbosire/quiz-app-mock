@@ -32,6 +32,7 @@ struct ProgressReport: View {
 						Text("Results")
 							.font(.title)
 							.bold()
+							.foregroundStyle(PastelTheme.title)
 							.padding()
 					}
 
@@ -39,7 +40,8 @@ struct ProgressReport: View {
 						HStack {
 							Button { dismiss() } label: {
 								Image(systemName: "xmark")
-									.font(.subheadline)
+									.font(.title)
+									.foregroundStyle(PastelTheme.orange.lighten)
 							}
 							.padding()
 						}
@@ -49,19 +51,58 @@ struct ProgressReport: View {
 				.gradientBackground()
 				.overlay {
 					ZStack(alignment: .top) {
+						PastelTheme.background.ignoresSafeArea()
 						VStack {
 							Spacer()
 							Text("No exam results available, complete at least one exam for the results to appear here.")
-								.padding()
+								.multilineTextAlignment(.center)
+								.font(.title)
+								.frame(maxWidth: .infinity, alignment: .center)
+								.foregroundStyle(PastelTheme.title)
+								.padding(.vertical)
 
-							FilledButton(title: "Start Exam", action: { startExamSelected?() })
+							Button(action: {
+								startExamSelected?()
+							}) {
+								VStack {
+									Text("Start Exam")
+										.font(.headline)
+										.fontWeight(.bold)
+										.foregroundStyle(PastelTheme.title)
+								}
+								.frame(maxWidth: .infinity)
+								.frame(height: 50.0)
+								.background {
+									RoundedRectangle(cornerRadius: CornerRadius)
+										.fill(Color.pink.darken)
+										.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+										.overlay {
+											RoundedRectangle(cornerRadius: CornerRadius)
+												.fill(Color.pink.lighten)
+												.offset(y: -4.0)
+										}
+								}
+								.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+
+							}
 							Spacer()
 							Spacer()
 						}
+						.padding()
 
 						.frame(maxWidth: .infinity, maxHeight: .infinity)
 					}
-					.background(.ultraThinMaterial)
+					.background {
+						RoundedRectangle(cornerRadius: CornerRadius)
+							.fill(PastelTheme.rowBackground.darken)
+							.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+							.overlay {
+								RoundedRectangle(cornerRadius: CornerRadius)
+									.fill(PastelTheme.rowBackground.lighten)
+									.offset(y: -2)
+							}
+							.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+					}
 					.opacity(results.isEmpty ? 1.0 : 0.0)
 				}
 				.task {
@@ -91,7 +132,7 @@ struct ProgressReportContainer: View {
 					}
 					.listRowBackground(
 						Rectangle()
-							.fill(Color.rowBackground.opacity(0.5))
+							.fill(PastelTheme.rowBackground)
 					)
 				}
 
@@ -122,38 +163,41 @@ struct ProgressReportRow: View {
 
 			VStack(alignment: .leading, spacing: 5.0) {
 				Text("Practice Test \(result.examId)")
-					.foregroundColor(.titleText)
 					.font(.title3)
-					.foregroundStyle(.primary)
+					.fontWeight(.semibold)
+					.foregroundStyle(PastelTheme.title)
 
 				HStack {
 					Group {
 						Image(systemName: "checkmark.circle")
 						Text("\(result.correctQuestions.count) correct")
+							.foregroundStyle(PastelTheme.subTitle)
+
 					}
 					.font(.caption)
-					.foregroundColor(.green)
+					.foregroundStyle(PastelTheme.answerCorrectBackground)
 
 					Group {
 						Image(systemName: "xmark.circle")
 						Text("\(result.incorrectQuestions.count) wrong")
+							.foregroundStyle(PastelTheme.subTitle)
 					}
 					.font(.caption)
-					.foregroundColor(.red)
+					.foregroundColor(PastelTheme.answerWrongBackground)
 				}
-				.foregroundStyle(.tertiary)
 
 				Text(result.formattedDate)
 					.font(.footnote)
-					.foregroundStyle(.tertiary)
-					.foregroundColor(.subTitleText)
+					.fontWeight(.semibold)
+					.foregroundColor(PastelTheme.subTitle)
 			}
 
 			Spacer()
 
 			Text(result.formattedScore)
 				.font(.title2)
-				.foregroundColor(.titleText)
+				.fontWeight(.semibold)
+				.foregroundColor(PastelTheme.title)
 
 
 			//			Image(systemName: "chevron.right")
@@ -166,9 +210,11 @@ struct ProgressReportRow: View {
 
 struct ProgressReport_Previews: PreviewProvider {
 	struct Preview: View {
+		@StateObject private var menuViewModel = MenuViewModel.shared
 		var body: some View {
 			NavigationStack {
 				ProgressReport()
+					.environmentObject(menuViewModel)
 			}
 		}
 	}

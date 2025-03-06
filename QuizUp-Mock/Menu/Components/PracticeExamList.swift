@@ -78,7 +78,7 @@ struct PracticeExamListRow: View {
 		.background {
 			RoundedRectangle(cornerRadius: CornerRadius)
 				.fill(PastelTheme.rowBackground.darken)
-//				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 				.overlay {
 					RoundedRectangle(cornerRadius: CornerRadius)
 						.fill(PastelTheme.rowBackground.lighten)
