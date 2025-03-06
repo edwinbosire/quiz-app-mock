@@ -123,14 +123,16 @@ struct HandbookCards: View {
 		.background {
 			RoundedRectangle(cornerRadius: CornerRadius)
 				.fill(PastelTheme.rowBackground.darken)
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 				.overlay {
 					RoundedRectangle(cornerRadius: CornerRadius)
 						.fill(PastelTheme.rowBackground.lighten(by: 0.1))
 						.offset(y: -4.0)
 				}
+				.clipped()
 		}
+		.clipShape(RoundedRectangle(cornerRadius: CornerRadius, style: .continuous))
 		.frame(width: 200)
-		.clipShape(RoundedRectangle(cornerRadius: stripeHeight, style: .continuous))
 		.onAppear {
 			if featureFlags.progressTrackingEnabled {
 				var totalProgress = 0.0

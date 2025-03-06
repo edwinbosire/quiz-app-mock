@@ -43,16 +43,16 @@ struct ResultsViewContainer: View {
 				}
 			}
 
-			HStack {
-				TryAgainButton()
-				NextQuizButton()
-			}
-			.padding(.horizontal)
+//			HStack {
+//				TryAgainButton()
+//				NextQuizButton()
+//			}
+//			.padding(.horizontal)
 
 
 		}
 		.overlay(confetti())
-		.background(background())
+		.background(PastelTheme.background)
 	}
 
 	@ViewBuilder func TryAgainButton() -> some View {
@@ -130,7 +130,7 @@ struct ResultsViewContainer: View {
 				Text("Report Card")
 					.font(.title)
 					.fontWeight(.semibold)
-					.foregroundStyle(.primary)
+					.foregroundStyle(PastelTheme.title)
 
 				Spacer()
 
@@ -139,15 +139,16 @@ struct ResultsViewContainer: View {
 					router.popToRoot()
 				} label: {
 					Image(systemName: "xmark")
-						.font(.largeTitle)
-						.foregroundStyle(.secondary)
+						.font(.title)
+						.fontWeight(.medium)
+						.foregroundStyle(PastelTheme.orange)
 				}
 			}
 			.padding(.bottom)
 
 			HStack {
 
-				CircularProgressView(progress: $ringProgress, primaryColor: .teal)
+				CircularProgressView(progress: $ringProgress, primaryColor: PastelTheme.deepOrange)
 					.frame(width: 150)
 					.overlay {
 						VStack {
@@ -155,6 +156,7 @@ struct ResultsViewContainer: View {
 								.font(.largeTitle)
 								.monospacedDigit()
 								.bold()
+								.foregroundStyle(PastelTheme.title)
 
 							Text(score)
 								.font(.caption)
@@ -168,27 +170,27 @@ struct ResultsViewContainer: View {
 					Text("You're score")
 						.font(.headline)
 						.fontWeight(.semibold)
-						.foregroundStyle(.primary)
+						.foregroundStyle(PastelTheme.title)
 					Text(String(format: "%0.1f %%",result.scorePercentage))
 						.font(.subheadline)
-						.foregroundStyle(.primary)
+						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
 
 					Text("Wrong Answers")
 						.font(.headline)
-						.foregroundStyle(.primary)
+						.foregroundStyle(PastelTheme.title)
 					Text("\(result.correctQuestions.count)")
 						.font(.subheadline)
-						.foregroundStyle(.primary)
+						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
 
 					Text("Minimum to pass")
 						.font(.headline)
 						.fontWeight(.bold)
-						.foregroundStyle(.primary)
+						.foregroundStyle(PastelTheme.title)
 					Text("18/24")
 						.font(.subheadline)
-						.foregroundStyle(.primary)
+						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
 
 					Spacer()
@@ -200,14 +202,14 @@ struct ResultsViewContainer: View {
 			Text(result.prompt)
 				.font(.title3)
 				.fontWeight(.bold)
-				.foregroundStyle(.secondary)
+				.foregroundStyle(PastelTheme.title)
 				.multilineTextAlignment(.center)
 				.padding([.horizontal, .bottom])
 
 		}
 		.padding()
 		.background(
-			Color("Background")
+			PastelTheme.navBackground
 				.ignoresSafeArea()
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
@@ -223,7 +225,8 @@ struct ResultsRow: View {
 		VStack(alignment: .leading) {
 			Text("\(question.index + 1). \(question.questionTitle)")
 				.font(.headline)
-				.foregroundStyle(.primary)
+				.fontWeight(.bold)
+				.foregroundStyle(PastelTheme.title)
 				.padding(.bottom, 3)
 
 			VStack(alignment: .leading) {
@@ -233,12 +236,14 @@ struct ResultsRow: View {
 							icon(for: question, answer: answer)
 
 							Text(answer.title)
-								.foregroundStyle(.secondary)
+								.foregroundStyle(PastelTheme.title)
 							Spacer()
 						}
-						.background(RoundedRectangle(cornerRadius: 8)
-							.fill(.gray.opacity(0.2))
-							.opacity(question.selectedChoices.contains(answer) ? 1 : 0))
+						.background{
+							RoundedRectangle(cornerRadius: CornerRadius)
+								.fill(PastelTheme.answerRowBackground)
+								.opacity(question.selectedChoices.contains(answer) ? 1 : 0)
+						}
 
 						Spacer()
 							.frame(height: 1)
@@ -248,25 +253,30 @@ struct ResultsRow: View {
 			}
 		}
 		.padding()
-		.background(
-			RoundedRectangle(cornerRadius: 10)
-				.fill(Color("Background"))
+		.background {
+			RoundedRectangle(cornerRadius: CornerRadius)
+				.fill(PastelTheme.rowBackground)
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-		)
+				.overlay {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(PastelTheme.rowBackground.lighten)
+						.offset(y: -4)
+				}
+		}
 		.padding(.horizontal)
 	}
 
 	func icon(for question: QuestionViewModel, answer: Choice) -> some View {
 		if question.selectedChoices.contains(answer) {
 			return Image(systemName: question.answerState[answer] == .correct ? "xmark.circle" : "checkmark.circle")
-				.foregroundColor(question.answerState[answer] == .correct ? .green : .pink)
+				.foregroundColor(question.answerState[answer] == .correct ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground)
 		} else if answer.isAnswer {
 			return Image(systemName: "checkmark.circle")
 				.foregroundColor(.green)
 
 		}else {
 			return Image(systemName:"circle.dotted")
-				.foregroundColor(.gray)
+				.foregroundColor(PastelTheme.subTitle)
 
 		}
 	}
