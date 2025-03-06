@@ -18,99 +18,101 @@ struct ProgressReport: View {
 	@State private var results = [ExamResult]()
 
 	var body: some View {
-		NavigationView {
-
-			ProgressReportContainer(results: results, startExamSelected: startExamSelected)
-				.scaleEffect(scale)
-				.onAppear{
-					withAnimation {
-						scale = 1.0
-					}
-				}
-				.toolbar{
-					ToolbarItem(placement: .navigationBarLeading) {
-						Text("Results")
+		NavigationStack {
+			if results.isEmpty {
+				ZStack {
+					PastelTheme.background.ignoresSafeArea()
+					VStack {
+						Text("No exam results available, complete at least one exam for the results to appear here.")
+							.multilineTextAlignment(.center)
 							.font(.title)
-							.bold()
+							.frame(maxWidth: .infinity, alignment: .center)
 							.foregroundStyle(PastelTheme.title)
-							.padding()
-					}
+							.padding(.vertical)
 
-					ToolbarItem(placement: .navigationBarTrailing) {
-						HStack {
-							Button { dismiss() } label: {
-								Image(systemName: "xmark")
-									.font(.title)
-									.foregroundStyle(PastelTheme.orange.lighten)
+						Button(action: {
+							startExamSelected?()
+						}) {
+							VStack {
+								Text("Start Exam")
+									.font(.headline)
+									.fontWeight(.bold)
+									.foregroundStyle(PastelTheme.title)
 							}
-							.padding()
-						}
-
-					}
-				}
-				.gradientBackground()
-				.overlay {
-					ZStack(alignment: .top) {
-						PastelTheme.background.ignoresSafeArea()
-						VStack {
-							Spacer()
-							Text("No exam results available, complete at least one exam for the results to appear here.")
-								.multilineTextAlignment(.center)
-								.font(.title)
-								.frame(maxWidth: .infinity, alignment: .center)
-								.foregroundStyle(PastelTheme.title)
-								.padding(.vertical)
-
-							Button(action: {
-								startExamSelected?()
-							}) {
-								VStack {
-									Text("Start Exam")
-										.font(.headline)
-										.fontWeight(.bold)
-										.foregroundStyle(PastelTheme.title)
-								}
-								.frame(maxWidth: .infinity)
-								.frame(height: 50.0)
-								.background {
-									RoundedRectangle(cornerRadius: CornerRadius)
-										.fill(Color.pink.darken)
-										.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-										.overlay {
-											RoundedRectangle(cornerRadius: CornerRadius)
-												.fill(Color.pink.lighten)
-												.offset(y: -4.0)
-										}
-								}
-								.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
-
-							}
-							Spacer()
-							Spacer()
-						}
-						.padding()
-
-						.frame(maxWidth: .infinity, maxHeight: .infinity)
-					}
-					.background {
-						RoundedRectangle(cornerRadius: CornerRadius)
-							.fill(PastelTheme.rowBackground.darken)
-							.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-							.overlay {
+							.frame(maxWidth: .infinity)
+							.frame(height: 50.0)
+							.background {
 								RoundedRectangle(cornerRadius: CornerRadius)
-									.fill(PastelTheme.rowBackground.lighten)
-									.offset(y: -2)
+									.fill(Color.pink.darken)
+									.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+									.overlay {
+										RoundedRectangle(cornerRadius: CornerRadius)
+											.fill(Color.pink.lighten)
+											.offset(y: -4.0)
+									}
 							}
 							.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+
+						}
 					}
-					.opacity(results.isEmpty ? 1.0 : 0.0)
 				}
-				.task {
-					results = await menuViewModel.reloadExams()
-				}
+					.toolbar{
+						ToolbarItem(placement: .navigationBarLeading) {
+							Text("Results")
+								.font(.title)
+								.bold()
+								.foregroundStyle(PastelTheme.title)
+								.padding()
+						}
+
+						ToolbarItem(placement: .navigationBarTrailing) {
+							HStack {
+								Button { dismiss() } label: {
+									Image(systemName: "xmark")
+										.font(.title)
+										.foregroundStyle(PastelTheme.orange.lighten)
+								}
+								.padding()
+							}
+						}
+					}
 
 
+			} else {
+				ProgressReportContainer(results: results, startExamSelected: startExamSelected)
+					.toolbar{
+						ToolbarItem(placement: .navigationBarLeading) {
+							Text("Results")
+								.font(.title)
+								.bold()
+								.foregroundStyle(PastelTheme.title)
+								.padding()
+						}
+
+						ToolbarItem(placement: .navigationBarTrailing) {
+							HStack {
+								Button { dismiss() } label: {
+									Image(systemName: "xmark")
+										.font(.title)
+										.foregroundStyle(PastelTheme.orange.lighten)
+								}
+								.padding()
+							}
+						}
+					}
+
+			}
 		}
+		.task {
+			results = await menuViewModel.reloadExams()
+		}
+		.scaleEffect(scale)
+		.onAppear{
+			withAnimation {
+				scale = 1.0
+			}
+		}
+		.background(PastelTheme.background.ignoresSafeArea())
 	}
 }
 
@@ -119,26 +121,23 @@ struct ProgressReportContainer: View {
 	@State var scale = 0.5
 	var startExamSelected: (() -> Void)?
 	var body: some View {
-		VStack {
+		ScrollView {
 			BarCharts(results: results.map { $0.scorePercentage})
 				.padding()
+//				.frame(minHeight: 300)
 
-			List {
-				Section {
-					ForEach(results) { result in
-						NavigationLink(destination: ProgressReportDetailView(result: result)) {
-							ProgressReportRow(result: result)
-						}
+			VStack {
+				ForEach(results) { result in
+					NavigationLink(destination: ProgressReportDetailView(result: result)) {
+						ProgressReportRow(result: result)
 					}
-					.listRowBackground(
-						Rectangle()
-							.fill(PastelTheme.rowBackground)
-					)
 				}
-
 			}
-			.listStyle(.plain)
+			.frame(minHeight: 300)
+			.padding()
+
 		}
+		.background(PastelTheme.background)
 	}
 }
 
@@ -204,7 +203,20 @@ struct ProgressReportRow: View {
 			//				.font(.title)
 
 		}
-		.padding(.horizontal)
+		.padding()
+		.background(
+			RoundedRectangle(cornerRadius: CornerRadius)
+				.fill(PastelTheme.rowBackground.darken)
+				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+				.overlay {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(PastelTheme.rowBackground.lighten(by: 0.1))
+						.offset(y: -4.0)
+				}
+		)
+		.clipShape(RoundedRectangle(cornerRadius: CornerRadius, style: .continuous))
+
+
 	}
 }
 
