@@ -62,7 +62,6 @@ struct SearchResultsView: View {
 
 				}
 			}
-			.gradientBackground()
 			.background(Color.teal.ignoresSafeArea())
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.onChange(of: queryString) { _, newValue in

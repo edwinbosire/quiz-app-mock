@@ -10,28 +10,28 @@ import SwiftUI
 struct CircularProgressView: View {
 	@Binding var progress: Double
 	var primaryColor: Color = .pink
+	var secondaryColor: Color?
 	var primaryLineWidth: Double = 20.0
 
+	private var innerStrokeColor: Color {
+		secondaryColor ?? primaryColor.lighten(by: 0.8)
+	}
 	var body: some View {
-		ZStack {
-			Circle()
-				.stroke(lineWidth: primaryLineWidth)
-				.foregroundColor(primaryColor)
-				.opacity(0.4)
 
-			Circle() // 2
-				.trim(from: 0.0, to: progress)
-				.stroke(
-					AngularGradient(colors: [primaryColor], center: .center),
-					style: StrokeStyle(
-						lineWidth: primaryLineWidth,
-						lineCap: .round
-					)
+		Circle()
+			.trim(from: 0.0, to: progress)
+			.stroke(
+				AngularGradient(colors: [primaryColor], center: .center),
+				style: StrokeStyle(lineWidth: primaryLineWidth, lineCap: .round, lineJoin: .miter
 				)
-				.rotationEffect(Angle(degrees: -90))
-				.animation(.spring(response: 0.9, dampingFraction: 0.4, blendDuration: 1.0), value: progress)
-
-		}
+			)
+			.rotationEffect(Angle(degrees: -90.0))
+			.animation(.spring, value: progress)
+			.background {
+				Circle()
+					.stroke(lineWidth: primaryLineWidth*0.8)
+					.foregroundColor(innerStrokeColor)
+			}
 	}
 }
 

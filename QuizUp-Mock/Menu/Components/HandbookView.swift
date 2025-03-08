@@ -163,7 +163,6 @@ struct HandbookView_Previews: PreviewProvider {
 		@State var route = NavigationPath()
 		VStack {
 			HandbookView(handbookViewModel: HandbookViewModel())
-				.gradientBackground()
 		}
 	}
 }

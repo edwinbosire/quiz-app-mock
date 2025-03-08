@@ -22,11 +22,10 @@ struct PracticeExamList: View {
 			Title()
 
 			ForEach(menuViewModel.exams) { exam in
-				PracticeExamListRow(viewModel: exam, locked: exam.id > freeUserAllowance)
+				PracticeExamListRow(viewModel: exam, locked: exam.examId > freeUserAllowance)
 			}
 		}
 		.padding()
-//		.background(.ultraThinMaterial)
 		.task {
 			await menuViewModel.reloadExams()
 			freeUserAllowance = featureFlags.freeUserExamAllowance
@@ -56,7 +55,7 @@ struct PracticeExamListRow: View {
 				.font(.caption)
 				.foregroundColor(PastelTheme.subTitle)
 				.opacity(locked ? 1 : 0)
-			Text("Mock Exam \(viewModel.id)")
+			Text("Mock Exam \(viewModel.examId)")
 				.font(.body)
 				.fontWeight(.medium)
 				.foregroundStyle(PastelTheme.bodyText)
@@ -91,7 +90,7 @@ struct PracticeExamListRow: View {
 			if locked {
 				router.navigate(to: .monetization, navigationType: .sheet)
 			} else {
-				router.navigate(to: .mockTest(viewModel.id), navigationType: .fullScreenCover)
+				router.navigate(to: .mockTest(viewModel.examId), navigationType: .fullScreenCover)
 			}
 		}
 	}

@@ -24,6 +24,9 @@ struct PreviewModel {
 
 	static func mockExamViewModel() async -> ExamViewModel {
 		let exam = await PreviewModel.mockExam()
+		if exam.questions.isEmpty {
+			fatalError(#function)
+		}
 		return await ExamViewModel(exam: exam)
 	}
 }

@@ -242,11 +242,10 @@ struct ProgressReportDetailView: View {
 	var body: some View {
 		ScrollView {
 			ForEach(questions) { question in
-				ResultsRow(question: question)
+				ResultsRow(viewModel: question)
 					.padding()
 			}
 		}
-		.gradientBackground()
 		.onAppear {
 			questions = result.questionsViewModels()
 		}
@@ -257,14 +256,15 @@ extension ExamResult {
 	func questionsViewModels() -> [QuestionViewModel] {
 		var viewModels = [QuestionViewModel]()
 
-		for (ndx, question) in questions.enumerated() {
+		for (i, question) in questions.enumerated() {
 			let selectedAnswers = userSelectedAnswer[question.id] ?? []
-			let vm = QuestionViewModel(question: question, index: ndx, selectedAnswers: selectedAnswers)
+			let vm = QuestionViewModel(question: question, selectedAnswers: selectedAnswers, index: i)
 			viewModels.append(vm)
 		}
 		return viewModels
 	}
 }
+
 struct BarCharts: View {
 	let results: [Double]
 

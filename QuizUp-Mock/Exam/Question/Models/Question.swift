@@ -11,10 +11,11 @@ import Foundation
 
 @MainActor
 class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
-	var id: Int
+	var id: String {
+		question.title
+	}
 	let question: Question
 	let index: Int
-
 	var questionTitle: String { question.title }
 	var hint: String { question.hint ?? ""}
 	var choices: [Choice] { question.choices }
@@ -45,7 +46,8 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 
 	@Published var answerState = [Choice : AnswerState]()
 	@Published var attempts: Int = 0
-	@Published var showHint: Bool = false
+	@Published private(set) var showHint: Bool = false
+	@Published var bookmarked: Bool = false
 
 	var owner: QuestionOwner?
 
@@ -54,12 +56,11 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		selectedChoices.count == answers.count
 	}
 
-	init(question: Question, index: Int = 0, owner: QuestionOwner? = nil, selectedAnswers: [Choice] = []) {
+	init(question: Question, owner: QuestionOwner? = nil, selectedAnswers: [Choice] = [], index: Int = 0) {
 		self.question = question
-		self.index = index
 		self.owner = owner
-		self.id = index
 		self.selectedChoices = Set(selectedAnswers)
+		self.index = index
 		choices.forEach { answerState[$0] = .notAttempted }
 	}
 

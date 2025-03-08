@@ -20,7 +20,7 @@ struct QuestionView: View {
 
 	var body: some View {
 		VStack {
-			ToolBarContentView(viewModel: viewModel, isShowingMenu: $isShowingMenu)
+			ToolBarContentView(viewModel: viewModel.currentQuestion, isShowingMenu: $isShowingMenu)
 			ExamProgressView(currentPage: $viewModel.progress, questions: viewModel.questions)
 
 			HStack(alignment: .firstTextBaseline) {
@@ -28,13 +28,13 @@ struct QuestionView: View {
 				Spacer()
 				TimerView(viewModel: viewModel)
 			}
-			.padding(.top)
+			.padding(.horizontal)
 
 
 			TabView(selection: $viewModel.progress) {
-				ForEach(viewModel.questions) { question in
-					QuestionPageView(viewModel: question)
-						.tag(question.index)
+				ForEach(viewModel.questions) { questionViewModel in
+					QuestionPageView(viewModel: questionViewModel)
+						.tag(questionViewModel.index)
 				}
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))
@@ -71,7 +71,7 @@ struct QuestionView: View {
 
 private struct ToolBarContentView: View {
 	@Environment(\.colorScheme) var colorScheme
-	@ObservedObject var viewModel: ExamViewModel
+	@ObservedObject var viewModel: QuestionViewModel
 	@Binding var isShowingMenu: Bool
 
 	var body: some View {
@@ -95,7 +95,7 @@ private struct ToolBarContentView: View {
 			}
 			.foregroundColor(PastelTheme.bodyText)
 		}
-		.padding()
+		.padding(.horizontal)
 	}
 }
 
@@ -117,11 +117,8 @@ struct TimerView: View {
 			Text("\(timeString(timeRemaining))")
 				.font(.subheadline)
 				.monospacedDigit()
-				.padding(.trailing)
 				.foregroundStyle(PastelTheme.subTitle)
-//				.shadow(color: colorScheme == .dark ? .clear : Color.white.opacity(0.5), radius: 1, x: 2, y: 1)
 		}
-		.background(.clear)
 		.onAppear {
 			timeRemaining = featureFlags.examDuration*60
 			startTimer()
@@ -163,7 +160,7 @@ struct ExamProgressView: View {
 					Rectangle()
 						.fill(getProgressColor(for: i))
 						.frame(width: width)
-						.border(PastelTheme.background.darken)
+						.border(PastelTheme.background.opacity(0.3))
 						.animation(.easeIn, value: currentPage)
 				}
 			}
@@ -174,7 +171,7 @@ struct ExamProgressView: View {
 
 	func getProgressColor(for index: Int) -> Color {
 		if index == currentPage {
-			return PastelTheme.blue
+			return PastelTheme.background.lighten
 		} else if questions[index].isAnswered {
 			return  questions[index].isAnsweredCorrectly ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground
 		} else {
@@ -194,12 +191,9 @@ struct QuestionCounter: View {
 				.font(.subheadline)
 				.monospacedDigit()
 //				.foregroundColor(.secondary)
-				.foregroundStyle(PastelTheme.bodyText)
+				.foregroundColor(PastelTheme.subTitle)
 			Spacer()
 		}
-		.padding(.bottom)
-		.padding(.horizontal)
-
 	}
 }
 

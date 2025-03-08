@@ -32,8 +32,7 @@ struct ResultsViewContainer: View {
 					ResultsHeader()
 						.padding(.bottom)
 					ForEach(Array(result.questions.enumerated()), id: \.offset) { index, question in
-						let vm = QuestionViewModel(question: question, index: index)
-						ResultsRow(question: vm)
+						ResultsRow(viewModel: QuestionViewModel(question: question, index: index))
 					}
 					Spacer()
 
@@ -51,7 +50,7 @@ struct ResultsViewContainer: View {
 
 
 		}
-		.overlay(confetti())
+		.overlay(ConfettiView())
 		.background(PastelTheme.background)
 	}
 
@@ -88,38 +87,12 @@ struct ResultsViewContainer: View {
 
 			}
 			.frame(maxWidth: .infinity)
-			.background(					RoundedRectangle(cornerRadius: CornerRadius)
-				.fill(Color("Background"))
+			.background(
+				RoundedRectangle(cornerRadius: CornerRadius)
+					.fill(PastelTheme.background)
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 			)
 
-		}
-	}
-	private func background() -> some View {
-		LinearGradient(colors: [Color.blue.opacity(0.5), Color.defaultBackground,Color.defaultBackground, Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-			.blur(radius: 75)
-			.ignoresSafeArea()
-	}
-
-	private func confetti() -> some View {
-		ZStack {
-			Rectangle()
-				.fill(Color.blue)
-				.frame(width: 12, height: 12)
-				.modifier(ParticlesModifier())
-				.offset(x: 0.0, y : -250)
-
-			Circle()
-				.fill(Color.green)
-				.frame(width: 12, height: 12)
-				.modifier(ParticlesModifier())
-				.offset(x: -60, y : -200)
-
-			Circle()
-				.fill(Color.red)
-				.frame(width: 12, height: 12)
-				.modifier(ParticlesModifier())
-				.offset(x: 160, y : -200)
 		}
 	}
 
@@ -141,14 +114,14 @@ struct ResultsViewContainer: View {
 					Image(systemName: "xmark")
 						.font(.title)
 						.fontWeight(.medium)
-						.foregroundStyle(PastelTheme.orange)
+						.foregroundStyle(PastelTheme.yellow)
 				}
 			}
 			.padding(.bottom)
 
 			HStack {
 
-				CircularProgressView(progress: $ringProgress, primaryColor: PastelTheme.deepOrange)
+				CircularProgressView(progress: $ringProgress, primaryColor: PastelTheme.deepOrange, secondaryColor: PastelTheme.background)
 					.frame(width: 150)
 					.overlay {
 						VStack {
@@ -197,52 +170,51 @@ struct ResultsViewContainer: View {
 
 				}
 			}
-			.padding()
 
 			Text(result.prompt)
 				.font(.title3)
 				.fontWeight(.bold)
 				.foregroundStyle(PastelTheme.title)
 				.multilineTextAlignment(.center)
-				.padding([.horizontal, .bottom])
+				.padding(.bottom)
 
 		}
-		.padding()
+		.padding(.horizontal, 20)
 		.background(
 			PastelTheme.navBackground
 				.ignoresSafeArea()
 				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
 				.shadow(color: .black.opacity(0.1), radius: 10, x:0.0, y: 15.0)
-
 				.padding(.top, -450)
 		)
 	}
 }
 
 struct ResultsRow: View {
-	let question: QuestionViewModel
+	let viewModel: QuestionViewModel
+
 	var body: some View {
 		VStack(alignment: .leading) {
-			Text("\(question.index + 1). \(question.questionTitle)")
+			Text("\(viewModel.index + 1). \(viewModel.questionTitle)")
 				.font(.headline)
 				.fontWeight(.bold)
 				.foregroundStyle(PastelTheme.title)
 				.padding(.bottom, 3)
 
 			VStack(alignment: .leading) {
-				ForEach(question.choices, id: \.self) { answer in
+				ForEach(viewModel.choices, id: \.self) { choice in
 					VStack {
 						HStack {
-							icon(for: question, answer: answer)
+							icon(for: viewModel, choice: choice)
 
-							Text(answer.title)
+							Text(choice.title)
 								.foregroundStyle(PastelTheme.title)
 							Spacer()
 						}
 						.background{
 							RoundedRectangle(cornerRadius: CornerRadius)
 								.fill(PastelTheme.answerRowBackground)
-								.opacity(question.selectedChoices.contains(answer) ? 1 : 0)
+								.opacity(viewModel.selectedChoices.contains(choice) ? 1 : 0)
 						}
 
 						Spacer()
@@ -266,11 +238,11 @@ struct ResultsRow: View {
 		.padding(.horizontal)
 	}
 
-	func icon(for question: QuestionViewModel, answer: Choice) -> some View {
-		if question.selectedChoices.contains(answer) {
-			return Image(systemName: question.answerState[answer] == .correct ? "xmark.circle" : "checkmark.circle")
-				.foregroundColor(question.answerState[answer] == .correct ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground)
-		} else if answer.isAnswer {
+	func icon(for question: QuestionViewModel, choice: Choice) -> some View {
+		if question.selectedChoices.contains(choice) {
+			return Image(systemName: question.answerState[choice] == .correct ? "xmark.circle" : "checkmark.circle")
+				.foregroundColor(question.answerState[choice] == .correct ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground)
+		} else if choice.isAnswer {
 			return Image(systemName: "checkmark.circle")
 				.foregroundColor(.green)
 
@@ -280,13 +252,49 @@ struct ResultsRow: View {
 
 		}
 	}
-
 }
+
+
+struct ConfettiView: View {
+	var randomColor: Color {
+		Color(
+			.init(
+				red: .random(in: 0...1),
+				green: .random(in: 0...1),
+				blue: .random(in: 0...1)
+			)
+		)
+	}
+
+	var body: some View {
+
+		ZStack {
+			ForEach(0...11, id: \.self) {_ in
+				Rectangle()
+					.fill(randomColor)
+					.frame(width: 12, height: 12)
+					.modifier(ParticlesModifier())
+					.offset(x: CGFloat.random(in: -100...100), y : CGFloat.random(in: -400...10))
+			}
+		}
+	}
+}
+
 #Preview {
 	@Previewable @State var exam = Exam(id: 00, questions: [], status: .unattempted)
 	let result = ExamResult(exam: exam)
 	ResultsView(result: result)
 		.task {
-			exam = await Exam.mock()
+			var finishedExam = await Exam.mock()
+			let question1 = finishedExam.questions[0]
+			finishedExam.userSelectedAnswer[question1.id] = question1.choices.filter({ $0.isAnswer
+			})
+
+			let question2 = finishedExam.questions[2]
+			finishedExam.userSelectedAnswer[question2.id] = question2.choices.filter({ !$0.isAnswer
+			})
+
+
+			exam = finishedExam
 		}
 }

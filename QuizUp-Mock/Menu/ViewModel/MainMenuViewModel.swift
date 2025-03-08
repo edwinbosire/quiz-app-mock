@@ -41,7 +41,8 @@ class MenuViewModel: ObservableObject {
 	}
 
 	@discardableResult func reloadExams() async -> [ExamResult] {
-		exams = await viewModelFactory.buildExamViewModels()
+		let allExams = await viewModelFactory.buildExamViewModels()
+		exams = allExams.filter { $0.exam.status == .unattempted }
 		completedExams = exams.filter { $0.exam.status == .finished || $0.exam.status == .didNotFinish}
 
 		do {

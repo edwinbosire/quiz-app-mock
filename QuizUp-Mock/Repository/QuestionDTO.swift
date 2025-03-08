@@ -101,6 +101,11 @@ struct Choice: Codable, Hashable {
 		self.title = title
 		self.isAnswer = isAnswer
 	}
+
+	init(_ title: String) {
+		self.init(title: title, isAnswer: false)
+	}
+
 }
 
 extension Choice: Identifiable {

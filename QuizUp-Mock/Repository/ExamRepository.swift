@@ -108,15 +108,6 @@ class ExamRepository: Repository {
 			throw ExamRepositoryErrors.UnableToSaveExamsResultToStorage
 		}
 	}
-//	func migration() async {
-//		let exams = try! await self.load()
-//
-//		for exam in exams {
-//			if exam.status == .finished {
-//				try! await save(exam: exam)
-//			}
-//		}
-//	}
 
 	func loadResults() async throws -> [ExamResult] {
 		guard let savedExamResults = defaults.object(forKey: Self.ExamResultsKey) as? Data else {

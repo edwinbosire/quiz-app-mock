@@ -14,7 +14,9 @@ protocol QuestionOwner {
 }
 
 @MainActor
-class ExamViewModel: ObservableObject {
+class ExamViewModel: ObservableObject, Identifiable {
+	let id: UUID = UUID()
+	lazy var examId: Int = exam.id
 	var exam: Exam
 	private let repository: ExamRepository = .shared
 	private var questionsCount: Int {
@@ -22,17 +24,26 @@ class ExamViewModel: ObservableObject {
 	}
 
 	private var refreshTask: Task<Void, Error>?
-	@Published var progress: Int {
+	@Published var progress: Int = 0 {
 		didSet {
 			Task { @MainActor in
 				progressTitle = "Question \(progress+1) of \(questionsCount)"
 			}
 		}
 	}
-	@Published var progressTitle: String
+	@Published var progressTitle: String = ""
 	@Published var examStatus: ExamStatus
 	@Published var bookmarked: Bool = false
 	@Published var questions: [QuestionViewModel] = []
+
+	var currentQuestion: QuestionViewModel {
+		if progress >= 0 && progress < questions.count {
+			return questions[progress]
+		} else {
+			return questions[0]
+//			fatalError("Index out of bounds")
+		}
+	}
 
 	var correctQuestions: [Question] {
 		availableQuestions.filter { $0.isAnsweredCorrectly }.map { $0.question }
@@ -107,12 +118,15 @@ class ExamViewModel: ObservableObject {
 	init(exam: Exam) {
 		self.exam = exam
 		progress = 0
-		progressTitle = ""
 		examStatus = exam.status
-
-		self.questions = exam.questions.enumerated().map { i, q in
-			QuestionViewModel(question: q, index: i, owner: self)
+		if exam.questions.isEmpty {
+			fatalError("An exam must have atleast one question")
 		}
+		self.questions = exam.questions.enumerated().map { i, q in
+			QuestionViewModel(question: q, owner: self, index: i)
+		}
+
+		self.progressTitle = "Question \(progress+1) of \(exam.questions.count)"
 	}
 
 	convenience init?(examId: Int) async {
@@ -200,12 +214,6 @@ extension ExamViewModel: QuestionOwner {
 	}
 }
 
-extension ExamViewModel: @preconcurrency Identifiable {
-	var id: Int {
-		exam.id
-	}
-}
-
 extension ExamViewModel: @preconcurrency Hashable {
 	static func == (lhs: ExamViewModel, rhs: ExamViewModel) -> Bool {
 		lhs.id == rhs.id
@@ -221,7 +229,16 @@ extension ExamViewModel {
 //		let exam = Task {
 //			 await Exam.mock()
 //		}.value
-		let exam = Exam(id: 00, questions: [], status: .unattempted)
+		let question1 = Question(id: "id",
+								 sectionId: "History",
+								 title: "Which of these is NOT part of the United Kingdom?",
+								 hint: "",
+								 choices: [
+									Choice("Scotland"),
+									Choice("Wales"),
+									Choice("The Republic of Ireland"),
+									Choice("Northern Ireland")])
+		let exam = Exam(id: 0, questions: [question1], status: .unattempted)
 		let viewModel = ExamViewModel(exam: exam)
 		viewModel.availableQuestions = viewModel.questions
 		return viewModel
