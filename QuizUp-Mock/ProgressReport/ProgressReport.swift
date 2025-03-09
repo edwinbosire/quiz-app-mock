@@ -16,103 +16,60 @@ struct ProgressReport: View {
 	var startExamSelected: (() -> Void)?
 
 	@State private var results = [ExamResult]()
+	@State private var viewState: ViewState = .loading
 
 	var body: some View {
 		NavigationStack {
-			if results.isEmpty {
-				ZStack {
-					PastelTheme.background.ignoresSafeArea()
-					VStack {
-						Text("No exam results available, complete at least one exam for the results to appear here.")
-							.multilineTextAlignment(.center)
-							.font(.title)
-							.frame(maxWidth: .infinity, alignment: .center)
-							.foregroundStyle(PastelTheme.title)
-							.padding(.vertical)
-
-						Button(action: {
-							startExamSelected?()
-						}) {
-							VStack {
-								Text("Start Exam")
-									.font(.headline)
-									.fontWeight(.bold)
-									.foregroundStyle(PastelTheme.title)
-							}
-							.frame(maxWidth: .infinity)
-							.frame(height: 50.0)
-							.background {
-								RoundedRectangle(cornerRadius: CornerRadius)
-									.fill(Color.pink.darken)
-									.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-									.overlay {
-										RoundedRectangle(cornerRadius: CornerRadius)
-											.fill(Color.pink.lighten)
-											.offset(y: -4.0)
-									}
-							}
-							.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
-
-						}
-					}
-				}
-					.toolbar{
-						ToolbarItem(placement: .navigationBarLeading) {
-							Text("Results")
-								.font(.title)
-								.bold()
-								.foregroundStyle(PastelTheme.title)
-								.padding()
-						}
-
-						ToolbarItem(placement: .navigationBarTrailing) {
-							HStack {
-								Button { dismiss() } label: {
-									Image(systemName: "xmark")
-										.font(.title)
-										.foregroundStyle(PastelTheme.orange.lighten)
-								}
-								.padding()
-							}
-						}
-					}
-
-
-			} else {
-				ProgressReportContainer(results: results, startExamSelected: startExamSelected)
-					.toolbar{
-						ToolbarItem(placement: .navigationBarLeading) {
-							Text("Results")
-								.font(.title)
-								.bold()
-								.foregroundStyle(PastelTheme.title)
-								.padding()
-						}
-
-						ToolbarItem(placement: .navigationBarTrailing) {
-							HStack {
-								Button { dismiss() } label: {
-									Image(systemName: "xmark")
-										.font(.title)
-										.foregroundStyle(PastelTheme.orange.lighten)
-								}
-								.padding()
-							}
-						}
-					}
-
+			switch viewState {
+				case .loading:
+					ProgressReportLoadingView()
+				case .content:
+					ProgressReportContainer(results: results, startExamSelected: startExamSelected)
+				case .empty:
+					NoProgressReportView(startExam: startExamSelected)
+				case .error:
+					ProgressReportErrorView()
 			}
+		}
+		.toolbar {
+			toolBarTitle()
+			toolbarControls()
 		}
 		.task {
+			viewState = .loading
 			results = await menuViewModel.reloadExams()
+			viewState = results.isEmpty ? .empty : .content
 		}
 		.scaleEffect(scale)
-		.onAppear{
-			withAnimation {
-				scale = 1.0
+		.animation(.easeInOut, value: scale)
+		.onAppear{ scale = 1.0 }
+		.background(PastelTheme.background.ignoresSafeArea())
+
+	}
+	@ToolbarContentBuilder
+	func toolBarTitle() -> some ToolbarContent {
+		ToolbarItem(placement: .navigationBarLeading) {
+			Text("Results")
+				.font(.title)
+				.bold()
+				.foregroundStyle(PastelTheme.title)
+				.padding()
+		}
+	}
+
+	@ToolbarContentBuilder
+	func toolbarControls() -> some ToolbarContent {
+		ToolbarItem(placement: .navigationBarTrailing) {
+			HStack {
+				Button { dismiss() } label: {
+					Image(systemName: "xmark")
+						.font(.title)
+						.foregroundStyle(PastelTheme.orange.lighten)
+				}
+				.padding()
 			}
 		}
-		.background(PastelTheme.background.ignoresSafeArea())
+
 	}
 }
 
@@ -120,12 +77,11 @@ struct ProgressReportContainer: View {
 	var results: [ExamResult]
 	@State var scale = 0.5
 	var startExamSelected: (() -> Void)?
+
 	var body: some View {
 		ScrollView {
 			BarCharts(results: results.map { $0.scorePercentage})
 				.padding()
-//				.frame(minHeight: 300)
-
 			VStack {
 				ForEach(results) { result in
 					NavigationLink(destination: ProgressReportDetailView(result: result)) {
@@ -151,6 +107,51 @@ struct FilledButton: View {
 			.foregroundColor(.white)
 			.tint(Color.purple)
 			.buttonBorderShape(.capsule)
+	}
+}
+
+struct NoProgressReportView: View {
+	var startExam: (() -> Void)?
+	@Environment(\.dismiss) var dismiss
+
+	var body: some View {
+		ZStack {
+			PastelTheme.background.ignoresSafeArea()
+			VStack {
+				Text("No exam results available, complete at least one exam for the results to appear here.")
+					.multilineTextAlignment(.center)
+					.font(.title)
+					.frame(maxWidth: .infinity, alignment: .center)
+					.foregroundStyle(PastelTheme.title)
+					.padding(.vertical)
+
+				Button(action: {
+					startExam?()
+				}) {
+					VStack {
+						Text("Start Exam")
+							.font(.headline)
+							.fontWeight(.bold)
+							.foregroundStyle(PastelTheme.title)
+					}
+					.frame(maxWidth: .infinity)
+					.frame(height: 50.0)
+					.background {
+						RoundedRectangle(cornerRadius: CornerRadius)
+							.fill(Color.pink.darken)
+							.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+							.overlay {
+								RoundedRectangle(cornerRadius: CornerRadius)
+									.fill(Color.pink.lighten)
+									.offset(y: -4.0)
+							}
+					}
+					.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+
+				}
+			}
+			.padding(.horizontal)
+		}
 	}
 }
 
@@ -286,3 +287,14 @@ struct BarCharts: View {
 	}
 }
 
+struct ProgressReportLoadingView: View {
+	var body: some View {
+		Text("Hello, world!")
+	}
+}
+
+struct ProgressReportErrorView: View {
+	var body: some View {
+		Text("Hello, world!")
+	}
+}

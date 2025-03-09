@@ -37,7 +37,7 @@ struct LandingPage: View {
 				PracticeExamList()
 			}
 		}
-		.background(PastelTheme.background)
+		.background(PastelTheme.background.gradient)
 	}
 
 	@ViewBuilder func HeaderSeparator() -> some View {

@@ -12,7 +12,6 @@ struct ExamView: View {
 	@State private var viewModel: ExamViewModel? = nil
 	@State private var viewState: ViewState = .loading
 	@EnvironmentObject var router: Router
-	//	var namespace: Namespace.ID
 	@State var scale = 0.9
 
 	init (examId: Int) {
@@ -20,49 +19,41 @@ struct ExamView: View {
 	}
 
 	var body: some View {
-		switch viewState {
-			case .content:
-				content(viewModel: viewModel!)
-			case .loading:
-				loadingView()
-			case .error:
-				Text("Error")
-					.background(GradientColors.bluPurpl.getGradient())
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
-
-		}
-
-	}
-
-	@ViewBuilder func loadingView() -> some View {
-		VStack {
-			ProgressView()
-			Text("Loading...")
-		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
-		.task {
-			if let vm = await ExamViewModel.viewDidLoad(examId) {
-				self.viewModel = vm
-				self.viewState = .content
-			} else {
-				self.viewState = .error
+		ZStack {
+			switch viewState {
+				case .content:
+					if let viewModel {
+						content(viewModel: viewModel)
+					} else {
+						ExamErrorScreen(retryAction: reload)
+					}
+				case .loading:
+					ExamLoadingView()
+						.task { await reload() }
+				case .error, .empty:
+					ExamErrorScreen(retryAction: reload)
 			}
 		}
-
+		.task {
+			await reload()
+		}
 	}
+
+	func reload() async {
+		viewState = .loading
+		if let vm = await ExamViewModel.viewDidLoad(examId) {
+			self.viewModel = vm
+			viewState = .content
+		} else {
+			viewState = .error
+		}
+	}
+
 	@ViewBuilder func content(viewModel: ExamViewModel) -> some View {
 		switch viewModel.examStatus {
-			case .unattempted:
+			case .unattempted, .attempted, .started, .paused:
 				QuestionView(viewModel: viewModel)
-			case .finished:
-				ResultsView(result: viewModel.result)
-			case .attempted:
-				Text("Exam was attempted")
-			case .started:
-				Text("Exam was started")
-			case .paused:
-				Text("Exam Paused")
-			case .didNotFinish:
+			case .finished, .didNotFinish:
 				ResultsView(result: viewModel.result)
 		}
 	}

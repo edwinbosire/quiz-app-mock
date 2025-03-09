@@ -22,6 +22,7 @@ struct QuestionPageView: View {
 				} // ScrollView
 				.useStickyHeaders()
 				.coordinateSpace(name: "container")
+//				.background(PastelTheme.background.gradient)
 			} // ScrollViewProxy
 		}// Georeader
 	}
@@ -71,6 +72,7 @@ struct QuestionPageView: View {
 		}
 
 	}
+
 	@ViewBuilder
 	func QuestionText() -> some View {
 		VStack(alignment: .center) {
@@ -81,7 +83,6 @@ struct QuestionPageView: View {
 				.padding(.horizontal)
 				.transition(.opacity)
 				.sticky()
-				.background(PastelTheme.background)
 				.frame(maxWidth: .infinity)
 
 
@@ -125,15 +126,7 @@ struct QuestionPageView: View {
 			}
 		}
 		.listRowInsets(EdgeInsets())
-		.listRowBackground(PastelTheme.background)
 		.padding()
-		.background(
-			PastelTheme.background
-				.background(.ultraThinMaterial)
-				.shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 9, x: 0, y: -1)
-		)
-
-
 	}
 
 	func isLastRow(_ index: Int) -> Bool {
@@ -145,10 +138,11 @@ struct QuestionPageView: View {
 		VStack(alignment: .leading, spacing: 8.0) {
 			HStack {
 				Image(systemName: "info.circle")
-					.foregroundStyle(Color.blue)
+					.foregroundStyle(PastelTheme.yellow)
 					.padding(.trailing, 4.0)
 				Text("Explanation")
-					.foregroundStyle(.secondary)
+					.foregroundStyle(PastelTheme.subTitle)
+					.fontWeight(.semibold)
 
 				Spacer()
 			}
@@ -156,13 +150,13 @@ struct QuestionPageView: View {
 
 			Text(viewModel.hint)
 				.font(.callout)
-				.foregroundStyle(.primary)
+				.foregroundStyle(PastelTheme.title)
 				.padding(.top, 4)
 		}
 		.padding()
 		.background {
 			RoundedRectangle(cornerRadius: CornerRadius)
-				.fill(Color(UIColor.systemGray6))
+				.fill(PastelTheme.background.lighten)
 //				.background(Color(UIColor.systemGray6))
 				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
 		}
@@ -176,91 +170,6 @@ struct QuestionPageView: View {
 	}
 }
 
-extension View {
-	func useStickyHeaders() -> some View {
-		modifier(UseStickyHeaders())
-	}
-}
-
-struct UseStickyHeaders: ViewModifier {
-	@State private var frames: StickyRects.Value = [:]
-
-	func body(content: Content) -> some View {
-		content
-			.onPreferenceChange(FramePreference.self) {
-				frames = $0
-			}
-			.environment(\.stickyRects, frames)
-	}
-}
-
-extension View {
-	func sticky() -> some View {
-		modifier(Sticky())
-	}
-}
-
-struct Sticky: ViewModifier {
-	@Environment(\.stickyRects) var stickyRects
-	@State private var frame: CGRect = .zero
-	@Namespace private var id
-
-	var isSticking: Bool {
-		frame.minY < 0
-	}
-
-	var offset: CGFloat {
-		guard isSticking else { return 0 }
-		guard let stickyRects else {
-			print("Warning: Using .sticky() without .useStickyHeaders()")
-			return 0
-		}
-		var o = -frame.minY
-		if let other = stickyRects.first(where: { (key, value) in
-			key != id && value.minY > frame.minY && value.minY < frame.height
-		}) {
-			o -= frame.height - other.value.minY
-		}
-
-		return o
-	}
-
-	func body(content: Content) -> some View {
-		content
-			.offset(y: offset)
-			.zIndex(isSticking ? .infinity : 0)
-			.overlay(GeometryReader { proxy in
-				let f = proxy.frame(in: .named("container"))
-				Color.clear
-					.onAppear { frame = f }
-					.onChange(of: f) {_, newFrame in
-						frame = newFrame
-					}
-					.preference(key: FramePreference.self, value: [id: frame])
-			})
-
-
-	}
-}
-
-struct FramePreference: PreferenceKey {
-	static var defaultValue: [Namespace.ID: CGRect] = [:]
-
-	static func reduce(value: inout Value, nextValue: () -> Value) {
-		value.merge(nextValue()) { $1 }
-	}
-}
-
-enum StickyRects: EnvironmentKey {
-	static var defaultValue: [Namespace.ID: CGRect]? = nil
-}
-
-extension EnvironmentValues {
-	var stickyRects: StickyRects.Value {
-		get { self[StickyRects.self] }
-		set { self[StickyRects.self] = newValue }
-	}
-}
 
 #Preview {
 	@Previewable @State var viewModel = QuestionViewModel.empty()
@@ -275,6 +184,7 @@ extension EnvironmentValues {
 					Text("Mock Test")
 						.font(.title3)
 						.bold()
+						.foregroundStyle(PastelTheme.title)
 				}
 				ToolbarItem(placement: .navigationBarTrailing) {
 					HStack {
@@ -290,7 +200,7 @@ extension EnvironmentValues {
 					.foregroundColor(.paletteBlue)
 				}
 			}
-			.background(PastelTheme.background)
+			.background(PastelTheme.background.gradient)
 
 	}
 

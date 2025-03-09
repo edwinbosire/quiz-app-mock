@@ -9,29 +9,24 @@ import SwiftUI
 
 struct CircularProgressView: View {
 	@Binding var progress: Double
-	var primaryColor: Color = .pink
-	var secondaryColor: Color?
+	var primaryColors: [Color] = []
+	var secondaryColor: Color
 	var primaryLineWidth: Double = 20.0
 
-	private var innerStrokeColor: Color {
-		secondaryColor ?? primaryColor.lighten(by: 0.8)
-	}
 	var body: some View {
-
-		Circle()
-			.trim(from: 0.0, to: progress)
-			.stroke(
-				AngularGradient(colors: [primaryColor], center: .center),
-				style: StrokeStyle(lineWidth: primaryLineWidth, lineCap: .round, lineJoin: .miter
+			Circle()
+				.trim(from: 0.0, to: progress)
+				.stroke(
+					AngularGradient(gradient: Gradient(colors: primaryColors), center: .center, angle: Angle(degrees: -7.0)),
+					style: StrokeStyle(lineWidth: primaryLineWidth, lineCap: .round)
 				)
-			)
-			.rotationEffect(Angle(degrees: -90.0))
-			.animation(.spring, value: progress)
-			.background {
-				Circle()
-					.stroke(lineWidth: primaryLineWidth*0.8)
-					.foregroundColor(innerStrokeColor)
-			}
+				.rotationEffect(Angle(degrees: -90.0))
+				.animation(.spring, value: progress)
+				.background {
+					Circle()
+						.stroke(lineWidth: primaryLineWidth*0.8)
+						.foregroundColor(secondaryColor)
+				}
 	}
 }
 
@@ -43,10 +38,12 @@ struct CircularProgressViewContainer: View {
 	var body: some View {
 		VStack {
 			ZStack {
-				CircularProgressView(progress: $progress)
+				CircularProgressView(progress: $progress,
+									 primaryColors: [.red, .red, .red, .green, .green],
+									 secondaryColor: .gray.lighten)
 					.frame(width: 200)
 
-				CircularProgressView(progress: $progress2, primaryColor: .blue)
+				CircularProgressView(progress: $progress2, primaryColors: [.green], secondaryColor: .green.lighten)
 					.frame(width: 150)
 			}
 

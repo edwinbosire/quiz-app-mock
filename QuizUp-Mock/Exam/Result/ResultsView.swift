@@ -38,7 +38,7 @@ struct ResultsViewContainer: View {
 
 				}
 				.onAppear {
-					ringProgress = result.score
+					ringProgress = 0.9//result.score
 				}
 			}
 
@@ -121,7 +121,7 @@ struct ResultsViewContainer: View {
 
 			HStack {
 
-				CircularProgressView(progress: $ringProgress, primaryColor: PastelTheme.deepOrange, secondaryColor: PastelTheme.background)
+				CircularProgressView(progress: $ringProgress, primaryColors: [Color.red, Color.red, Color.red, Color.green, Color.green].map{$0.lighten}, secondaryColor: PastelTheme.background)
 					.frame(width: 150)
 					.overlay {
 						VStack {
@@ -246,7 +246,7 @@ struct ResultsRow: View {
 			return Image(systemName: "checkmark.circle")
 				.foregroundColor(.green)
 
-		}else {
+		} else {
 			return Image(systemName:"circle.dotted")
 				.foregroundColor(PastelTheme.subTitle)
 
@@ -287,13 +287,10 @@ struct ConfettiView: View {
 		.task {
 			var finishedExam = await Exam.mock()
 			let question1 = finishedExam.questions[0]
-			finishedExam.userSelectedAnswer[question1.id] = question1.choices.filter({ $0.isAnswer
-			})
+			finishedExam.userSelectedAnswer[question1.id] = question1.choices.filter{$0.isAnswer}
 
 			let question2 = finishedExam.questions[2]
-			finishedExam.userSelectedAnswer[question2.id] = question2.choices.filter({ !$0.isAnswer
-			})
-
+			finishedExam.userSelectedAnswer[question2.id] = question2.choices.filter{!$0.isAnswer}
 
 			exam = finishedExam
 		}

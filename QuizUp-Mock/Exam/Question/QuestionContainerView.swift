@@ -20,7 +20,7 @@ struct QuestionView: View {
 
 	var body: some View {
 		VStack {
-			ToolBarContentView(viewModel: viewModel.currentQuestion, isShowingMenu: $isShowingMenu)
+			QuestionToolBarContentView(viewModel: viewModel.currentQuestion, isShowingMenu: $isShowingMenu)
 			ExamProgressView(currentPage: $viewModel.progress, questions: viewModel.questions)
 
 			HStack(alignment: .firstTextBaseline) {
@@ -40,7 +40,7 @@ struct QuestionView: View {
 			.tabViewStyle(.page(indexDisplayMode: .never))
 			.animation(.easeOut(duration: 0.2), value: viewModel.progress)
 		}
-		.background(PastelTheme.background.ignoresSafeArea())
+		.background(PastelTheme.background.gradient)
 		.actionSheet(isPresented: $isShowingMenu) {
 			ActionSheet(title: Text(""),
 						message: nil,
@@ -69,7 +69,7 @@ struct QuestionView: View {
 	}
 }
 
-private struct ToolBarContentView: View {
+struct QuestionToolBarContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@ObservedObject var viewModel: QuestionViewModel
 	@Binding var isShowingMenu: Bool
@@ -164,18 +164,17 @@ struct ExamProgressView: View {
 						.animation(.easeIn, value: currentPage)
 				}
 			}
-
 		}
-		.frame(height: 5)
+		.frame(height: 4)
 	}
 
 	func getProgressColor(for index: Int) -> Color {
-		if index == currentPage {
-			return PastelTheme.background.lighten
+		return if index == currentPage {
+			PastelTheme.background.lighten(by: 0.5)
 		} else if questions[index].isAnswered {
-			return  questions[index].isAnsweredCorrectly ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground
+			questions[index].isAnsweredCorrectly ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground
 		} else {
-			return PastelTheme.green.darken
+			PastelTheme.green.darken
 		}
 	}
 }

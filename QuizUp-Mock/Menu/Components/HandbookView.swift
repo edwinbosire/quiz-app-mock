@@ -91,17 +91,15 @@ struct HandbookCards: View {
 	var body: some View {
 
 		VStack(alignment: .leading, spacing: 0.0) {
-			VStack(alignment: .leading) {
 				Text(title)
 					.font(.title2)
 					.fontWeight(.heavy)
 					.foregroundColor(PastelTheme.title)
 					.lineLimit(1)
 					.padding()
-			}
-			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-			.background(headerColor)
-
+					.padding(.top)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.background(headerColor)
 
 			VStack(alignment: .leading) {
 				Text(chapterTitle)
@@ -116,21 +114,8 @@ struct HandbookCards: View {
 			.frame(maxWidth: .infinity, alignment: .leading)
 
 			ProgressIndicator()
-				.padding(.bottom)
-				.padding(.horizontal)
 		}
-		.background {
-			RoundedRectangle(cornerRadius: CornerRadius)
-				.fill(PastelTheme.rowBackground.darken)
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-				.overlay {
-					RoundedRectangle(cornerRadius: CornerRadius)
-						.fill(PastelTheme.rowBackground.lighten(by: 0.1))
-						.offset(y: -4.0)
-				}
-				.clipped()
-		}
-		.clipShape(RoundedRectangle(cornerRadius: CornerRadius, style: .continuous))
+		.pastelThemeBackground(PastelTheme.rowBackground)
 		.frame(width: 200)
 		.onAppear {
 			if featureFlags.progressTrackingEnabled {
@@ -139,7 +124,7 @@ struct HandbookCards: View {
 					let topicProgress = UserDefaults.standard.double(forKey: topic.title)
 					totalProgress += topicProgress / Double(chapter.topics.count)
 				}
-				chapterProgress = totalProgress
+				chapterProgress = 0.4//totalProgress
 			}
 		}
 		.onTapGesture {
@@ -151,18 +136,19 @@ struct HandbookCards: View {
 	@ViewBuilder
 	func ProgressIndicator() -> some View {
 		HStack {
-			ProgressView("\(String(format: "%.0f%%", chapterProgress))", value: chapterProgress, total: 100)
-				.tint(PastelTheme.background)
+			ProgressView(value: chapterProgress, total: 100)
+				.tint(PastelTheme.subTitle)
+				.background(PastelTheme.navBackground.darken)
+				.clipShape(Capsule())
+
 		}
+		.padding(.bottom)
+		.padding(.horizontal)
 		.opacity(featureFlags.progressTrackingEnabled ? 1.0 : 0.0)
 	}
 }
 
-struct HandbookView_Previews: PreviewProvider {
-	static var previews: some View {
-		@State var route = NavigationPath()
-		VStack {
-			HandbookView(handbookViewModel: HandbookViewModel())
-		}
-	}
+#Preview {
+	HandbookView(handbookViewModel: HandbookViewModel())
+		.background(PastelTheme.background)
 }

@@ -74,6 +74,7 @@ struct RouterView<Content: View>: View {
 enum ViewState {
 	case loading
 	case content
+	case empty
 	case error
 }
 
