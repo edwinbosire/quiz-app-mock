@@ -11,6 +11,7 @@ import Charts
 struct ProgressReport: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Environment(\.dismiss) var dismiss
+	@EnvironmentObject var router: Router
 
 	@State var scale = 0.5
 	var startExamSelected: (() -> Void)?
@@ -19,14 +20,19 @@ struct ProgressReport: View {
 	@State private var viewState: ViewState = .loading
 
 	var body: some View {
-		NavigationStack {
+		ZStack {
 			switch viewState {
 				case .loading:
 					ProgressReportLoadingView()
 				case .content:
-					ProgressReportContainer(results: results, startExamSelected: startExamSelected)
+					ProgressReportContainer(results: results) {
+						router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
+					}
 				case .empty:
-					NoProgressReportView(startExam: startExamSelected)
+					NoProgressReportView {
+						router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
+
+					}
 				case .error:
 					ProgressReportErrorView()
 			}
@@ -35,11 +41,7 @@ struct ProgressReport: View {
 			toolBarTitle()
 			toolbarControls()
 		}
-		.task {
-			viewState = .loading
-			results = await menuViewModel.reloadExams()
-			viewState = results.isEmpty ? .empty : .content
-		}
+		.task { await reload() }
 		.scaleEffect(scale)
 		.animation(.easeInOut, value: scale)
 		.onAppear{ scale = 1.0 }
@@ -70,6 +72,12 @@ struct ProgressReport: View {
 			}
 		}
 
+	}
+
+	func reload() async {
+		viewState = .loading
+		results = await menuViewModel.reloadExams()
+		viewState = results.isEmpty ? .empty : .content
 	}
 }
 
@@ -151,6 +159,7 @@ struct NoProgressReportView: View {
 				}
 			}
 			.padding(.horizontal)
+			.transition(.move(edge: .bottom))
 		}
 	}
 }
@@ -221,22 +230,6 @@ struct ProgressReportRow: View {
 	}
 }
 
-struct ProgressReport_Previews: PreviewProvider {
-	struct Preview: View {
-		@StateObject private var menuViewModel = MenuViewModel.shared
-		var body: some View {
-			NavigationStack {
-				ProgressReport()
-					.environmentObject(menuViewModel)
-			}
-		}
-	}
-	static var previews: some View {
-		Preview()
-	}
-}
-
-
 struct ProgressReportDetailView: View {
 	let result: ExamResult
 	@State private var questions:[QuestionViewModel] = []
@@ -289,12 +282,28 @@ struct BarCharts: View {
 
 struct ProgressReportLoadingView: View {
 	var body: some View {
-		Text("Hello, world!")
+		ExamLoadingView()
 	}
 }
 
 struct ProgressReportErrorView: View {
+	@Environment(\.dismiss) var dismiss
+
 	var body: some View {
-		Text("Hello, world!")
+		ExamErrorScreen(retryAction: {
+			print("Async retry action called")
+			dismiss()
+		})
 	}
 }
+
+#Preview{
+	@Previewable @StateObject var menuViewModel = MenuViewModel.shared
+	RouterView {
+		NavigationStack {
+			ProgressReport()
+				.environmentObject(menuViewModel)
+		}
+	}
+}
+

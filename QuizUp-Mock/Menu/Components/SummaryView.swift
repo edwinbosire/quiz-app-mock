@@ -27,7 +27,6 @@ struct SummaryView: View {
 		}
 		.padding()
 		.padding(.top)
-//		.background(.ultraThinMaterial)
 		.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 20))
 		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
 		.onAppear {
@@ -43,25 +42,13 @@ struct SummaryView: View {
 		Button(action: {
 			router.navigate(to: .progressReport, navigationType: .fullScreenCover)
 		}) {
-			VStack {
-				CountingText(value: averageScore, subtitle: "Average Score")
-					.animation(.easeInOut(duration: 0.5), value: averageScore)
-			}
-			.frame(maxWidth: .infinity)
-			.frame(height: 150)
-			.background {
-				RoundedRectangle(cornerRadius: CornerRadius)
-					.fill(Color.pink.darken)
-					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-					.overlay {
-						RoundedRectangle(cornerRadius: CornerRadius)
-							.fill(Color.pink.lighten)
-							.offset(y: -4.0)
-					}
-			}
-			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+			CountingText(value: averageScore, subtitle: "Average Score")
+				.animation(.easeInOut(duration: 0.5), value: averageScore)
+				.frame(maxWidth: .infinity)
+				.frame(height: 150)
 
 		}
+		.buttonStyle(ScoreButtonStyle())
 	}
 
 	@ViewBuilder
@@ -69,26 +56,53 @@ struct SummaryView: View {
 		Button(action: {
 			router.navigate(to: .handbook)
 		}){
-			VStack {
-				CountingText(value: readingProgress, subtitle: "Total Progress")
-					.animation(.easeInOut(duration: 0.5), value: readingProgress)
+			CountingText(value: readingProgress, subtitle: "Total Progress")
+				.animation(.easeInOut(duration: 0.5), value: readingProgress)
+				.frame(maxWidth: .infinity)
+				.frame(height: 150)
+		}
+		.buttonStyle(HandbookButtonStyle())
 
-			}
-			.frame(maxWidth: .infinity)
-			.frame(height: 150)
-			.background {
+	}
+}
+
+struct HandbookButtonStyle: ButtonStyle {
+
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+			.background(
 				RoundedRectangle(cornerRadius: CornerRadius)
-					.fill(.teal.darken)
-					.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
+					.fill(Color.teal.darken)
 					.overlay {
 						RoundedRectangle(cornerRadius: CornerRadius)
 							.fill(Color.teal.lighten)
-							.offset(y: -4.0)
+							.offset(y: configuration.isPressed ? 4.0 : -4.0)
 					}
-			}
-			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
-		}
+					.scaleEffect(configuration.isPressed ? 0.99 : 1.0)
 
+			)
+			.foregroundStyle(PastelTheme.title)
+			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
+	}
+}
+
+struct ScoreButtonStyle: ButtonStyle {
+
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+			.background(
+				RoundedRectangle(cornerRadius: CornerRadius)
+					.fill(Color.pink.darken)
+					.overlay {
+						RoundedRectangle(cornerRadius: CornerRadius)
+							.fill(Color.pink.lighten)
+							.offset(y: configuration.isPressed ? 4.0 : -4.0)
+					}
+					.scaleEffect(configuration.isPressed ? 0.99 : 1.0)
+
+			)
+			.foregroundStyle(PastelTheme.title)
+			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
 	}
 }
 
@@ -121,10 +135,8 @@ struct CountingText: View, Animatable {
 	}
 }
 
-struct SummaryView_Previews: PreviewProvider {
-	static var previews: some View {
-		@State var route = NavigationPath()
-		SummaryView()
-			.background(Backgrounds())
-	}
+#Preview {
+	SummaryView()
+		.background(PastelTheme.background.ignoresSafeArea())
+		.environmentObject(MenuViewModel.shared)
 }
