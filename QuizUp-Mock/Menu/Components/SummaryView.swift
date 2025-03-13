@@ -40,7 +40,7 @@ struct SummaryView: View {
 	@ViewBuilder
 	func ProgressReportButton() -> some View {
 		Button(action: {
-			router.navigate(to: .progressReport, navigationType: .fullScreenCover)
+			router.navigate(to: .progressReport, navigationType: .sheet)
 		}) {
 			CountingText(value: averageScore, subtitle: "Average Score")
 				.animation(.easeInOut(duration: 0.5), value: averageScore)

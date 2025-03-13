@@ -7,23 +7,17 @@
 
 import SwiftUI
 
-enum AnswerState {
-	case correct
-	case wrong
-	case notAttempted
-}
-
 struct AnswerRow: View {
 	@Environment(\.colorScheme) var colorScheme
 	let answer: Choice
 	let isLastRow: Bool
-	let answerState: AnswerState
+	let answerState: AttemptedQuestion.State
 	var selected: ((Choice) -> Void)?
 	private var isDarkMode: Bool { colorScheme == .dark }
 
 	@State var attempts: Int = 0
 
-	init(answer: Choice, isLastRow: Bool = false, answerState: AnswerState, selected: ((Choice) -> Void)? = nil) {
+	init(answer: Choice, isLastRow: Bool = false, answerState: AttemptedQuestion.State, selected: ((Choice) -> Void)? = nil) {
 		self.answer = answer
 		self.isLastRow = isLastRow
 		self.answerState = answerState

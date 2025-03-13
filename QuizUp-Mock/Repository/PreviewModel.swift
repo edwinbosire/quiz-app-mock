@@ -13,13 +13,15 @@ struct PreviewModel {
 		guard let questionBank = try? await ExamRepository.parseJSONData() else {
 			fatalError("Failed to generate mock exam")
 		}
-		let exam = Array(questionBank[0..<limit])
-		return Exam(id: 0, questions: exam, status: .unattempted)
+		let questions = Array(questionBank[0..<limit])
+		return Exam(id: 0, questions: questions)
 	}
 
 	static func mockQuestionViewModel() async -> QuestionViewModel {
 		let mockExam = await Self.mockExam(questions: 1)
-		return await QuestionViewModel(question: mockExam.questions[0])
+		let attemptedQuestion = AttemptedQuestion(from: mockExam.questions[0])
+
+		return await QuestionViewModel(question: attemptedQuestion)
 	}
 
 	static func mockExamViewModel() async -> ExamViewModel {

@@ -21,31 +21,33 @@ enum ExamRepositoryErrors: Error {
 }
 
 protocol Repository {
-	func loadExams() async throws -> [Exam]
-	func loadExam(with withId: Int) async throws -> Exam
+	func loadMockExams() async throws -> [Exam]
+	func loadMockExam(with withId: Int) async throws -> Exam
 
-	func save(exam: Exam) async throws
+	func save(exam: AttemptedExam) async throws
 
 	func reset()
 }
 
 class ExamRepository: Repository {
-	private var defaults: UserDefaults = UserDefaults.standard
+	private var storage = UserDefaults(suiteName: "v0.0.1")!
+
 	static let shared = ExamRepository()
 	static let SavedExamsKey = "exams"
+	static let AttemptedExamsKey = "AttemptedExamsKey"
 	static let ExamResultsKey = "ExamResultsKey"
 
-	func loadExam(with withId: Int) async throws -> Exam {
-		let exams = try await loadExams()
+	func loadMockExam(with withId: Int) async throws -> Exam {
+		let exams = try await loadMockExams()
 		guard let exam = exams.first(where: { $0.id == withId }) else {
 			throw ExamRepositoryErrors.ExamNotFound
 		}
 		return exam
 	}
 
-	func loadExams() async throws -> [Exam] {
+	func loadMockExams() async throws -> [Exam] {
 		// if its the first run of the app, generate exams
-		guard let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data else {
+		guard let savedExams = storage.object(forKey: Self.SavedExamsKey) as? Data else {
 			print("Loading all exams from storage")
 			let exams = try await generateAllExams()
 			try await saveAll(exams: exams)
@@ -61,11 +63,11 @@ class ExamRepository: Repository {
 		}
 	}
 
-	func save(exam: Exam) async throws {
-		var exams: [Exam] = []
-		if let savedExams = defaults.object(forKey: Self.SavedExamsKey) as? Data {
+	func save(exam: AttemptedExam) async throws {
+		var exams: [AttemptedExam] = []
+		if let savedExams = storage.object(forKey: Self.SavedExamsKey) as? Data {
 			do {
-				exams = try JSONDecoder().decode([Exam].self, from: savedExams)
+				exams = try JSONDecoder().decode([AttemptedExam].self, from: savedExams)
 			} catch(let error) {
 				print("Failed to load exams: \(error)")
 			}
@@ -76,8 +78,7 @@ class ExamRepository: Repository {
 
 		do {
 			let exams = try JSONEncoder().encode(exams)
-			let defaults = UserDefaults.standard
-			defaults.set(exams, forKey: Self.SavedExamsKey)
+			storage.set(exams, forKey: Self.SavedExamsKey)
 			print("saved exam results")
 		} catch {
 			print("Failed to save exam results.")
@@ -85,11 +86,11 @@ class ExamRepository: Repository {
 		}
 	}
 
-	func save(result: ExamResult) async throws {
-		var results: [ExamResult] = []
-		if let savedResults = defaults.object(forKey: Self.ExamResultsKey) as? Data {
+	func save(result: ExamResultViewModel) async throws {
+		var results: [ExamResultViewModel] = []
+		if let savedResults = storage.object(forKey: Self.ExamResultsKey) as? Data {
 			do {
-				results = try JSONDecoder().decode([ExamResult].self, from: savedResults)
+				results = try JSONDecoder().decode([ExamResultViewModel].self, from: savedResults)
 			} catch(let error) {
 				print("Failed to load exams results: \(error)")
 			}
@@ -109,17 +110,24 @@ class ExamRepository: Repository {
 		}
 	}
 
-	func loadResults() async throws -> [ExamResult] {
-		guard let savedExamResults = defaults.object(forKey: Self.ExamResultsKey) as? Data else {
+	func loadResults() async throws -> [ExamResultViewModel] {
+		guard let savedExamResults = storage.object(forKey: Self.ExamResultsKey) as? Data else {
 				return []
 		}
 		do {
-			return try JSONDecoder().decode([ExamResult].self, from: savedExamResults)
+			return try JSONDecoder().decode([ExamResultViewModel].self, from: savedExamResults)
 		} catch(let error) {
 			print("Failed to load exams results: \(error)")
 			throw ExamRepositoryErrors.UnableToLoadExamsResultsFromStorage
 		}
 
+	}
+
+	func loadAttemptedExams() async throws -> [AttemptedExam] {
+		guard let savedExams = storage.object(forKey: Self.AttemptedExamsKey) as? Data else {
+			return []
+		}
+		return try JSONDecoder().decode([AttemptedExam].self, from: savedExams)
 	}
 
 	private func saveAll(exams: [Exam]) async throws {
@@ -156,7 +164,7 @@ extension ExamRepository {
 				let start = i * examSize
 				let end = start + examSize
 				let examQuestions = Array(allQuestions[start..<end])
-				let anExam = Exam(id: examId, questions: examQuestions, status: .unattempted)
+				let anExam = Exam(id: examId, questions: examQuestions)
 				exams.append(anExam)
 				examId += 1
 			}
@@ -191,7 +199,6 @@ extension ExamRepository {
 					return question.toModel(with: explanationDTO.explanation)
 				}
 				return question.toModel(with: nil)
-
 			}
 		} catch {
 			print("Error decoding JSON data: \(error.localizedDescription)")

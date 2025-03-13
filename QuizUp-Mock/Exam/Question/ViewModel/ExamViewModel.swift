@@ -16,23 +16,21 @@ protocol QuestionOwner {
 @MainActor
 class ExamViewModel: ObservableObject, Identifiable {
 	let id: UUID = UUID()
-	lazy var examId: Int = exam.id
-	var exam: Exam
+	var examId: Int { exam.examId }
 	private let repository: ExamRepository = .shared
-	private var questionsCount: Int {
-		exam.questions.count
-	}
 
 	private var refreshTask: Task<Void, Error>?
 	@Published var progress: Int = 0 {
 		didSet {
 			Task { @MainActor in
-				progressTitle = "Question \(progress+1) of \(questionsCount)"
+				progressTitle = "Question \(progress+1) of \(exam.questions.count)"
 			}
 		}
 	}
+
+	@Published var exam: AttemptedExam
 	@Published var progressTitle: String = ""
-	@Published var examStatus: ExamStatus
+	@Published var examStatus: AttemptedExam.Status
 	@Published var bookmarked: Bool = false
 	@Published var questions: [QuestionViewModel] = []
 
@@ -40,75 +38,29 @@ class ExamViewModel: ObservableObject, Identifiable {
 		if progress >= 0 && progress < questions.count {
 			return questions[progress]
 		} else {
-			return questions[0]
-//			fatalError("Index out of bounds")
+			fatalError("Index out of bounds")
 		}
 	}
 
-	var correctQuestions: [Question] {
+	var correctQuestions: [AttemptedQuestion] {
 		availableQuestions.filter { $0.isAnsweredCorrectly }.map { $0.question }
 	}
 
-	var incorrectQuestions: [Question] {
+	var incorrectQuestions: [AttemptedQuestion] {
 		availableQuestions.filter { !$0.isAnsweredCorrectly }.map { $0.question }
 	}
 
-	// Each question has an array of possible selected answers
-	var userSelectedAnswers: [String: [Choice]] {
-		availableQuestions.reduce([String: [Choice]]()) { (dict, question) -> [String: [Choice]] in
-			var dict = dict
-			dict[question.question.id] = Array(question.selectedChoices)
-			return dict
-		}
+	var resultViewModel: ExamResultViewModel {
+		let attemptedExam = AttemptedExam(examId: exam.examId, questions: attemptedQuestions, status: examStatus, dateAttempted: Date.now, duration: exam.duration, selectedChoices: exam.selectedChoices)
+		return ExamResultViewModel(exam: attemptedExam)
 	}
 
-	var score: Int {
-		var result = 0
-		for question in availableQuestions {
-			var questionWeight = 0
-			for answer in question.selectedChoices {
-
-				if answer.isAnswer {
-					questionWeight += 1
-				}
-			}
-			if questionWeight == question.selectedChoices.count {
-				result += 1
-			}
-			questionWeight = 0
-		}
-		return result
-	}
-
-	var scorePercentage: Double {
-		(Double(score) / Double(availableQuestions.count) * 100)
+	var attemptedQuestions: [AttemptedQuestion] {
+		self.questions.map { $0.finish() }
 	}
 
 	var formattedScore: String {
-		if exam.status == .unattempted {
-			return  ""
-		} else {
-			return score>0 ? String(format: "%.0f %%", (Double(exam.correctQuestions.count)/Double(questions.count) * 100)) : "-"
-		}
-	}
-
-	var prompt: String {
-		if scorePercentage >= 75 {
-			return "Congratulation! You've passed the test"
-		} else {
-			return "Your score is below the 74% pass mark"
-		}
-	}
-
-	var result: ExamResult {
-		ExamResult(
-			examId: exam.id,
-			questions: exam.questions,
-			status: examStatus,
-			correctQuestions: correctQuestions,
-			incorrectQuestions: incorrectQuestions,
-			userSelectedAnswer: userSelectedAnswers
-		)
+		exam.scorePercentage > 0.0 ? String(format: "%.0f %%", exam.scorePercentage) : "-"
 	}
 
 	var availableQuestions = [QuestionViewModel]()
@@ -116,24 +68,19 @@ class ExamViewModel: ObservableObject, Identifiable {
 
 
 	init(exam: Exam) {
-		self.exam = exam
+		self.exam = AttemptedExam(from: exam)
 		progress = 0
-		examStatus = exam.status
+		examStatus = .started
+
 		if exam.questions.isEmpty {
 			fatalError("An exam must have atleast one question")
 		}
 		self.questions = exam.questions.enumerated().map { i, q in
-			QuestionViewModel(question: q, owner: self, index: i)
+			let examQuestion = AttemptedQuestion(from: q)
+			return QuestionViewModel(question: examQuestion, owner: self, index: i)
 		}
 
 		self.progressTitle = "Question \(progress+1) of \(exam.questions.count)"
-	}
-
-	convenience init?(examId: Int) async {
-		guard let exam = try? await ExamRepository.shared.loadExam(with: examId) else {
-			return nil
-		}
-		self.init(exam: exam)
 	}
 
 	func restartExam() -> ExamViewModel{
@@ -149,13 +96,13 @@ class ExamViewModel: ObservableObject, Identifiable {
 	}
 
 	static func viewDidLoad(_ examId: Int) async -> ExamViewModel? {
-		if let viewModel = await ExamViewModel(examId: examId) {
-			viewModel.viewState = .content
-			return viewModel
-		} else {
+		guard let mockExam = try? await ExamRepository.shared.loadMockExam(with: examId) else {
 			return nil
 		}
 
+		let viewModel = ExamViewModel(exam: mockExam)
+		viewModel.viewState = .content
+		return viewModel
 	}
 }
 
@@ -190,27 +137,38 @@ extension ExamViewModel: QuestionOwner {
 	}
 
 
-	func finishExam() {
+	func finishExam(duration: TimeInterval = 0.0) {
 		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
 		self.examStatus = finished ? .finished : .didNotFinish
-
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-			guard let self = self else {return}
-			self.exam.correctQuestions = self.correctQuestions
-			self.exam.incorrectQuestions = self.incorrectQuestions
-			self.exam.userSelectedAnswer = self.userSelectedAnswers
-			self.exam.score = self.score
-			self.exam.status = self.examStatus
-			self.examStatus = .finished
-			Task {
-				do {
-					try await self.repository.save(exam: self.exam)
-					try await self.repository.save(result: self.result)
-				} catch {
-					print("Failed to save exam at the end of the quiz")
-				}
-			}
-		}
+		exam.update(duration: duration)
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//			guard let self = self else { return }
+////			self.exam.correctQuestions = self.correctQuestions
+////			self.exam.incorrectQuestions = self.incorrectQuestions
+////			self.exam.userSelectedAnswer = self.userSelectedAnswers
+////			self.exam.score = self.score
+////			self.exam.status = self.examStatus
+//			self.examStatus = .finished
+//
+//			let solvedQuestions = self.questions.map {
+//				AttemptedQuestion(from: $0.question, answerState: $0.answerState)
+//			}
+//			let attemptedExam = AttemptedExam(
+//				questions: solvedQuestions,
+//				status: self.examStatus,
+//				dateAttempted: Date.now,
+//				duration: duration,
+//				score: self.score,
+//				userSelectedAnswer: self.userSelectedAnswers)
+//			Task {
+//				do {
+//					try await self.repository.save(exam: attemptedExam)
+//					try await self.repository.save(result: self.result)
+//				} catch {
+//					print("Failed to save exam at the end of the quiz")
+//				}
+//			}
+//		}
 	}
 }
 
@@ -238,7 +196,7 @@ extension ExamViewModel {
 									Choice("Wales"),
 									Choice("The Republic of Ireland"),
 									Choice("Northern Ireland")])
-		let exam = Exam(id: 0, questions: [question1], status: .unattempted)
+		let exam = Exam(id: 0, questions: [question1])
 		let viewModel = ExamViewModel(exam: exam)
 		viewModel.availableQuestions = viewModel.questions
 		return viewModel

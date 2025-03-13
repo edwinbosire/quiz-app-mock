@@ -10,10 +10,9 @@ import Combine
 
 @MainActor
 class MenuViewModel: ObservableObject {
-	private let viewModelFactory = ViewModelFactory()
 	private let repository: ExamRepository = .shared
-	@Published var exams: [ExamViewModel] = []
-	@Published var completedExams: [ExamViewModel]  = []
+	@Published var mockExamsViewModels: [ExamViewModel] = []
+	@Published var attemptedExams: [AttemptedExam]  = []
 
 	@Published var isShowingMonitizationPage = false
 	@Published var isSearching: Bool = false
@@ -23,7 +22,7 @@ class MenuViewModel: ObservableObject {
 	public static let shared = MenuViewModel()
 	private var bag = Set<AnyCancellable>()
 	var handbookViewModel = HandbookViewModel()
-	@Published private(set) var results: [ExamResult] = []
+	@Published private(set) var results: [ExamResultViewModel] = []
 
 	init() {
 
@@ -36,21 +35,17 @@ class MenuViewModel: ObservableObject {
 			.store(in: &bag)
 
 		Task {
-			await reloadExams()
+			await loadExams()
 		}
 	}
 
-	@discardableResult func reloadExams() async -> [ExamResult] {
-		let allExams = await viewModelFactory.buildExamViewModels()
-		exams = allExams.filter { $0.exam.status == .unattempted }
-		completedExams = exams.filter { $0.exam.status == .finished || $0.exam.status == .didNotFinish}
-
-		do {
-			results = try await repository.loadResults()
-		} catch {
-			results = []
+	func loadExams() async {
+		if let viewModels = try? await repository.loadMockExams().map(ExamViewModel.init) {
+			mockExamsViewModels = viewModels
 		}
-		return results
 
+		if let exams = try? await repository.loadAttemptedExams() {
+			attemptedExams = exams.sorted(by: {$0.dateAttempted > $1.dateAttempted})
+		}
 	}
 }

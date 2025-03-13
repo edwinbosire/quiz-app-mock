@@ -59,7 +59,7 @@ struct QuestionView: View {
 		})
 		.onChange(of: viewModel.examStatus) { oldValue, newValue in
 			if newValue == .finished {
-				router.navigate(to: .resultsView(viewModel.result), navigationType: .fullScreenCover)
+				router.navigate(to: .resultsView(ExamResultViewModel(exam: viewModel.exam)), navigationType: .fullScreenCover)
 			}
 		}
 	}

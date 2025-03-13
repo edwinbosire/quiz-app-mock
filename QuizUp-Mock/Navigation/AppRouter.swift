@@ -66,6 +66,8 @@ struct RouterView<Content: View>: View {
 				SettingsView()
 			case .progressReport:
 				ProgressReport()
+			case .progressReportDetail(let progressReport):
+				ProgressReportDetailView(result: progressReport)
 		}
 
 	}

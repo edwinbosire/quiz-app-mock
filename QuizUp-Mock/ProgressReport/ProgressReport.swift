@@ -13,78 +13,92 @@ struct ProgressReport: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject var router: Router
 
-	@State var scale = 0.5
+	@State var scale = 1.0
 	var startExamSelected: (() -> Void)?
 
-	@State private var results = [ExamResult]()
+	@State private var results = [ExamResultViewModel]()
 	@State private var viewState: ViewState = .loading
 
 	var body: some View {
-		ZStack {
-			switch viewState {
-				case .loading:
-					ProgressReportLoadingView()
-				case .content:
-					ProgressReportContainer(results: results) {
-						router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
+		NavigationStack {
+			VStack(spacing: 0.0) {
+				Rectangle()
+					.fill(PastelTheme.navBackground)
+					.frame(maxWidth: .infinity)
+					.frame(height: 60)
+					.overlay(alignment: .topLeading) {
+						Button {
+							router.dismiss()
+						} label: {
+							HStack {
+								Image(systemName: "chevron.backward")
+									.rotationEffect(.degrees(-90))
+								Text("Exam Reports")
+							}
+							.bold()
+							.foregroundStyle(PastelTheme.title)
+						}
+						.padding()
 					}
-				case .empty:
-					NoProgressReportView {
-						router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
-
-					}
-				case .error:
-					ProgressReportErrorView()
+				switch viewState {
+					case .loading:
+						ProgressReportLoadingView()
+							.transition(.move(edge: .bottom))
+					case .content:
+						ProgressReportContainer(results: results) {
+							router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
+						}
+						.transition(.opacity)
+					case .empty:
+						NoProgressReportView {
+							router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
+						}
+					case .error:
+						ProgressReportErrorView()
+				}
 			}
 		}
+		.navigationBarBackButtonHidden(true)
 		.toolbar {
-			toolBarTitle()
-			toolbarControls()
+			toolBarBackButton()
 		}
 		.task { await reload() }
 		.scaleEffect(scale)
 		.animation(.easeInOut, value: scale)
 		.onAppear{ scale = 1.0 }
-		.background(PastelTheme.background.ignoresSafeArea())
+//		.background(PastelTheme.background.ignoresSafeArea())
 
 	}
+
 	@ToolbarContentBuilder
-	func toolBarTitle() -> some ToolbarContent {
+	func toolBarBackButton() -> some ToolbarContent {
 		ToolbarItem(placement: .navigationBarLeading) {
-			Text("Results")
-				.font(.title)
+			Button {
+				router.dismiss()
+			} label: {
+				HStack {
+					Image(systemName: "chevron.backward")
+					Text("Back")
+				}
 				.bold()
 				.foregroundStyle(PastelTheme.title)
-				.padding()
-		}
-	}
-
-	@ToolbarContentBuilder
-	func toolbarControls() -> some ToolbarContent {
-		ToolbarItem(placement: .navigationBarTrailing) {
-			HStack {
-				Button { dismiss() } label: {
-					Image(systemName: "xmark")
-						.font(.title)
-						.foregroundStyle(PastelTheme.orange.lighten)
-				}
-				.padding()
 			}
 		}
-
 	}
 
 	func reload() async {
 		viewState = .loading
-		results = await menuViewModel.reloadExams()
+		await menuViewModel.loadExams()
+		results = menuViewModel.results
 		viewState = results.isEmpty ? .empty : .content
 	}
 }
 
 struct ProgressReportContainer: View {
-	var results: [ExamResult]
+	var results: [ExamResultViewModel]
 	@State var scale = 0.5
 	var startExamSelected: (() -> Void)?
+	@EnvironmentObject var router: Router
 
 	var body: some View {
 		ScrollView {
@@ -99,7 +113,6 @@ struct ProgressReportContainer: View {
 			}
 			.frame(minHeight: 300)
 			.padding()
-
 		}
 		.background(PastelTheme.background)
 	}
@@ -165,7 +178,7 @@ struct NoProgressReportView: View {
 }
 
 struct ProgressReportRow: View {
-	let result: ExamResult
+	let result: ExamResultViewModel
 	var body: some View {
 		HStack {
 			//			Image(systemName: "newspaper")
@@ -230,29 +243,12 @@ struct ProgressReportRow: View {
 	}
 }
 
-struct ProgressReportDetailView: View {
-	let result: ExamResult
-	@State private var questions:[QuestionViewModel] = []
-	var body: some View {
-		ScrollView {
-			ForEach(questions) { question in
-				ResultsRow(viewModel: question)
-					.padding()
-			}
-		}
-		.onAppear {
-			questions = result.questionsViewModels()
-		}
-	}
-}
-
-extension ExamResult {
+extension ExamResultViewModel {
 	func questionsViewModels() -> [QuestionViewModel] {
 		var viewModels = [QuestionViewModel]()
 
-		for (i, question) in questions.enumerated() {
-			let selectedAnswers = userSelectedAnswer[question.id] ?? []
-			let vm = QuestionViewModel(question: question, selectedAnswers: selectedAnswers, index: i)
+		for (i, question) in exam.questions.enumerated() {
+			let vm = QuestionViewModel(question: question, index: i)
 			viewModels.append(vm)
 		}
 		return viewModels
@@ -282,7 +278,17 @@ struct BarCharts: View {
 
 struct ProgressReportLoadingView: View {
 	var body: some View {
-		ExamLoadingView()
+		VStack {
+			ProgressView {
+				Text("Loading Reports...")
+					.font(.headline)
+					.foregroundStyle(PastelTheme.title)
+			}
+			.tint(PastelTheme.title)
+
+		}
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.background(PastelTheme.background.gradient)
 	}
 }
 
@@ -300,10 +306,10 @@ struct ProgressReportErrorView: View {
 #Preview{
 	@Previewable @StateObject var menuViewModel = MenuViewModel.shared
 	RouterView {
-		NavigationStack {
+//		NavigationStack {
 			ProgressReport()
 				.environmentObject(menuViewModel)
-		}
+//		}
 	}
 }
 

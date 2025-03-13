@@ -7,23 +7,20 @@
 
 import Foundation
 
-class ResultsViewModel: ObservableObject {
-	private var exam: ExamResult?
-	let repository: ExamRepository
-
-	lazy var questions: [Question] = {
-		if let exam = exam {
-			return exam.questions
-		}
-		return []
-	}()
-
-	init(repository: ExamRepository, exam id: Int) {
-		self.repository = repository
-		Task {
-			let results = try? await repository.loadResults()
-			exam = results?.first(where: { $0.examId == id})
-		}
-	}
-
-}
+//class ResultsViewModel: ObservableObject {
+//	private var examResult: ExamResult?
+//	let repository: ExamRepository
+//
+//	lazy var questions: [AttemptedQuestion] = {
+//		examResult?.exam.questions ?? []
+//	}()
+//
+//	init(repository: ExamRepository, exam id: Int) {
+//		self.repository = repository
+//		Task {
+//			let results = try? await repository.loadResults()
+//			examResult = results?.first(where: { $0.examId == id})
+//		}
+//	}
+//
+//}

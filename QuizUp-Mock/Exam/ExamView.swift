@@ -54,7 +54,7 @@ struct ExamView: View {
 			case .unattempted, .attempted, .started, .paused:
 				QuestionView(viewModel: viewModel)
 			case .finished, .didNotFinish:
-				ResultsView(result: viewModel.result)
+				ResultsView(result: ExamResultViewModel(exam: viewModel.exam))
 		}
 	}
 }

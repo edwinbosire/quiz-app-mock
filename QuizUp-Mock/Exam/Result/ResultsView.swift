@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ResultsView: View {
-	let result: ExamResult
+	let result: ExamResultViewModel
 	var body: some View {
 		ResultsViewContainer(result: result)
 	}
@@ -17,12 +17,12 @@ struct ResultsView: View {
 struct ResultsViewContainer: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-	let result: ExamResult
+	let result: ExamResultViewModel
 	@EnvironmentObject var router: Router
 	@State private var ringProgress = 0.0
 
 	var score: String {
-		"\(result.correctQuestions.count) / \(result.questions.count)"
+		"\(result.exam.correctQuestions.count) / \(result.exam.questions.count)"
 	}
 
 	var body: some View {
@@ -31,7 +31,7 @@ struct ResultsViewContainer: View {
 				VStack (spacing: 10.0) {
 					ResultsHeader()
 						.padding(.bottom)
-					ForEach(Array(result.questions.enumerated()), id: \.offset) { index, question in
+					ForEach(Array(result.exam.questions.enumerated()), id: \.offset) { index, question in
 						ResultsRow(viewModel: QuestionViewModel(question: question, index: index))
 					}
 					Spacer()
@@ -144,7 +144,7 @@ struct ResultsViewContainer: View {
 						.font(.headline)
 						.fontWeight(.semibold)
 						.foregroundStyle(PastelTheme.title)
-					Text(String(format: "%0.1f %%",result.scorePercentage))
+					Text(String(format: "%0.1f %%",result.exam.scorePercentage))
 						.font(.subheadline)
 						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
@@ -152,7 +152,7 @@ struct ResultsViewContainer: View {
 					Text("Wrong Answers")
 						.font(.headline)
 						.foregroundStyle(PastelTheme.title)
-					Text("\(result.correctQuestions.count)")
+					Text("\(result.exam.correctQuestions.count)")
 						.font(.subheadline)
 						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
@@ -201,7 +201,7 @@ struct ResultsRow: View {
 				.foregroundStyle(PastelTheme.title)
 				.padding(.bottom, 3)
 
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: 0.0) {
 				ForEach(viewModel.choices, id: \.self) { choice in
 					VStack {
 						HStack {
@@ -211,43 +211,43 @@ struct ResultsRow: View {
 								.foregroundStyle(PastelTheme.title)
 							Spacer()
 						}
-						.background{
+						.padding(.vertical, 1.0)
+						.padding(.horizontal, 5.0)
+						.background {
 							RoundedRectangle(cornerRadius: CornerRadius)
-								.fill(PastelTheme.answerRowBackground)
-								.opacity(viewModel.selectedChoices.contains(choice) ? 1 : 0)
+								.fill(PastelTheme.rowBackground.darken(by: 0.01))
+								.opacity(viewModel.selectedChoices[choice] == nil ? 0 : 1)
 						}
-
-						Spacer()
-							.frame(height: 1)
 					}
-
 				}
 			}
 		}
 		.padding()
-		.background {
-			RoundedRectangle(cornerRadius: CornerRadius)
-				.fill(PastelTheme.rowBackground)
-				.shadow(color: .black.opacity(0.09), radius: 4, y: 2)
-				.overlay {
-					RoundedRectangle(cornerRadius: CornerRadius)
-						.fill(PastelTheme.rowBackground.lighten)
-						.offset(y: -4)
-				}
-		}
+		.pastelThemeBackground(PastelTheme.rowBackground)
 		.padding(.horizontal)
 	}
 
+	@ViewBuilder
 	func icon(for question: QuestionViewModel, choice: Choice) -> some View {
-		if question.selectedChoices.contains(choice) {
-			return Image(systemName: question.answerState[choice] == .correct ? "xmark.circle" : "checkmark.circle")
-				.foregroundColor(question.answerState[choice] == .correct ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground)
+		if let attempted = question.selectedChoices[choice] {
+			switch attempted {
+				case .correct:
+					 Image(systemName: "checkmark.circle")
+						.foregroundColor(PastelTheme.answerCorrectBackground)
+				case .wrong:
+					 Image(systemName: "xmark.circle")
+						.foregroundColor(PastelTheme.answerWrongBackground)
+				case .notAttempted:
+					 Image(systemName:"circle.dotted")
+						.foregroundColor(PastelTheme.subTitle)
+			}
 		} else if choice.isAnswer {
-			return Image(systemName: "checkmark.circle")
-				.foregroundColor(.green)
+			 Image(systemName: "checkmark.circle")
+				.foregroundColor(PastelTheme.answerCorrectBackground)
+				.bold()
 
 		} else {
-			return Image(systemName:"circle.dotted")
+			 Image(systemName:"circle.dotted")
 				.foregroundColor(PastelTheme.subTitle)
 
 		}
@@ -281,17 +281,33 @@ struct ConfettiView: View {
 }
 
 #Preview {
-	@Previewable @State var exam = Exam(id: 00, questions: [], status: .unattempted)
-	let result = ExamResult(exam: exam)
+	var _result: ExamResultViewModel?
+	var result: ExamResultViewModel {
+		get {
+			if let _result {
+				return _result
+			}
+
+			let exam = Exam(id: 00, questions: [])
+			let mockExam = AttemptedExam(from: exam)
+			return ExamResultViewModel(exam: mockExam)
+		}
+		set {
+			_result = newValue
+		}
+	}
+
 	ResultsView(result: result)
 		.task {
-			var finishedExam = await Exam.mock()
-			let question1 = finishedExam.questions[0]
-			finishedExam.userSelectedAnswer[question1.id] = question1.choices.filter{$0.isAnswer}
+			let exam = await Exam.mock()
+			var mockExam = AttemptedExam(from: exam)
 
-			let question2 = finishedExam.questions[2]
-			finishedExam.userSelectedAnswer[question2.id] = question2.choices.filter{!$0.isAnswer}
+			let answer = exam.questions[0].choices.filter(\Choice.isAnswer).first!
+			mockExam.update(selectedChoices: [answer: .correct])
 
-			exam = finishedExam
+			let answer2 = exam.questions[1].choices.filter(\Choice.isAnswer).first!
+			mockExam.update(selectedChoices: [answer: .correct])
+
+			result = ExamResultViewModel(exam: mockExam)
 		}
 }
