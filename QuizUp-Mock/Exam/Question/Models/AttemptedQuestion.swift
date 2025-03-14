@@ -42,6 +42,10 @@ struct AttemptedQuestion: Codable, Hashable {
 		self.bookmarked = false
 	}
 
+	mutating func removeSelected(_ choice: Choice) {
+		self.selectedChoices.removeValue(forKey: choice)
+	}
+
 	mutating func updateSelected(_ choice: Choice, state: AttemptedQuestion.State) {
 		self.selectedChoices[choice] = state
 	}

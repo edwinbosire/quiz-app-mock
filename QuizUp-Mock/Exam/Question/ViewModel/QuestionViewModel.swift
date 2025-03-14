@@ -89,10 +89,9 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		}
 
 		// 1. Handle answer deselection
-		if let selectedAnswerState = selectedChoices[choice], shouldAllowDeselect {
-			guard let index = question.choices.firstIndex(where: {$0 == choice}) else { return }
-			selectedChoices[choice] = nil
-			question.updateSelected(choice, state: .notAttempted)
+		if !question.isFullyAnswered, shouldAllowDeselect {
+			selectedChoices.removeValue(forKey: choice)
+			question.removeSelected(choice)
 			attempts += 1
 
 			// User could still have other choices selected

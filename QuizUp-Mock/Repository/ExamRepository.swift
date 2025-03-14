@@ -141,13 +141,13 @@ class ExamRepository: Repository {
 		}
 	}
 
-#if DEBUG
 	func reset() {
+#if DEBUG
 		storage.set(nil, forKey: Self.SavedExamsKey)
 		storage.set(nil, forKey: Self.ExamResultsKey)
 		storage.set(nil, forKey: Self.AttemptedExamsKey)
-	}
 #endif
+	}
 }
 
 extension ExamRepository {
