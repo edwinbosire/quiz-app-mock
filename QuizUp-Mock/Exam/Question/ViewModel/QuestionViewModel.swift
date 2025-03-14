@@ -33,19 +33,18 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 	var shouldAllowDeselect = false
 
 	var isAnsweredCorrectly: Bool {
-		guard isAnswered else { return false }
-		return selectedChoices.values.allSatisfy({$0 == .correct})
+		question.isAnsweredCorrectly
 	}
 
-	var isAnswered: Bool {
-		selectedChoices.count == answers.count || answersAutoSelected
+	var isFullyAnswered: Bool {
+		question.isFullyAnswered
 	}
 
 	var allowChoiceSelection: Bool {
-		(selectedChoices.count < answers.count) && !answersAutoSelected
+		isFullyAnswered == false
 	}
 
-	@Published var selectedChoices = [Choice : AttemptedQuestion.State]() {
+	@Published var selectedChoices: [Choice : AttemptedQuestion.State] = [:] {
 		didSet {
 			question.updateSelectedChoices(selectedChoices)
 		}
@@ -60,7 +59,6 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 
 	var owner: QuestionOwner?
 
-	private var answersAutoSelected: Bool = false
 	var allAnswersSelected: Bool {
 		selectedChoices.count == answers.count
 	}
@@ -73,7 +71,15 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 	}
 
 	func state(for answer: Choice) -> AttemptedQuestion.State {
-		selectedChoices[answer] ?? .notAttempted
+		if let selectedChoice = selectedChoices[answer] {
+			return selectedChoice
+		}
+
+		if !isAnsweredCorrectly {
+			return answer.isAnswer ? .correct : .notAttempted
+		}
+
+		return .notAttempted
 	}
 
 	func selected(_ choice: Choice) {
@@ -86,7 +92,7 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		if let selectedAnswerState = selectedChoices[choice], shouldAllowDeselect {
 			guard let index = question.choices.firstIndex(where: {$0 == choice}) else { return }
 			selectedChoices[choice] = nil
-			question.updateSelectedChoices(choice, state: .notAttempted)
+			question.updateSelected(choice, state: .notAttempted)
 			attempts += 1
 
 			// User could still have other choices selected
@@ -96,7 +102,7 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		}
 
 		selectedChoices[choice] = choice.isAnswer ? .correct : .wrong
-		question.updateSelectedChoices(choice, state: choice.isAnswer ? .correct : .wrong)
+		question.updateSelected(choice, state: choice.isAnswer ? .correct : .wrong)
 
 		///
 		/// ------------------------| allAnswersSelected
@@ -120,7 +126,6 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 			case (false, true):
 				fallthrough
 			case (false, false):
-//				self.highlightCorrectAnswers()
 				self.attempts += 1
 				Task{ @MainActor in
 					await self.owner?.allowProgressToNextQuestion()
@@ -131,23 +136,10 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		showHint = selectedChoices.values.allSatisfy { $0 == .correct } == false
 	}
 
-#warning("This potentially erase the users selected answers")
-	private func highlightCorrectAnswers() {
-
-		answersAutoSelected = true
-		choices.forEach { choice in
-			if choice.isAnswer {
-//				answerState[choice] = .correct
-			}
-		}
-	}
-
 	func reset() {
-//		choices.forEach { answerState[$0] = .notAttempted }
 		selectedChoices.removeAll()
 		showHint = false
 		attempts = 0
-		answersAutoSelected = false
 	}
 
 	func finish() -> AttemptedQuestion {

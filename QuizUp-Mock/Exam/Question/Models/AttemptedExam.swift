@@ -20,20 +20,22 @@ struct AttemptedExam: Codable, Hashable {
 
 	let id: String
 	let examId: Int
-	let questions: [AttemptedQuestion]
+	var questions: [AttemptedQuestion]
 	var status: Status
 	var dateAttempted: Date
 	var duration: TimeInterval
-	var selectedChoices: [Choice: AttemptedQuestion.State]
 
 	var correctQuestions: [AttemptedQuestion] {
-		questions.filter({ $0.isAnsweredCorrectly })
+		questions.filter({ $0.isFullyAnswered && $0.isAnsweredCorrectly })
 	}
 
 	var incorrectQuestions: [AttemptedQuestion] {
 		questions.filter({ $0.selectedChoices.values.allSatisfy({$0 != .correct}) })
 	}
 
+	var unansweredQuestions: [AttemptedQuestion] {
+		questions.filter({ !$0.isFullyAnswered })
+	}
 
 	var score: Double {
 		let score_ = Double(correctQuestions.count) / Double(questions.count)
@@ -48,15 +50,13 @@ struct AttemptedExam: Codable, Hashable {
 		 questions: [AttemptedQuestion],
 		 status: Status,
 		 dateAttempted: Date,
-		 duration: TimeInterval,
-		 selectedChoices: [Choice: AttemptedQuestion.State]) {
+		 duration: TimeInterval) {
 		self.id = UUID().uuidString
 		self.examId = examId
 		self.questions = questions
 		self.status = status
 		self.dateAttempted = dateAttempted
 		self.duration = duration
-		self.selectedChoices = selectedChoices
 	}
 
 	init(from exam: Exam) {
@@ -66,9 +66,12 @@ struct AttemptedExam: Codable, Hashable {
 		self.status = .attempted
 		self.dateAttempted = Date()
 		self.duration = 0
-		self.selectedChoices = [:]
 	}
 
+	mutating func update(status: Status) {
+		self.status = status
+	}
+	
 	mutating func update(date attemptedDate: Date) {
 		self.dateAttempted = attemptedDate
 	}
@@ -77,7 +80,9 @@ struct AttemptedExam: Codable, Hashable {
 		self.duration = duration
 	}
 
-	mutating func update(selectedChoices: [Choice: AttemptedQuestion.State]) {
-		self.selectedChoices = selectedChoices
+	mutating func finish(duration: TimeInterval) {
+		self.duration = duration
+		self.dateAttempted = Date.now
+		self.status = .finished
 	}
 }

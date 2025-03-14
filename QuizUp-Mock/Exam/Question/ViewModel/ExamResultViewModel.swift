@@ -17,10 +17,6 @@ struct ExamResultViewModel: Codable, Hashable, Equatable, Identifiable {
 		exam.status
 	}()
 
-	lazy var userSelectedAnswer: [Choice: AttemptedQuestion.State] = {
-		exam.selectedChoices
-	}()
-
 	var date: Date {
 		exam.dateAttempted
 	}
@@ -33,7 +29,11 @@ struct ExamResultViewModel: Codable, Hashable, Equatable, Identifiable {
 		}
 	}
 
-	var formattedScore: String {
+	var score: String {
+		"\(exam.correctQuestions.count) / \(exam.questions.count)"
+	}
+
+	var formattedPercentageScore: String {
 		exam.scorePercentage > 0.0 ? String(format: "%.0f %%", exam.scorePercentage) : "-"
 	}
 
@@ -48,7 +48,17 @@ struct ExamResultViewModel: Codable, Hashable, Equatable, Identifiable {
 	var incorrectQuestions: [AttemptedQuestion] {
 		exam.incorrectQuestions
 	}
-	
+
+	var questionsViewModels: [QuestionViewModel] {
+		var viewModels = [QuestionViewModel]()
+
+		for (i, question) in exam.questions.enumerated() {
+			let vm = QuestionViewModel(question: question, selectedChoices: question.selectedChoices, index: i)
+			viewModels.append(vm)
+		}
+		return viewModels
+	}
+
 	var formattedDate: String {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateStyle = .medium

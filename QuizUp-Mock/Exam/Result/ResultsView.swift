@@ -21,24 +21,20 @@ struct ResultsViewContainer: View {
 	@EnvironmentObject var router: Router
 	@State private var ringProgress = 0.0
 
-	var score: String {
-		"\(result.exam.correctQuestions.count) / \(result.exam.questions.count)"
-	}
-
 	var body: some View {
 		VStack {
 			ScrollView {
 				VStack (spacing: 10.0) {
 					ResultsHeader()
 						.padding(.bottom)
-					ForEach(Array(result.exam.questions.enumerated()), id: \.offset) { index, question in
-						ResultsRow(viewModel: QuestionViewModel(question: question, index: index))
+					ForEach(result.questionsViewModels) { viewModel in
+						ResultsRow(viewModel: viewModel)
 					}
 					Spacer()
 
 				}
 				.onAppear {
-					ringProgress = 0.9//result.score
+					ringProgress = result.exam.score
 				}
 			}
 
@@ -131,7 +127,7 @@ struct ResultsViewContainer: View {
 								.bold()
 								.foregroundStyle(PastelTheme.title)
 
-							Text(score)
+							Text(result.score)
 								.font(.caption)
 								.foregroundStyle(.secondary)
 						}
@@ -152,7 +148,7 @@ struct ResultsViewContainer: View {
 					Text("Wrong Answers")
 						.font(.headline)
 						.foregroundStyle(PastelTheme.title)
-					Text("\(result.exam.correctQuestions.count)")
+					Text("\(result.exam.incorrectQuestions.count)")
 						.font(.subheadline)
 						.foregroundStyle(.secondary)
 						.padding(.bottom, 8.0)
@@ -201,6 +197,10 @@ struct ResultsRow: View {
 				.foregroundStyle(PastelTheme.title)
 				.padding(.bottom, 3)
 
+			if !viewModel.isFullyAnswered {
+				Text("(Not fully answered)")
+					.foregroundStyle(PastelTheme.subTitle)
+			}
 			VStack(alignment: .leading, spacing: 0.0) {
 				ForEach(viewModel.choices, id: \.self) { choice in
 					VStack {
@@ -215,7 +215,8 @@ struct ResultsRow: View {
 						.padding(.horizontal, 5.0)
 						.background {
 							RoundedRectangle(cornerRadius: CornerRadius)
-								.fill(PastelTheme.rowBackground.darken(by: 0.01))
+//								.fill(PastelTheme.rowBackground.darken(by: 0.01))
+								.fill(backgroundColor(for: viewModel, choice: choice))
 								.opacity(viewModel.selectedChoices[choice] == nil ? 0 : 1)
 						}
 					}
@@ -229,29 +230,27 @@ struct ResultsRow: View {
 
 	@ViewBuilder
 	func icon(for question: QuestionViewModel, choice: Choice) -> some View {
-		if let attempted = question.selectedChoices[choice] {
-			switch attempted {
-				case .correct:
-					 Image(systemName: "checkmark.circle")
-						.foregroundColor(PastelTheme.answerCorrectBackground)
-				case .wrong:
-					 Image(systemName: "xmark.circle")
-						.foregroundColor(PastelTheme.answerWrongBackground)
-				case .notAttempted:
-					 Image(systemName:"circle.dotted")
-						.foregroundColor(PastelTheme.subTitle)
-			}
-		} else if choice.isAnswer {
-			 Image(systemName: "checkmark.circle")
-				.foregroundColor(PastelTheme.answerCorrectBackground)
-				.bold()
-
-		} else {
-			 Image(systemName:"circle.dotted")
-				.foregroundColor(PastelTheme.subTitle)
-
+		switch viewModel.state(for: choice) {
+			case .correct:
+				Image(systemName: "checkmark.circle")
+					.foregroundColor(viewModel.selectedChoices[choice] == .correct ? PastelTheme.title : PastelTheme.background)
+			case .wrong:
+				Image(systemName: "xmark.circle")
+					.foregroundColor(PastelTheme.title)
+			case .notAttempted:
+				Image(systemName:"circle.dotted")
+					.foregroundColor(PastelTheme.subTitle)
 		}
 	}
+
+	func backgroundColor(for question: QuestionViewModel, choice: Choice) -> Color {
+		switch viewModel.state(for: choice) {
+			case .correct: PastelTheme.answerCorrectBackground.darken
+			case .wrong: PastelTheme.answerWrongBackground.lighten(by: 0.4)
+			case .notAttempted: Color.clear
+		}
+	}
+
 }
 
 
@@ -300,14 +299,23 @@ struct ConfettiView: View {
 	ResultsView(result: result)
 		.task {
 			let exam = await Exam.mock()
-			var mockExam = AttemptedExam(from: exam)
+			let mockExamViewModel = ExamViewModel(exam: exam)
+			let answer0 = exam.questions[0].choices.filter({$0.isAnswer}).first!
+			let answer1 = exam.questions[1].choices.filter({!$0.isAnswer}).first!
+			let answer2 = exam.questions[2].choices.filter({!$0.isAnswer}).first!
+			let answer3 = exam.questions[3].choices.filter({$0.isAnswer}).first!
+			let answer4 = exam.questions[4].choices.filter({$0.isAnswer}).first!
+			let answer5 = exam.questions[5].choices.filter({!$0.isAnswer}).first!
 
-			let answer = exam.questions[0].choices.filter(\Choice.isAnswer).first!
-			mockExam.update(selectedChoices: [answer: .correct])
 
-			let answer2 = exam.questions[1].choices.filter(\Choice.isAnswer).first!
-			mockExam.update(selectedChoices: [answer: .correct])
+			mockExamViewModel.questions[0].selected(answer0)
+			mockExamViewModel.questions[1].selected(answer1)
+			mockExamViewModel.questions[2].selected(answer2)
+			mockExamViewModel.questions[3].selected(answer3)
+			mockExamViewModel.questions[4].selected(answer4)
+			mockExamViewModel.questions[5].selected(answer5)
 
-			result = ExamResultViewModel(exam: mockExam)
+			let finishedExam = mockExamViewModel.finishExam(duration: 2*60)
+			result = mockExamViewModel.resultViewModel
 		}
 }

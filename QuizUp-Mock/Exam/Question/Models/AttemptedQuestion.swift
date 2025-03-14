@@ -20,7 +20,12 @@ struct AttemptedQuestion: Codable, Hashable {
 	var bookmarked: Bool = false
 
 	var isAnsweredCorrectly: Bool {
-		!selectedChoices.isEmpty && selectedChoices.values.allSatisfy({$0 == .correct})
+		selectedChoices.values.allSatisfy({$0 == .correct})
+	}
+
+	/// Fully answered != AnsweredCorrectly, it just means that the user has selected all the answers required
+	var isFullyAnswered: Bool {
+		selectedChoices.count == choices.filter({$0.isAnswer}).count
 	}
 
 	init(from question: Question, selectedChoices: [Choice: AttemptedQuestion.State] = [:], bookmarked: Bool = false) {
@@ -37,7 +42,7 @@ struct AttemptedQuestion: Codable, Hashable {
 		self.bookmarked = false
 	}
 
-	mutating func updateSelectedChoices(_ choice: Choice, state: AttemptedQuestion.State) {
+	mutating func updateSelected(_ choice: Choice, state: AttemptedQuestion.State) {
 		self.selectedChoices[choice] = state
 	}
 

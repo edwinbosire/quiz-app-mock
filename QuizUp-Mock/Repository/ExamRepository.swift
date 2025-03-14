@@ -58,18 +58,18 @@ class ExamRepository: Repository {
 		do {
 			return try JSONDecoder().decode([Exam].self, from: savedExams)
 		} catch(let error) {
-			print("Failed to load exams: \(error)")
+			print("Failed to load mock exams: \(error)")
 			throw ExamRepositoryErrors.UnableToLoadExamsFromStorage
 		}
 	}
 
 	func save(exam: AttemptedExam) async throws {
 		var exams: [AttemptedExam] = []
-		if let savedExams = storage.object(forKey: Self.SavedExamsKey) as? Data {
+		if let savedExams = storage.object(forKey: Self.AttemptedExamsKey) as? Data {
 			do {
 				exams = try JSONDecoder().decode([AttemptedExam].self, from: savedExams)
 			} catch(let error) {
-				print("Failed to load exams: \(error)")
+				print("Failed to load attemped exams: \(error)")
 			}
 		}
 
@@ -78,8 +78,8 @@ class ExamRepository: Repository {
 
 		do {
 			let exams = try JSONEncoder().encode(exams)
-			storage.set(exams, forKey: Self.SavedExamsKey)
-			print("saved exam results")
+			storage.set(exams, forKey: Self.AttemptedExamsKey)
+			print("saved \(exams.count) attempted exams")
 		} catch {
 			print("Failed to save exam results.")
 			throw ExamRepositoryErrors.UnableToSaveExamsResultToStorage
@@ -101,8 +101,7 @@ class ExamRepository: Repository {
 
 		do {
 			let examResult = try JSONEncoder().encode(results)
-			let defaults = UserDefaults.standard
-			defaults.set(examResult, forKey: Self.ExamResultsKey)
+			storage.set(examResult, forKey: Self.ExamResultsKey)
 			print("saved results")
 		} catch {
 			print("Failed to save results.")
@@ -134,8 +133,7 @@ class ExamRepository: Repository {
 		print("Attempting to save \(exams.count) exams")
 
 		if let exams = try? JSONEncoder().encode(exams) {
-			let defaults = UserDefaults.standard
-			defaults.set(exams, forKey: Self.SavedExamsKey)
+			storage.set(exams, forKey: Self.SavedExamsKey)
 			print("saved exams")
 		} else {
 			print("Failed to save exam.")
@@ -143,9 +141,13 @@ class ExamRepository: Repository {
 		}
 	}
 
+#if DEBUG
 	func reset() {
-		UserDefaults.standard.set(nil, forKey: Self.SavedExamsKey)
+		storage.set(nil, forKey: Self.SavedExamsKey)
+		storage.set(nil, forKey: Self.ExamResultsKey)
+		storage.set(nil, forKey: Self.AttemptedExamsKey)
 	}
+#endif
 }
 
 extension ExamRepository {
@@ -168,6 +170,7 @@ extension ExamRepository {
 				exams.append(anExam)
 				examId += 1
 			}
+			print("Generated \(exams.count) exams")
 
 		} catch {
 			print("Failed to generate exams!")

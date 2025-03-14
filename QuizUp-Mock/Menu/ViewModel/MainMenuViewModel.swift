@@ -48,4 +48,11 @@ class MenuViewModel: ObservableObject {
 			attemptedExams = exams.sorted(by: {$0.dateAttempted > $1.dateAttempted})
 		}
 	}
+
+	func loadResults() async {
+		if let examResults = try? await repository.loadResults() {
+			results = examResults
+			print("Loaded \(results.count) results")
+		}
+	}
 }

@@ -43,7 +43,7 @@ class ExamViewModel: ObservableObject, Identifiable {
 	}
 
 	var correctQuestions: [AttemptedQuestion] {
-		availableQuestions.filter { $0.isAnsweredCorrectly }.map { $0.question }
+		availableQuestions.filter { $0.isAnsweredCorrectly &&  $0.isFullyAnswered}.map { $0.question }
 	}
 
 	var incorrectQuestions: [AttemptedQuestion] {
@@ -51,7 +51,7 @@ class ExamViewModel: ObservableObject, Identifiable {
 	}
 
 	var resultViewModel: ExamResultViewModel {
-		let attemptedExam = AttemptedExam(examId: exam.examId, questions: attemptedQuestions, status: examStatus, dateAttempted: Date.now, duration: exam.duration, selectedChoices: exam.selectedChoices)
+		let attemptedExam = AttemptedExam(examId: exam.examId, questions: attemptedQuestions, status: examStatus, dateAttempted: Date.now, duration: exam.duration)
 		return ExamResultViewModel(exam: attemptedExam)
 	}
 
@@ -137,10 +137,24 @@ extension ExamViewModel: QuestionOwner {
 	}
 
 
-	func finishExam(duration: TimeInterval = 0.0) {
+	@discardableResult
+	func finishExam(duration: TimeInterval = 0.0) -> AttemptedExam {
+		print("finished exams in \(duration/60) seconds")
 		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
 		self.examStatus = finished ? .finished : .didNotFinish
 		exam.update(duration: duration)
+		exam.update(date: Date.now)
+		exam.update(status: .finished)
+		Task {
+			do {
+				try await self.repository.save(exam: exam)
+				try await self.repository.save(result: resultViewModel)
+			} catch {
+				print("Failed to save exam at the end of the quiz")
+			}
+		}
+
+		return exam
 //		DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
 //			guard let self = self else { return }
 ////			self.exam.correctQuestions = self.correctQuestions
@@ -160,14 +174,6 @@ extension ExamViewModel: QuestionOwner {
 //				duration: duration,
 //				score: self.score,
 //				userSelectedAnswer: self.userSelectedAnswers)
-//			Task {
-//				do {
-//					try await self.repository.save(exam: attemptedExam)
-//					try await self.repository.save(result: self.result)
-//				} catch {
-//					print("Failed to save exam at the end of the quiz")
-//				}
-//			}
 //		}
 	}
 }

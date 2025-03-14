@@ -46,8 +46,9 @@ struct QuestionView: View {
 						message: nil,
 						buttons: [
 							.default(Text("Report Issue")),
-							.default(Text("Restart Test")){ promptRestartExam.toggle() },
-							.destructive(Text("Quit Test")) { router.dismiss() },
+							.default(Text("Restart Test")){promptRestartExam.toggle()},
+							.default(Text("Finish Test")){viewModel.finishExam(duration: -0.0)},
+							.destructive(Text("Quit Test")) {router.dismiss()},
 							.cancel()
 						])
 		}
@@ -171,7 +172,7 @@ struct ExamProgressView: View {
 	func getProgressColor(for index: Int) -> Color {
 		return if index == currentPage {
 			PastelTheme.background.lighten(by: 0.5)
-		} else if questions[index].isAnswered {
+		} else if questions[index].isFullyAnswered {
 			questions[index].isAnsweredCorrectly ? PastelTheme.answerCorrectBackground : PastelTheme.answerWrongBackground
 		} else {
 			PastelTheme.green.darken

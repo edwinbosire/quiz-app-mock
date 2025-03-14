@@ -51,6 +51,7 @@ struct ProgressReport: View {
 						.transition(.opacity)
 					case .empty:
 						NoProgressReportView {
+							dismiss()
 							router.navigate(to: .mockTest(0), navigationType: .fullScreenCover)
 						}
 					case .error:
@@ -88,7 +89,7 @@ struct ProgressReport: View {
 
 	func reload() async {
 		viewState = .loading
-		await menuViewModel.loadExams()
+		await menuViewModel.loadResults()
 		results = menuViewModel.results
 		viewState = results.isEmpty ? .empty : .content
 	}
@@ -102,7 +103,7 @@ struct ProgressReportContainer: View {
 
 	var body: some View {
 		ScrollView {
-			BarCharts(results: results.map { $0.scorePercentage})
+			BarCharts(results: results)
 				.padding()
 			VStack {
 				ForEach(results) { result in
@@ -111,7 +112,7 @@ struct ProgressReportContainer: View {
 					}
 				}
 			}
-			.frame(minHeight: 300)
+//			.frame(minHeight: 300)
 			.padding()
 		}
 		.background(PastelTheme.background)
@@ -216,7 +217,7 @@ struct ProgressReportRow: View {
 
 			Spacer()
 
-			Text(result.formattedScore)
+			Text(result.formattedPercentageScore)
 				.font(.title2)
 				.fontWeight(.semibold)
 				.foregroundColor(PastelTheme.title)
@@ -243,36 +244,23 @@ struct ProgressReportRow: View {
 	}
 }
 
-extension ExamResultViewModel {
-	func questionsViewModels() -> [QuestionViewModel] {
-		var viewModels = [QuestionViewModel]()
-
-		for (i, question) in exam.questions.enumerated() {
-			let vm = QuestionViewModel(question: question, index: i)
-			viewModels.append(vm)
-		}
-		return viewModels
-	}
-}
-
 struct BarCharts: View {
-	let results: [Double]
+	let results: [ExamResultViewModel]
 
 	var body: some View {
 		Chart {
-			RuleMark(y: .value("Pass Mark", 75))
+			RuleMark(y: .value("Pass Mark", 0.75))
 				.foregroundStyle(Color.pink.opacity(0.5))
 
-			ForEach(Array(results.enumerated()), id: \.0) { ndx, result in
+			ForEach(results) { result in
 				BarMark(
-					x: .value("Exam", String(ndx)),
-					y: .value("Score", result)
+					x: .value("Exam", result.formattedDate),
+					y: .value("Score", result.exam.score)
 				)
 			}
 		}
 		.chartYAxisLabel("Score")
 		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
-		.frame(height: 200, alignment: .center)
 	}
 }
 

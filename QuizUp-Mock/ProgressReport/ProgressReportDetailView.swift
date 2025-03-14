@@ -9,19 +9,15 @@ import SwiftUI
 
 struct ProgressReportDetailView: View {
 	let result: ExamResultViewModel
-	@State private var questions:[QuestionViewModel] = []
 	@Environment(\.dismiss) var dismiss
 
 	var body: some View {
 		ScrollView {
-			ForEach(questions) { question in
+			ForEach(result.questionsViewModels) { question in
 				ResultsRow(viewModel: question)
 			}
 		}
 		.background(PastelTheme.background.gradient)
-		.onAppear {
-			questions = result.questionsViewModels()
-		}
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
@@ -64,10 +60,10 @@ struct ProgressReportDetailView: View {
 			var mockExam = AttemptedExam(from: exam)
 
 			let answer = exam.questions[0].choices.filter(\Choice.isAnswer).first!
-			mockExam.update(selectedChoices: [answer: .correct])
+			mockExam.questions[0].updateSelectedChoices([answer: .correct])
 
 			let answer2 = exam.questions[1].choices.filter(\Choice.isAnswer).first!
-			mockExam.update(selectedChoices: [answer: .correct])
+			mockExam.questions[1].updateSelected(answer, state: .correct)
 
 			result = ExamResultViewModel(exam: mockExam)
 		}
