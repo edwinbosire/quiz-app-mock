@@ -112,10 +112,10 @@ struct MonitizationView: View {
 			}
 		}
 		.padding(.bottom, 30)
-		.foregroundColor(Color.titleText)
+		.foregroundColor(PastelTheme.title)
 		.background(
-			Color.defaultBackground
-				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 50))
+			PastelTheme.rowBackground
+				.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 40))
 				.shadow(color: .black.opacity(0.06), radius: 9, x:0.0, y: 8.0)
 		)
 	}
@@ -156,7 +156,7 @@ struct InAppPurchasePriceCard: View {
 		.frame(height: 120)
 		.padding()
 		.background(RoundedRectangle(cornerRadius: 10)
-			.fill(Color.rowBackground)
+			.fill(PastelTheme.rowBackground)
 			.shadow(color: .black.opacity(0.09), radius: 4, y: 2))
 
 	}
