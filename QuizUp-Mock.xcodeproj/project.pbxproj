@@ -36,7 +36,6 @@
 		64A09CB42D540DDB00029CDC /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB32D540DDB00029CDC /* AppRouter.swift */; };
 		64A09CB72D540E6A00029CDC /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB62D540E6A00029CDC /* Route.swift */; };
 		64A09CE02D67CE9100029CDC /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CDF2D67CE8900029CDC /* Colors.swift */; };
-		64A09CEC2D76844E00029CDC /* gutenbergContentStyles.css in Resources */ = {isa = PBXBuildFile; fileRef = 64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */; };
 		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
@@ -70,6 +69,12 @@
 		64E42B312D80D24C0012ED02 /* AttemptedExam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B302D80D24C0012ED02 /* AttemptedExam.swift */; };
 		64E42B332D80D2670012ED02 /* AttemptedQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B322D80D2670012ED02 /* AttemptedQuestion.swift */; };
 		64E42B352D80D3500012ED02 /* ExamResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B342D80D3500012ED02 /* ExamResultViewModel.swift */; };
+		64E42B3A2D8516EC0012ED02 /* Highlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B392D8516EC0012ED02 /* Highlighter.swift */; };
+		64E42B3C2D8517B60012ED02 /* WebViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B3B2D8517B60012ED02 /* WebViewCoordinator.swift */; };
+		64E42B3E2D851A5C0012ED02 /* HighlighterScript.js in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B3D2D851A5C0012ED02 /* HighlighterScript.js */; };
+		64E42B402D852D480012ED02 /* javascript.js in Resources */ = {isa = PBXBuildFile; fileRef = 64E42B3F2D852D480012ED02 /* javascript.js */; };
+		64E42B422D852DF20012ED02 /* css.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B412D852DF10012ED02 /* css.swift */; };
+		64E42B442D853C450012ED02 /* javascript2.js in Resources */ = {isa = PBXBuildFile; fileRef = 64E42B432D853C450012ED02 /* javascript2.js */; };
 		64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */; };
 		64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */; };
 /* End PBXBuildFile section */
@@ -104,7 +109,6 @@
 		64A09CB32D540DDB00029CDC /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		64A09CB62D540E6A00029CDC /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		64A09CDF2D67CE8900029CDC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = gutenbergContentStyles.css; sourceTree = "<group>"; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -140,6 +144,12 @@
 		64E42B302D80D24C0012ED02 /* AttemptedExam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttemptedExam.swift; sourceTree = "<group>"; };
 		64E42B322D80D2670012ED02 /* AttemptedQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttemptedQuestion.swift; sourceTree = "<group>"; };
 		64E42B342D80D3500012ED02 /* ExamResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewModel.swift; sourceTree = "<group>"; };
+		64E42B392D8516EC0012ED02 /* Highlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlighter.swift; sourceTree = "<group>"; };
+		64E42B3B2D8517B60012ED02 /* WebViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCoordinator.swift; sourceTree = "<group>"; };
+		64E42B3D2D851A5C0012ED02 /* HighlighterScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = HighlighterScript.js; sourceTree = "<group>"; };
+		64E42B3F2D852D480012ED02 /* javascript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = javascript.js; sourceTree = "<group>"; };
+		64E42B412D852DF10012ED02 /* css.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = css.swift; sourceTree = "<group>"; };
+		64E42B432D853C450012ED02 /* javascript2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = javascript2.js; sourceTree = "<group>"; };
 		64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeExamList.swift; sourceTree = "<group>"; };
 		64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeBackHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,7 +275,6 @@
 		64AB584F29CF7DDA000B8ECC /* Book */ = {
 			isa = PBXGroup;
 			children = (
-				64A09CEB2D76844E00029CDC /* gutenbergContentStyles.css */,
 				64B5BA4A29FD58DE00875667 /* handbook.json */,
 				64B5BA4C29FD669000875667 /* Handbook.swift */,
 				64B5BA4E29FD681800875667 /* HandbookRepository.swift */,
@@ -327,6 +336,12 @@
 				64B5BA4029F7A9A600875667 /* HandbookReader.swift */,
 				64B5BA542A05E55500875667 /* TopicProgressView.swift */,
 				642205D929CD2FD900BD663D /* HTMLView.swift */,
+				64E42B412D852DF10012ED02 /* css.swift */,
+				64E42B392D8516EC0012ED02 /* Highlighter.swift */,
+				64E42B3B2D8517B60012ED02 /* WebViewCoordinator.swift */,
+				64E42B3D2D851A5C0012ED02 /* HighlighterScript.js */,
+				64E42B432D853C450012ED02 /* javascript2.js */,
+				64E42B3F2D852D480012ED02 /* javascript.js */,
 			);
 			path = Handbook;
 			sourceTree = "<group>";
@@ -464,11 +479,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				64ADD35E272CA9EF003F043D /* Preview Assets.xcassets in Resources */,
-				64A09CEC2D76844E00029CDC /* gutenbergContentStyles.css in Resources */,
 				64B5BA4B29FD58DE00875667 /* handbook.json in Resources */,
 				6455B0EF29BF25CD008B6F39 /* questions.json in Resources */,
 				64ADD35B272CA9EF003F043D /* Assets.xcassets in Resources */,
 				6455B0EE29BF25CD008B6F39 /* explanation.json in Resources */,
+				64E42B402D852D480012ED02 /* javascript.js in Resources */,
+				64E42B442D853C450012ED02 /* javascript2.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +516,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64E42B422D852DF20012ED02 /* css.swift in Sources */,
 				64ADD359272CA9E9003F043D /* ContentView.swift in Sources */,
 				64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */,
 				64E42B262D7D1BB90012ED02 /* 3DBackground.swift in Sources */,
@@ -530,6 +547,7 @@
 				64B7EDE929C6AD01001F6717 /* SettingsView.swift in Sources */,
 				6455B0DD29BBABCB008B6F39 /* QuestionContainerView.swift in Sources */,
 				64B5FF9029CD0CCB001F22E8 /* MainMenuViewModel.swift in Sources */,
+				64E42B3E2D851A5C0012ED02 /* HighlighterScript.js in Sources */,
 				64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */,
 				64E42B242D7BFD710012ED02 /* StickyHeader.swift in Sources */,
 				6455B10129C38A84008B6F39 /* RoundedCornerShape.swift in Sources */,
@@ -540,6 +558,7 @@
 				64E42B282D7D22DC0012ED02 /* ExamLoadingView.swift in Sources */,
 				642205DA29CD2FD900BD663D /* HTMLView.swift in Sources */,
 				64A09CAC2D4D928F00029CDC /* QuestionPageView.swift in Sources */,
+				64E42B3C2D8517B60012ED02 /* WebViewCoordinator.swift in Sources */,
 				6455B0EB29BE7C00008B6F39 /* ExamView.swift in Sources */,
 				64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */,
 				64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */,
@@ -555,6 +574,7 @@
 				641C198729C613160018EE3D /* View+Extension.swift in Sources */,
 				64B5BA512A0191CF00875667 /* FeatureFlags.swift in Sources */,
 				64B5BA532A04744200875667 /* SearchResultsView.swift in Sources */,
+				64E42B3A2D8516EC0012ED02 /* Highlighter.swift in Sources */,
 				6455B0F929C1401D008B6F39 /* Confetti.swift in Sources */,
 				64C5047F29EA1F0D00DCEDA3 /* SummaryView.swift in Sources */,
 				64A09CAE2D4DA7E200029CDC /* FrameReader.swift in Sources */,

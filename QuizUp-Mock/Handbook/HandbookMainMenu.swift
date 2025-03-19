@@ -21,6 +21,10 @@ struct HandbookMainMenu: View {
 		HandbookMainMenuList(chapters: chapters, queryString: $queryString)
 			.navigationBarTitleDisplayMode(.inline)
 			.navigationTitle("Handbook")
+			.toolbarColorScheme(.dark, for: .navigationBar)
+			.toolbarBackground(PastelTheme.background, for: .navigationBar)
+			.toolbarBackground(.visible, for: .navigationBar)
+
 			.onChange(of: queryString) {_, newValue in
 				if newValue.isEmpty {
 					chapters = bookViewModel.chapters
