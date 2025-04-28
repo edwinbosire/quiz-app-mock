@@ -80,9 +80,13 @@ struct  HandbookTopicReader: View {
 	var body: some View {
 			ZStack(alignment: .leading) {
 				let title = "<H1>\(topic.title) </H1>"
-				HTMLView(html: "\(title) \(topic.content)", chapterId: topic.id, fontSize: $fontSize, scrollProgress: $scrollProgress, highlightManager: highlightManager)
+//				HTMLView(html: "\(title) \(topic.content)", chapterId: topic.id, fontSize: $fontSize, scrollProgress: $scrollProgress, highlightManager: highlightManager)
+//					.frame(maxWidth: .infinity ,maxHeight: .infinity)
+//					.edgesIgnoringSafeArea(.bottom)
+				HTMLFormattedText(text: "\(title) \(topic.content)")
 					.frame(maxWidth: .infinity ,maxHeight: .infinity)
 					.edgesIgnoringSafeArea(.bottom)
+
 
 			}
 			.onChange(of: scrollProgress) { _, newValue in

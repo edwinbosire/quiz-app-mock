@@ -21,8 +21,10 @@ struct PracticeExamList: View {
 		VStack(alignment: .leading) {
 			Title()
 
-			ForEach(menuViewModel.mockExamsViewModels) { exam in
+			ForEach(menuViewModel.mockExamsViewModels.indices, id: \.self) { index in
+				let exam = menuViewModel.mockExamsViewModels[index]
 				PracticeExamListRow(viewModel: exam, locked: exam.exam.examId > freeUserAllowance)
+					.staggered(0.15*CGFloat(index))
 			}
 		}
 		.padding()

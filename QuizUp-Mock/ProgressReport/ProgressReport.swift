@@ -22,24 +22,7 @@ struct ProgressReport: View {
 	var body: some View {
 		NavigationStack {
 			VStack(spacing: 0.0) {
-				Rectangle()
-					.fill(PastelTheme.navBackground)
-					.frame(maxWidth: .infinity)
-					.frame(height: 60)
-					.overlay(alignment: .topLeading) {
-						Button {
-							router.dismiss()
-						} label: {
-							HStack {
-								Image(systemName: "chevron.backward")
-									.rotationEffect(.degrees(-90))
-								Text("Exam Reports")
-							}
-							.bold()
-							.foregroundStyle(PastelTheme.title)
-						}
-						.padding()
-					}
+				navigationBar()
 				switch viewState {
 					case .loading:
 						ProgressReportLoadingView()
@@ -69,6 +52,27 @@ struct ProgressReport: View {
 		.onAppear{ scale = 1.0 }
 //		.background(PastelTheme.background.ignoresSafeArea())
 
+	}
+
+	func navigationBar() -> some View {
+		Rectangle()
+			.fill(PastelTheme.navBackground)
+			.frame(maxWidth: .infinity)
+			.frame(height: 60)
+			.overlay(alignment: .topLeading) {
+				Button {
+					router.dismiss()
+				} label: {
+					HStack {
+						Image(systemName: "chevron.backward")
+							.rotationEffect(.degrees(-90))
+						Text("Exam Reports")
+					}
+					.bold()
+					.foregroundStyle(PastelTheme.title)
+				}
+				.padding()
+			}
 	}
 
 	@ToolbarContentBuilder
@@ -101,10 +105,16 @@ struct ProgressReportContainer: View {
 	var startExamSelected: (() -> Void)?
 	@EnvironmentObject var router: Router
 
+	@State private var showCharts: Bool = false
+	@State private var showDetail: Bool = false
 	var body: some View {
 		ScrollView {
-			BarCharts(results: results)
-				.padding()
+//			if results.count > 3 {
+				BarCharts(results: results)
+					.padding()
+					.opacity(showCharts ? 1 : 0)
+					.offset(y: showCharts ? 0 : 20)
+//			}
 			VStack {
 				ForEach(results) { result in
 					NavigationLink(destination: ProgressReportDetailView(result: result)) {
@@ -114,8 +124,21 @@ struct ProgressReportContainer: View {
 			}
 //			.frame(minHeight: 300)
 			.padding()
+			.opacity(showDetail ? 1 : 0)
+			.offset(y: showDetail ? 0 : 20)
+
 		}
 		.background(PastelTheme.background)
+		.onAppear {
+			withAnimation(.easeInOut.delay(0.1)) {
+				showCharts = true
+			}
+
+			withAnimation(.easeInOut.delay(0.3)) {
+				showDetail = true
+			}
+
+		}
 	}
 }
 
@@ -249,15 +272,16 @@ struct BarCharts: View {
 
 	var body: some View {
 		Chart {
-			RuleMark(y: .value("Pass Mark", 0.75))
-				.foregroundStyle(Color.pink.opacity(0.5))
-
 			ForEach(results) { result in
 				BarMark(
-					x: .value("Exam", result.formattedDate),
+					x: .value("Date", result.formattedDate),
 					y: .value("Score", result.exam.score)
 				)
 			}
+
+			RuleMark(y: .value("Pass Mark", 0.75))
+				.foregroundStyle(Color.pink.opacity(0.5))
+
 		}
 		.chartYAxisLabel("Score")
 		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))

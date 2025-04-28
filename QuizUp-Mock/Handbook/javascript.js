@@ -283,3 +283,7 @@ document.addEventListener('click', function(e) {
 		removeHighlightMenu();
 	}
 });
+
+addEventListener("contextmenu", (event) => {
+	event.preventDefault();
+});

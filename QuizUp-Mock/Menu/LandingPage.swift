@@ -29,15 +29,41 @@ struct LandingPage: View {
 //		}
 	}
 
+	@State private var showSummary: Bool = false
+	@State private var showHandbook: Bool = false
+	@State private var showPracticeExamList: Bool = false
+
 	@ViewBuilder func LandingPageContent() -> some View {
 		ScrollView {
 			VStack(spacing: 0.0) {
 				SummaryView()
+					.staggered(0.1)
 				HandbookView(handbookViewModel: menuViewModel.handbookViewModel)
+					.staggered(0.3)
+
 				PracticeExamList()
+					.staggered(0.5)
 			}
 		}
 		.background(PastelTheme.background.gradient)
+		.onAppear {
+			withAnimation(.easeInOut.delay(0.1)) {
+				showSummary = true
+			}
+
+			withAnimation(.easeInOut.delay(0.3)) {
+				showHandbook = true
+			}
+			
+			withAnimation(.easeInOut.delay(0.5)) {
+				showPracticeExamList = true
+			}
+		}
+		.onDisappear {
+			showSummary = false
+			showHandbook = false
+			showPracticeExamList = false
+		}
 	}
 
 	@ViewBuilder func HeaderSeparator() -> some View {
@@ -96,5 +122,30 @@ struct BackgroundBlob: View {
 			}
 			.blur(radius: 75)
 
+	}
+}
+
+extension View {
+	func staggered(_ delay: Double = 0.1) -> some View {
+		modifier(StaggeredAnimationModifier(delay: delay))
+	}
+}
+
+struct StaggeredAnimationModifier: ViewModifier {
+	@State private var showView: Bool = false
+	var delay: Double
+
+	func body(content: Content) -> some View {
+		content
+			.offset(y: showView ? 0.0 : 20.0)
+			.opacity(showView ? 1.0 : 0.0)
+			.onAppear {
+				withAnimation(.easeInOut(duration: 0.3).delay(delay)) {
+					self.showView = true
+				}
+			}
+			.onDisappear {
+				showView = false
+			}
 	}
 }
