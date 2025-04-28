@@ -10,21 +10,18 @@ import SwiftUI
 struct HandbookReader: View {
 	@Environment(\.featureFlags) var featureFlags
 	@AppStorage("ReaderFontSize") var fontSize: Double = 14
-//	@State private var readerFont: Double = 100
+	//	@State private var readerFont: Double = 100
 	let chapter: Chapter
 	let index: Int
 	@State private var selection = 0
 
 	var body: some View {
-		GeometryReader { proxy in
-			TabView(selection: $selection) {
-				ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
-					HandbookTopicReader(topic: topic, fontSize: $fontSize).tag(ndx)
-				}
+		TabView(selection: $selection) {
+			ForEach(Array(chapter.topics.enumerated()), id: \.offset) { ndx, topic in
+				HandbookTopicReader(topic: topic, fontSize: $fontSize).tag(ndx)
 			}
-			.ignoresSafeArea(.all, edges: .bottom)
-
 		}
+		.ignoresSafeArea(.all)
 		.tabViewStyle(.page(indexDisplayMode: .never))
 		.navigationBarTitle(
 			Text(chapter.title.components(separatedBy: ":").first ?? ""),
@@ -56,9 +53,7 @@ struct HandbookReader: View {
 		})
 		.background(PastelTheme.background)
 		.toolbarColorScheme(.dark, for: .navigationBar)
-		.toolbarBackground(
-			PastelTheme.background,
-			for: .navigationBar)
+		.toolbarBackground(PastelTheme.background, for: .navigationBar)
 		.toolbarBackground(.visible, for: .navigationBar)
 		.onAppear {
 			selection = index
@@ -78,29 +73,29 @@ struct  HandbookTopicReader: View {
 	@StateObject private var highlightManager = HighlightManager()
 
 	var body: some View {
-			ZStack(alignment: .leading) {
-				let title = "<H1>\(topic.title) </H1>"
-//				HTMLView(html: "\(title) \(topic.content)", chapterId: topic.id, fontSize: $fontSize, scrollProgress: $scrollProgress, highlightManager: highlightManager)
-//					.frame(maxWidth: .infinity ,maxHeight: .infinity)
-//					.edgesIgnoringSafeArea(.bottom)
-				HTMLFormattedText(text: "\(title) \(topic.content)")
-					.frame(maxWidth: .infinity ,maxHeight: .infinity)
-					.edgesIgnoringSafeArea(.bottom)
+		ZStack(alignment: .leading) {
+			let title = "<H1>\(topic.title) </H1>"
+							HTMLView(html: "\(title) \(topic.content)", chapterId: topic.id, fontSize: $fontSize, scrollProgress: $scrollProgress, highlightManager: highlightManager)
+								.frame(maxWidth: .infinity ,maxHeight: .infinity)
+								.edgesIgnoringSafeArea(.bottom)
+//			HTMLFormattedText(text: "\(title) \(topic.content)")
+//				.frame(maxWidth: .infinity ,maxHeight: .infinity)
+//				.edgesIgnoringSafeArea(.bottom)
 
 
+		}
+		.onChange(of: scrollProgress) { _, newValue in
+			if UserDefaults.standard.double(forKey: topic.title) < newValue {
+				UserDefaults.standard.set(newValue, forKey: topic.title)
 			}
-			.onChange(of: scrollProgress) { _, newValue in
-				if UserDefaults.standard.double(forKey: topic.title) < newValue {
-					UserDefaults.standard.set(newValue, forKey: topic.title)
-				}
-			}
-			.toolbar {
-				ToolbarItem(placement: .navigationBarTrailing) {
-					NavigationLink(destination: HighlightsListView(highlightManager: highlightManager, currentChapterId: topic.id)) {
-						Image(systemName: "highlighter")
-					}
-				}
-			}
+		}
+//		.toolbar {
+//			ToolbarItem(placement: .navigationBarTrailing) {
+//				NavigationLink(destination: HighlightsListView(highlightManager: highlightManager, currentChapterId: topic.id)) {
+//					Image(systemName: "highlighter")
+//				}
+//			}
+//		}
 
 	}
 }
@@ -118,12 +113,12 @@ struct HighlightsListView: View {
 
 	var filteredHighlights: [TextHighlight] {
 		switch filter {
-		case .all:
-			return highlightManager.highlights.sorted { $0.timestamp > $1.timestamp }
-		case .currentChapter:
-			return highlightManager.highlights
-				.filter { $0.chapterId == currentChapterId }
-				.sorted { $0.timestamp > $1.timestamp }
+			case .all:
+				return highlightManager.highlights.sorted { $0.timestamp > $1.timestamp }
+			case .currentChapter:
+				return highlightManager.highlights
+					.filter { $0.chapterId == currentChapterId }
+					.sorted { $0.timestamp > $1.timestamp }
 		}
 	}
 
@@ -216,9 +211,9 @@ struct HandbookReader_Previews: PreviewProvider {
 
 	static let chapter: Chapter = Chapter(title: "Chapter 1 : The values and principles of the UK",
 										  topics: [topic1, topic2])
-    static var previews: some View {
+	static var previews: some View {
 		NavigationStack {
 			HandbookReader(chapter: HandbookReader_Previews.chapter, index: 0)
 		}
-    }
+	}
 }

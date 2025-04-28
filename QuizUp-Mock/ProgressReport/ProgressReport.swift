@@ -109,16 +109,18 @@ struct ProgressReportContainer: View {
 	@State private var showDetail: Bool = false
 	var body: some View {
 		ScrollView {
-//			if results.count > 3 {
+			if results.count > 3 {
 				BarCharts(results: results)
 					.padding()
 					.opacity(showCharts ? 1 : 0)
 					.offset(y: showCharts ? 0 : 20)
-//			}
+			}
 			VStack {
-				ForEach(results) { result in
+				ForEach(results.indices, id: \.self) { index in
+					let result = self.results[index]
 					NavigationLink(destination: ProgressReportDetailView(result: result)) {
 						ProgressReportRow(result: result)
+							.staggered(0.15*CGFloat(index))
 					}
 				}
 			}
