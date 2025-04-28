@@ -42,7 +42,7 @@ struct LandingPage: View {
 					.staggered(0.3)
 
 				PracticeExamList()
-					.staggered(0.5)
+					.staggered(0.4)
 			}
 		}
 		.background(PastelTheme.background.gradient)
@@ -126,26 +126,40 @@ struct BackgroundBlob: View {
 }
 
 extension View {
-	func staggered(_ delay: Double = 0.1) -> some View {
-		modifier(StaggeredAnimationModifier(delay: delay))
+	func staggered(_ delay: Double = 0.1, repeats: Bool = false) -> some View {
+		modifier(StaggeredAnimationModifier(delay: delay, repeats: repeats))
 	}
 }
 
 struct StaggeredAnimationModifier: ViewModifier {
-	@State private var showView: Bool = false
+	@State private var offset: CGFloat = 20.0
+	@State private var opacity: Double = 0.0
+	@State private var shouldRepeatAnimation: Bool = true
+
 	var delay: Double
+	var repeats: Bool
 
 	func body(content: Content) -> some View {
 		content
-			.offset(y: showView ? 0.0 : 20.0)
-			.opacity(showView ? 1.0 : 0.0)
+			.offset(y: offset)
+			.opacity(opacity)
 			.onAppear {
-				withAnimation(.easeInOut(duration: 0.3).delay(delay)) {
-					self.showView = true
+				guard shouldRepeatAnimation else { return }
+				withAnimation(.easeInOut(duration: 0.2).delay(delay)) {
+					opacity = 1.0
 				}
+
+				withAnimation(.easeInOut(duration: 0.4).delay(delay)) {
+					offset = 0.0
+				}
+				shouldRepeatAnimation = repeats
+
 			}
 			.onDisappear {
-				showView = false
+				guard shouldRepeatAnimation else { return }
+				opacity = 0.0
+				offset = 20.0
+
 			}
 	}
 }

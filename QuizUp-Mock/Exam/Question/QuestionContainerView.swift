@@ -21,20 +21,22 @@ struct QuestionView: View {
 	var body: some View {
 		VStack {
 			QuestionToolBarContentView(viewModel: viewModel.currentQuestion, isShowingMenu: $isShowingMenu)
+				.staggered()
 			ExamProgressView(currentPage: $viewModel.progress, questions: viewModel.questions)
-
+				.staggered(0.2)
 			HStack(alignment: .firstTextBaseline) {
 				QuestionCounter(progressTitle: viewModel.progressTitle)
 				Spacer()
 				TimerView(viewModel: viewModel)
 			}
 			.padding(.horizontal)
-
+			.staggered(0.3)
 
 			TabView(selection: $viewModel.progress) {
 				ForEach(viewModel.questions) { questionViewModel in
 					QuestionPageView(viewModel: questionViewModel)
 						.tag(questionViewModel.index)
+
 				}
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))

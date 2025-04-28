@@ -24,7 +24,7 @@ struct PracticeExamList: View {
 			ForEach(menuViewModel.mockExamsViewModels.indices, id: \.self) { index in
 				let exam = menuViewModel.mockExamsViewModels[index]
 				PracticeExamListRow(viewModel: exam, locked: exam.exam.examId > freeUserAllowance)
-					.staggered(0.15*CGFloat(index))
+					.staggered(0.4 + 0.1*CGFloat(index))
 			}
 		}
 		.padding()

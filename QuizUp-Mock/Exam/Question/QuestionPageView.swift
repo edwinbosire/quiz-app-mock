@@ -36,15 +36,19 @@ struct QuestionPageView: View {
 						.layoutPriority(2)
 						.id(topID)
 						.zIndex(0)
+						.staggered(0.3)
 
 					Rectangle()
 						.fill(.clear)
 						.sticky()
 					PromptView()
+						.staggered(0.4)
+
 				}
 				Spacer()
 				AnswersView()
 					.layoutPriority(1)
+					.staggered(0.4)
 			}
 			.frame(width: geo.size.width, height: geo.size.height)
 
@@ -115,7 +119,9 @@ struct QuestionPageView: View {
 	@ViewBuilder
 	func AnswersView() -> some View {
 		VStack(alignment: .leading) {
-			ForEach(Array(viewModel.choices.enumerated()), id: \.offset) { index, choice in
+			ForEach(viewModel.choices.indices, id: \.self) { index in
+				let choice = viewModel.choices[index]
+
 				AnswerRow(answer: choice,
 						  isLastRow: isLastRow(index),
 						  answerState: viewModel.state(for: choice)) {

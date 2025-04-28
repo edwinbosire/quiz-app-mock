@@ -22,9 +22,7 @@ struct UseStickyHeaders: ViewModifier {
 
 	func body(content: Content) -> some View {
 		content
-			.onPreferenceChange(FramePreference.self) {
-				frames = $0
-			}
+			.onPreferenceChange(FramePreference.self) { frames = $0 }
 			.environment(\.stickyRects, frames)
 	}
 }
@@ -59,16 +57,11 @@ struct Sticky: ViewModifier {
 		content
 			.offset(y: offset)
 			.zIndex(isSticking ? .infinity : 0)
-			.overlay(GeometryReader { proxy in
-				let f = proxy.frame(in: .named("container"))
-				Color.clear
-					.onAppear { frame = f }
-					.onChange(of: f) {_, newFrame in
-						frame = newFrame
-					}
-					.preference(key: FramePreference.self, value: [id: frame])
-			})
-
+			.onGeometryChange(for: CGRect.self) { proxy in
+				proxy.frame(in: .scrollView)
+			} action: { newFrame in
+				frame = newFrame
+			}
 
 	}
 }

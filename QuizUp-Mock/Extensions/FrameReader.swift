@@ -21,17 +21,13 @@ struct FrameReader: ViewModifier {
 	@Binding var frame: CGSize
 	func body(content: Content) -> some View {
 		content
-			.background(
-				GeometryReader { geometry in
-					Color.clear
-						.preference(key: FramePreferenceKey.self, value: geometry.size)
-				}
-			)
-			.onPreferenceChange(FramePreferenceKey.self) { _frame in
-				height = _frame.height
-				width = _frame.width
-				frame = frame
-			}
+			.onGeometryChange(for: CGSize.self, of: { proxy in
+				proxy.size
+			}, action: { newSize in
+				height = newSize.height
+				width = newSize.width
+				frame = newSize
+			})
 	}
 }
 
