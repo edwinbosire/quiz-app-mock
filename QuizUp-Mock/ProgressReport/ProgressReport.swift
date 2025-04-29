@@ -109,10 +109,9 @@ struct ProgressReportContainer: View {
 		ScrollView {
 			if results.count > 1 {
 				BarCharts(results: results)
-					.zIndex(1)
 					.staggered(0.1)
-					.sticky()
 					.background(Color.white)
+					.zIndex(.infinity)
 			}
 			VStack {
 				ForEach(results.indices, id: \.self) { index in
@@ -125,7 +124,6 @@ struct ProgressReportContainer: View {
 			}
 			.padding()
 		}
-		.useStickyHeaders()
 		.background(PastelTheme.background)
 	}
 }

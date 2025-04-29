@@ -139,7 +139,7 @@ extension ExamViewModel: QuestionOwner {
 	@discardableResult
 	func finishExam(duration: TimeInterval = 0.0) -> AttemptedExam {
 		print("finished exams in \(duration/60) seconds")
-		let finished = questions.filter { !$0.allAnswersSelected }.count > 0
+		let finished = questions.filter { $0.allAnswersSelected }.count > 0
 		self.examStatus = finished ? .finished : .didNotFinish
 		exam.update(duration: duration)
 		exam.update(date: Date.now)

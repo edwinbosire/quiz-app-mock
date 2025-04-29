@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BarCharts: View {
 	let results: [ExamResultViewModel]
+	let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.accentColor.opacity(0.4), Color.accentColor.opacity(0)]), startPoint: .top,endPoint: .bottom)
 
 	var body: some View {
 		Chart {
@@ -19,6 +20,17 @@ struct BarCharts: View {
 					x: .value("Exam", result.exam.dateAttempted),
 					y: .value("Score", result.exam.scorePercentage)
 				)
+				.interpolationMethod(.cardinal)
+			}
+
+			ForEach(resultsSortedByDate.indices, id: \.self) { index in
+				let result = resultsSortedByDate[index]
+				AreaMark(
+					x: .value("Exam", result.exam.dateAttempted),
+					y: .value("Score", result.exam.scorePercentage)
+				)
+				.interpolationMethod(.cardinal)
+				.foregroundStyle(linearGradient)
 			}
 
 			RuleMark(y: .value("Pass Mark", 75))
@@ -35,15 +47,27 @@ struct BarCharts: View {
 //		.chartXScale(domain: 0...results.count-1)
 		.chartYScale(domain: 0...100)
 		.chartXAxis(content: {
-			AxisMarks(values: .automatic(desiredCount: results.count+2))
-			// Add forced marks for first and last explicitly
-			AxisMarks(values: [results.first?.exam.dateAttempted, results.last?.exam.dateAttempted].compactMap { $0 }) { value in
+			AxisMarks(values: .automatic(desiredCount: results.count+2)) {
 				AxisTick()
 				AxisGridLine()
-				AxisValueLabel {
-					if let date = value.as(Date.self) {
-						Text(date, format: .dateTime.month().day())
-					}
+				AxisValueLabel(format: .dateTime.month().day(), centered: false, anchor: .top)
+			}
+			// Add forced marks for first and last explicitly
+			AxisMarks(values: [results.first?.exam.dateAttempted].compactMap { $0 }) { value in
+				AxisTick()
+				AxisGridLine()
+
+				if let _ = value.as(Date.self) {
+					AxisValueLabel(format: .dateTime.month().day(), centered: false, anchor: .topLeading)
+				}
+			}
+
+			AxisMarks(values: [results.last?.exam.dateAttempted].compactMap { $0 }) { value in
+				AxisTick()
+				AxisGridLine()
+
+				if let _ = value.as(Date.self) {
+					AxisValueLabel(format: .dateTime.month().day(), centered: false, anchor: .topTrailing)
 				}
 			}
 
