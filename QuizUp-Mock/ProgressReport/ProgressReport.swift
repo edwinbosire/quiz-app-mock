@@ -105,42 +105,28 @@ struct ProgressReportContainer: View {
 	var startExamSelected: (() -> Void)?
 	@EnvironmentObject var router: Router
 
-	@State private var showCharts: Bool = false
-	@State private var showDetail: Bool = false
 	var body: some View {
 		ScrollView {
-			if results.count > 3 {
+			if results.count > 1 {
 				BarCharts(results: results)
-					.padding()
-					.opacity(showCharts ? 1 : 0)
-					.offset(y: showCharts ? 0 : 20)
+					.zIndex(1)
+					.staggered(0.1)
+					.sticky()
+					.background(Color.white)
 			}
 			VStack {
 				ForEach(results.indices, id: \.self) { index in
 					let result = self.results[index]
 					NavigationLink(destination: ProgressReportDetailView(result: result)) {
-						ProgressReportRow(result: result)
+						ProgressReportRow(result: result, index: index)
 							.staggered(0.15*CGFloat(index))
 					}
 				}
 			}
-//			.frame(minHeight: 300)
 			.padding()
-			.opacity(showDetail ? 1 : 0)
-			.offset(y: showDetail ? 0 : 20)
-
 		}
+		.useStickyHeaders()
 		.background(PastelTheme.background)
-		.onAppear {
-			withAnimation(.easeInOut.delay(0.1)) {
-				showCharts = true
-			}
-
-			withAnimation(.easeInOut.delay(0.3)) {
-				showDetail = true
-			}
-
-		}
 	}
 }
 
@@ -205,12 +191,13 @@ struct NoProgressReportView: View {
 
 struct ProgressReportRow: View {
 	let result: ExamResultViewModel
+	let index: Int
 	var body: some View {
 		HStack {
 			//			Image(systemName: "newspaper")
 
 			VStack(alignment: .leading, spacing: 5.0) {
-				Text("Practice Test \(result.examId)")
+				Text("Practice Test \(index)")
 					.font(.title3)
 					.fontWeight(.semibold)
 					.foregroundStyle(PastelTheme.title)
@@ -266,27 +253,6 @@ struct ProgressReportRow: View {
 		.clipShape(RoundedRectangle(cornerRadius: CornerRadius, style: .continuous))
 
 
-	}
-}
-
-struct BarCharts: View {
-	let results: [ExamResultViewModel]
-
-	var body: some View {
-		Chart {
-			ForEach(results) { result in
-				BarMark(
-					x: .value("Date", result.formattedDate),
-					y: .value("Score", result.exam.score)
-				)
-			}
-
-			RuleMark(y: .value("Pass Mark", 0.75))
-				.foregroundStyle(Color.pink.opacity(0.5))
-
-		}
-		.chartYAxisLabel("Score")
-		.foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
 	}
 }
 

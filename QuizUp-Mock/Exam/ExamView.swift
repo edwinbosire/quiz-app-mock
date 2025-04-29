@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ExamView: View {
-	var examId: Int
+	@EnvironmentObject var router: Router
+
 	@State private var viewModel: ExamViewModel? = nil
 	@State private var viewState: ViewState = .loading
-	@EnvironmentObject var router: Router
 	@State var scale = 0.9
+	var examId: Int
 
-	init (examId: Int) {
+	init(examId: Int) {
 		self.examId = examId
 	}
 

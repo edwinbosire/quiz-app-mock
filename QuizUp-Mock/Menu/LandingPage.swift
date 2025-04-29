@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Charts
 
 public let CornerRadius: CGFloat = 10.0
 struct LandingPage: View {
@@ -145,7 +144,7 @@ struct StaggeredAnimationModifier: ViewModifier {
 			.opacity(opacity)
 			.onAppear {
 				guard shouldRepeatAnimation else { return }
-				withAnimation(.easeInOut(duration: 0.2).delay(delay)) {
+				withAnimation(.easeOut(duration: 0.2).delay(delay)) {
 					opacity = 1.0
 				}
 

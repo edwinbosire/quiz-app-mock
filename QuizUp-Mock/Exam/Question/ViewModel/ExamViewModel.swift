@@ -136,7 +136,6 @@ extension ExamViewModel: QuestionOwner {
 		}
 	}
 
-
 	@discardableResult
 	func finishExam(duration: TimeInterval = 0.0) -> AttemptedExam {
 		print("finished exams in \(duration/60) seconds")

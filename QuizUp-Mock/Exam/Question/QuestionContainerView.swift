@@ -9,15 +9,14 @@ import SwiftUI
 
 struct QuestionView: View {
 	@Environment(\.dismiss) var dismiss
-
-	@ObservedObject var viewModel: ExamViewModel
 	@EnvironmentObject var router: Router
-	@Namespace var namespace
+	@ObservedObject var viewModel: ExamViewModel
 
 //	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
 	@State private var promptRestartExam: Bool = false
 
+	@Namespace var namespace
 	var body: some View {
 		VStack {
 			QuestionToolBarContentView(viewModel: viewModel.currentQuestion, isShowingMenu: $isShowingMenu)
@@ -48,9 +47,9 @@ struct QuestionView: View {
 						message: nil,
 						buttons: [
 							.default(Text("Report Issue")),
-							.default(Text("Restart Test")){promptRestartExam.toggle()},
-							.default(Text("Finish Test")){viewModel.finishExam(duration: -0.0)},
-							.destructive(Text("Quit Test")) {router.dismiss()},
+							.default(Text("Restart Test")) { promptRestartExam.toggle() },
+							.default(Text("Finish Test")) { viewModel.finishExam(duration: -0.0) },
+							.destructive(Text("Quit Test")) { router.dismiss() },
 							.cancel()
 						])
 		}
