@@ -14,25 +14,6 @@ struct BarCharts: View {
 
 	var body: some View {
 		Chart {
-			ForEach(resultsSortedByDate.indices, id: \.self) { index in
-				let result = resultsSortedByDate[index]
-				LineMark(
-					x: .value("Exam", result.exam.dateAttempted),
-					y: .value("Score", result.exam.scorePercentage)
-				)
-				.interpolationMethod(.cardinal)
-			}
-
-			ForEach(resultsSortedByDate.indices, id: \.self) { index in
-				let result = resultsSortedByDate[index]
-				AreaMark(
-					x: .value("Exam", result.exam.dateAttempted),
-					y: .value("Score", result.exam.scorePercentage)
-				)
-				.interpolationMethod(.cardinal)
-				.foregroundStyle(linearGradient)
-			}
-
 			RuleMark(y: .value("Pass Mark", 75))
 				.foregroundStyle(Color.pink.opacity(0.2))
 				.annotation(position: .bottom,
@@ -42,6 +23,30 @@ struct BarCharts: View {
 						.foregroundStyle(.secondary)
 				}
 
+			ForEach(resultsSortedByDate.indices, id: \.self) { index in
+				let result = resultsSortedByDate[index]
+				LineMark(
+					x: .value("Exam", index),
+					y: .value("Score", result.exam.scorePercentage)
+				)
+				.interpolationMethod(.linear)
+
+				PointMark(
+					x: .value("Index", index),
+					y: .value("Value", result.exam.scorePercentage)
+				)
+
+			}
+
+			ForEach(resultsSortedByDate.indices, id: \.self) { index in
+				let result = resultsSortedByDate[index]
+				AreaMark(
+					x: .value("Exam", index),
+					y: .value("Score", result.exam.scorePercentage)
+				)
+				.interpolationMethod(.linear)
+				.foregroundStyle(linearGradient)
+			}
 		}
 //		.chartYAxisLabel("Score (%)", position: .trailing, alignment: .bottom)
 //		.chartXScale(domain: 0...results.count-1)
