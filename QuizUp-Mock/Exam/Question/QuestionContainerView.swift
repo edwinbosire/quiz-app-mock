@@ -10,7 +10,7 @@ import SwiftUI
 struct QuestionView: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject var router: Router
-	@ObservedObject var viewModel: ExamViewModel
+	@Bindable var viewModel: ExamViewModel
 
 //	@State private var selectedPage: Int = 0
 	@State private var isShowingMenu: Bool = false
@@ -105,7 +105,7 @@ struct TimerView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.featureFlags) var featureFlags
 
-	@ObservedObject var viewModel: ExamViewModel
+	var viewModel: ExamViewModel
 
 	@State private var timer: Timer? = nil
 	@State var timeRemaining = 1*1*60

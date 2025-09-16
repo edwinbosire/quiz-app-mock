@@ -13,26 +13,24 @@ protocol QuestionOwner {
 	func allowProgressToNextQuestion() async
 }
 
-@MainActor
-class ExamViewModel: ObservableObject, Identifiable {
+@MainActor @Observable
+class ExamViewModel: Identifiable {
 	let id: UUID = UUID()
 	var examId: Int { exam.examId }
 	private let repository: ExamRepository = .shared
 
 	private var refreshTask: Task<Void, Error>?
-	@Published var progress: Int = 0 {
+	var progress: Int = 0 {
 		didSet {
-			Task { @MainActor in
-				progressTitle = "Question \(progress+1) of \(exam.questions.count)"
-			}
+			progressTitle = "Question \(progress+1) of \(exam.questions.count)"
 		}
 	}
 
-	@Published var exam: AttemptedExam
-	@Published var progressTitle: String = ""
-	@Published var examStatus: AttemptedExam.Status
-	@Published var bookmarked: Bool = false
-	@Published var questions: [QuestionViewModel] = []
+	var exam: AttemptedExam
+	var progressTitle: String = ""
+	var examStatus: AttemptedExam.Status
+	var bookmarked: Bool = false
+	var questions: [QuestionViewModel] = []
 
 	var currentQuestion: QuestionViewModel {
 		if progress >= 0 && progress < questions.count {
@@ -64,7 +62,7 @@ class ExamViewModel: ObservableObject, Identifiable {
 	}
 
 	var availableQuestions = [QuestionViewModel]()
-	@Published var viewState: ViewState = .loading
+	var viewState: ViewState = .loading
 
 
 	init(exam: Exam) {
@@ -125,7 +123,7 @@ extension ExamViewModel: QuestionOwner {
 			finishExam()
 		}
 	}
-	
+
 	func allowProgressToNextQuestion() {
 		print("got the answer wrong, stay on the same page, but allow scrolling to next question")
 		if progress < questions.count-1 {
@@ -177,7 +175,7 @@ extension ExamViewModel: QuestionOwner {
 	}
 }
 
-extension ExamViewModel: @preconcurrency Hashable {
+extension ExamViewModel: Hashable {
 	static func == (lhs: ExamViewModel, rhs: ExamViewModel) -> Bool {
 		lhs.id == rhs.id
 	}
