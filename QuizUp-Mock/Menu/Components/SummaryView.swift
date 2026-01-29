@@ -12,7 +12,7 @@ struct SummaryView: View {
 	@Environment(\.featureFlags) var featureFlags
 	@Environment(\.colorScheme) var colorScheme
 	@EnvironmentObject private var menuViewModel: MenuViewModel
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	var isDarkMode: Bool { colorScheme == .dark }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct QuestionView: View {
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	@Bindable var viewModel: ExamViewModel
 
 //	@State private var selectedPage: Int = 0

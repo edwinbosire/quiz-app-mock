@@ -18,7 +18,7 @@ struct ResultsViewContainer: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
 	let result: ExamResultViewModel
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	@State private var ringProgress = 0.0
 
 	var body: some View {

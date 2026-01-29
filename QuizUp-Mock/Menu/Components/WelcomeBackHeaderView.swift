@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WelcomeBackHeaderView: View {
 	@Environment(\.featureFlags) var featureFlags
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	@State private var queryString: String = ""
 	@Binding var isSearching: Bool

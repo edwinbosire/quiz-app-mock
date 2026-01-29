@@ -10,7 +10,7 @@ import SwiftUI
 struct HandbookView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.featureFlags) var featureFlags
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	var handbookViewModel: HandbookViewModel
 
@@ -62,7 +62,7 @@ struct HandbookView: View {
 
 struct HandbookCards: View {
 	@Environment(\.featureFlags) var featureFlags
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	var chapter: Chapter
 	var index: Int

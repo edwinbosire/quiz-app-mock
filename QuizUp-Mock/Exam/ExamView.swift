@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExamView: View {
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	@State private var viewModel: ExamViewModel? = nil
 	@State private var viewState: ViewState = .loading

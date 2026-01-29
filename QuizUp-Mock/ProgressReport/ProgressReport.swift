@@ -11,7 +11,7 @@ import Charts
 struct ProgressReport: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	@State var scale = 1.0
 	var startExamSelected: (() -> Void)?
@@ -104,7 +104,7 @@ struct ProgressReportContainer: View {
 	var results: [ExamResultViewModel]
 	@State var scale = 0.5
 	var startExamSelected: (() -> Void)?
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	var body: some View {
 		ScrollView {

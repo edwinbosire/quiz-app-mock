@@ -13,7 +13,7 @@ struct RouterView<Content: View>: View {
 	@State private var isPresentingFullScreen: Bool = false
 	@State private var isPresentingSheet: Bool = false
 
-	@StateObject private var router: Router = .init(isPresented: .constant(.none))
+	@State private var router: Router = .init(isPresented: .constant(.none))
 
 	private let content: Content
 
@@ -22,6 +22,7 @@ struct RouterView<Content: View>: View {
 	}
 
 	var body: some View {
+		@Bindable var router = router
 		NavigationStack(path: $router.path) {
 			content
 				.navigationDestination(for: Destination.self) { destination in
@@ -40,7 +41,7 @@ struct RouterView<Content: View>: View {
 		.onChange(of: router.presentingFullScreenCover) { oldValue, newValue in
 			isPresentingFullScreen = newValue != .none
 		}
-		.environmentObject(router)
+		.environment(router)
 	}
 
 	@ViewBuilder func view(for destination: Destination) -> some View {

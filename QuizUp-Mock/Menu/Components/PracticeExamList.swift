@@ -10,7 +10,7 @@ import SwiftUI
 struct PracticeExamList: View {
 	@EnvironmentObject private var menuViewModel: MenuViewModel
 	@Environment(\.featureFlags) var featureFlags
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	@Namespace var namespace
 
 	@Environment(\.colorScheme) var colorScheme
@@ -47,7 +47,7 @@ struct PracticeExamList: View {
 }
 
 struct PracticeExamListRow: View {
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 
 	let viewModel: ExamViewModel
 	let locked: Bool

@@ -28,23 +28,24 @@ enum Destination: Hashable, Equatable {
 	case monetization
 }
 
-protocol RouterProtocol: ObservableObject {
+protocol RouterProtocol: AnyObject {
 	func navigate(to destination: Destination, navigationType: NavigationType)
 }
 
+@Observable
 class Router: RouterProtocol {
-	@Published var path: NavigationPath = NavigationPath()
-	@Published var destination: Destination = .mainMenu
-	@Published var showSheet: Bool = false
+	var path: NavigationPath = NavigationPath()
+	var destination: Destination = .mainMenu
+	var showSheet: Bool = false
 
 	/// Used to present a view using a sheet
-	@Published public var presentingSheet: Destination?
+	public var presentingSheet: Destination?
 
 	/// Used to present a view using a full screen cover
-	@Published public var presentingFullScreenCover: Destination?
+	public var presentingFullScreenCover: Destination?
 
 	/// Used by presented Router instances to dismiss themselves
-	@Published public var isPresented: Binding<Destination?>
+	@ObservationIgnored public var isPresented: Binding<Destination?>
 
 	public var isPresenting: Bool {
 		presentingSheet != nil || presentingFullScreenCover != nil
@@ -131,7 +132,7 @@ extension View {
 }
 
 struct FullScreenModifier<V: View>: ViewModifier {
-	@ObservedObject var router: Router
+	@Bindable var router: Router
 	@Binding var isPresenting: Bool
 	let body: (Destination) -> V
 
@@ -146,7 +147,7 @@ struct FullScreenModifier<V: View>: ViewModifier {
 }
 
 struct SheetScreenModifier<V: View>: ViewModifier {
-	@ObservedObject var router: Router
+	@Bindable var router: Router
 	@Binding var isPresented: Bool
 	let body: (Destination) -> V
 

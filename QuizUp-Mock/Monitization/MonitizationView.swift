@@ -10,7 +10,7 @@ import SwiftUI
 struct MonitizationView: View {
 	@Environment(\.dismiss) var dismiss
 
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	var body: some View {
 		VStack {
 			header()

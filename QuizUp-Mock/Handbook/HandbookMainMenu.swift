@@ -77,7 +77,7 @@ struct HandbookMainMenuList: View {
 }
 
 private struct BookChapterRow: View {
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	@State private var readingProgress: Double = .zero
 	let title: String
 	let chapter: Int

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuestionBankView: View {
-	@EnvironmentObject var router: Router
+	@Environment(Router.self) var router
 	var body: some View {
 		VStack {
 			HStack {
