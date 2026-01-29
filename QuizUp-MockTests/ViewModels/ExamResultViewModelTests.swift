@@ -5,16 +5,18 @@
 //  Created by Claude Code on 29/01/2026.
 //
 
-import XCTest
+import Foundation
+import Testing
 @testable import Life_In_The_UK_Prep
 
+@Suite("ExamResultViewModel Tests")
 @MainActor
-final class ExamResultViewModelTests: XCTestCase {
+struct ExamResultViewModelTests {
 
     // MARK: - Score Formatting Tests
 
-    func test_score_formatsAsRatio() {
-        // Given: An exam with 3 correct out of 5
+    @Test("score formats as ratio")
+    func score_formatsAsRatio() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 3,
             incorrectCount: 1,
@@ -22,12 +24,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Score is formatted as "3 / 5"
-        XCTAssertEqual(result.score, "3 / 5")
+        #expect(result.score == "3 / 5")
     }
 
-    func test_score_allCorrect_showsFullRatio() {
-        // Given: An exam with all correct
+    @Test("score with all correct shows full ratio")
+    func score_allCorrect_showsFullRatio() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 4,
             incorrectCount: 0,
@@ -35,12 +36,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Score shows 4 / 4
-        XCTAssertEqual(result.score, "4 / 4")
+        #expect(result.score == "4 / 4")
     }
 
-    func test_score_allWrong_showsZeroRatio() {
-        // Given: An exam with none correct
+    @Test("score with all wrong shows zero ratio")
+    func score_allWrong_showsZeroRatio() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 0,
             incorrectCount: 4,
@@ -48,14 +48,13 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Score shows 0 / 4
-        XCTAssertEqual(result.score, "0 / 4")
+        #expect(result.score == "0 / 4")
     }
 
     // MARK: - Formatted Percentage Score Tests
 
-    func test_formattedPercentageScore_formatsWithPercent() {
-        // Given: An exam with 75% score
+    @Test("formattedPercentageScore formats with percent")
+    func formattedPercentageScore_formatsWithPercent() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 3,
             incorrectCount: 1,
@@ -63,12 +62,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows "75 %"
-        XCTAssertEqual(result.formattedPercentageScore, "75 %")
+        #expect(result.formattedPercentageScore == "75 %")
     }
 
-    func test_formattedPercentageScore_perfectScore_shows100() {
-        // Given: An exam with 100% score
+    @Test("formattedPercentageScore with perfect score shows 100")
+    func formattedPercentageScore_perfectScore_shows100() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 4,
             incorrectCount: 0,
@@ -76,12 +74,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows "100 %"
-        XCTAssertEqual(result.formattedPercentageScore, "100 %")
+        #expect(result.formattedPercentageScore == "100 %")
     }
 
-    func test_formattedPercentageScore_zeroScore_returnsDash() {
-        // Given: An exam with 0% score
+    @Test("formattedPercentageScore with zero score returns dash")
+    func formattedPercentageScore_zeroScore_returnsDash() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 0,
             incorrectCount: 4,
@@ -89,14 +86,13 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows "-"
-        XCTAssertEqual(result.formattedPercentageScore, "-")
+        #expect(result.formattedPercentageScore == "-")
     }
 
     // MARK: - Prompt Tests (Pass/Fail)
 
-    func test_prompt_passingScore_showsCongratulations() {
-        // Given: An exam with 75% score (passing threshold)
+    @Test("prompt with passing score shows congratulations")
+    func prompt_passingScore_showsCongratulations() {
         var questions: [AttemptedQuestion] = []
         for i in 0..<18 {
             let q = TestDataFactory.makeSingleAnswerQuestion(id: "correct\(i)")
@@ -116,12 +112,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows congratulations
-        XCTAssertEqual(result.prompt, "Congratulation! You've passed the test")
+        #expect(result.prompt == "Congratulation! You've passed the test")
     }
 
-    func test_prompt_abovePassingScore_showsCongratulations() {
-        // Given: An exam with 80% score (above passing)
+    @Test("prompt with above passing score shows congratulations")
+    func prompt_abovePassingScore_showsCongratulations() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 4,
             incorrectCount: 1,
@@ -129,12 +124,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows congratulations
-        XCTAssertEqual(result.prompt, "Congratulation! You've passed the test")
+        #expect(result.prompt == "Congratulation! You've passed the test")
     }
 
-    func test_prompt_failingScore_showsFailMessage() {
-        // Given: An exam below 75%
+    @Test("prompt with failing score shows fail message")
+    func prompt_failingScore_showsFailMessage() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 2,
             incorrectCount: 2,
@@ -142,13 +136,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows fail message
-        XCTAssertEqual(result.prompt, "Your score is below the 75% pass mark")
+        #expect(result.prompt == "Your score is below the 75% pass mark")
     }
 
-    func test_prompt_barelyFailing_showsFailMessage() {
-        // Given: An exam with 74% score (just below passing)
-        // 74/100 requires careful construction
+    @Test("prompt barely failing shows fail message")
+    func prompt_barelyFailing_showsFailMessage() {
         var questions: [AttemptedQuestion] = []
         for i in 0..<74 {
             let q = TestDataFactory.makeSingleAnswerQuestion(id: "correct\(i)")
@@ -168,14 +160,13 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Shows fail message (74% < 75%)
-        XCTAssertEqual(result.prompt, "Your score is below the 75% pass mark")
+        #expect(result.prompt == "Your score is below the 75% pass mark")
     }
 
     // MARK: - Score Percentage Tests
 
-    func test_scorePercentage_matchesExamPercentage() {
-        // Given: An exam
+    @Test("scorePercentage matches exam percentage")
+    func scorePercentage_matchesExamPercentage() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 2,
             incorrectCount: 2,
@@ -183,15 +174,14 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Percentage matches exam
-        XCTAssertEqual(result.scorePercentage, exam.scorePercentage)
-        XCTAssertEqual(result.scorePercentage, 50.0)
+        #expect(result.scorePercentage == exam.scorePercentage)
+        #expect(result.scorePercentage == 50.0)
     }
 
     // MARK: - Question Access Tests
 
-    func test_correctQuestions_matchesExamCorrectQuestions() {
-        // Given: An exam with known correct questions
+    @Test("correctQuestions matches exam correctQuestions")
+    func correctQuestions_matchesExamCorrectQuestions() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 3,
             incorrectCount: 1,
@@ -199,13 +189,12 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Correct questions match
-        XCTAssertEqual(result.correctQuestions.count, 3)
-        XCTAssertEqual(result.correctQuestions.count, exam.correctQuestions.count)
+        #expect(result.correctQuestions.count == 3)
+        #expect(result.correctQuestions.count == exam.correctQuestions.count)
     }
 
-    func test_incorrectQuestions_matchesExamIncorrectQuestions() {
-        // Given: An exam with known incorrect questions
+    @Test("incorrectQuestions matches exam incorrectQuestions")
+    func incorrectQuestions_matchesExamIncorrectQuestions() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 1,
             incorrectCount: 3,
@@ -213,15 +202,14 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Incorrect questions match
-        XCTAssertEqual(result.incorrectQuestions.count, 3)
-        XCTAssertEqual(result.incorrectQuestions.count, exam.incorrectQuestions.count)
+        #expect(result.incorrectQuestions.count == 3)
+        #expect(result.incorrectQuestions.count == exam.incorrectQuestions.count)
     }
 
     // MARK: - Questions ViewModels Tests
 
-    func test_questionsViewModels_createsViewModelsForAllQuestions() {
-        // Given: An exam with 4 questions
+    @Test("questionsViewModels creates ViewModels for all questions")
+    func questionsViewModels_createsViewModelsForAllQuestions() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 2,
             incorrectCount: 1,
@@ -229,12 +217,11 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: ViewModels are created for all questions
-        XCTAssertEqual(result.questionsViewModels.count, 4)
+        #expect(result.questionsViewModels.count == 4)
     }
 
-    func test_questionsViewModels_preservesSelectedChoices() {
-        // Given: An exam with answered questions
+    @Test("questionsViewModels preserves selected choices")
+    func questionsViewModels_preservesSelectedChoices() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 1,
             incorrectCount: 1,
@@ -242,13 +229,12 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: ViewModels have pre-populated selections
         let firstVM = result.questionsViewModels[0]
-        XCTAssertFalse(firstVM.selectedChoices.isEmpty)
+        #expect(!firstVM.selectedChoices.isEmpty)
     }
 
-    func test_questionsViewModels_hasCorrectIndices() {
-        // Given: An exam
+    @Test("questionsViewModels has correct indices")
+    func questionsViewModels_hasCorrectIndices() {
         let exam = TestDataFactory.makeAttemptedExam(
             correctCount: 3,
             incorrectCount: 0,
@@ -256,16 +242,15 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Each VM has correct index
         for (index, vm) in result.questionsViewModels.enumerated() {
-            XCTAssertEqual(vm.index, index)
+            #expect(vm.index == index)
         }
     }
 
     // MARK: - Date Tests
 
-    func test_date_matchesExamDateAttempted() {
-        // Given: An exam with specific date
+    @Test("date matches exam dateAttempted")
+    func date_matchesExamDateAttempted() {
         let specificDate = Date(timeIntervalSince1970: 1000000)
         let exam = AttemptedExam(
             examId: 1,
@@ -276,27 +261,21 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Date matches
-        XCTAssertEqual(result.date, specificDate)
+        #expect(result.date == specificDate)
     }
 
-    func test_formattedDate_usesLocalizedFormat() {
-        // Given: A result
+    @Test("formattedDate uses localized format")
+    func formattedDate_usesLocalizedFormat() {
         let exam = TestDataFactory.makeAttemptedExam()
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Formatted date is not empty
-        XCTAssertFalse(result.formattedDate.isEmpty)
+        #expect(!result.formattedDate.isEmpty)
     }
 
     // MARK: - Multi-Answer Score Tests (Critical)
 
-    func test_score_withMultiAnswerQuestions_countsCorrectly() {
-        // Given: An exam with multi-answer questions
-        // - 1 multi-answer all correct = CORRECT
-        // - 1 multi-answer one wrong = WRONG
-        // - 1 single correct = CORRECT
-        // - 1 single wrong = WRONG
+    @Test("score with multi-answer questions counts correctly")
+    func score_withMultiAnswerQuestions_countsCorrectly() {
         let exam = TestDataFactory.makeAttemptedExamWithMultiAnswer(
             multiAnswerAllCorrect: 1,
             multiAnswerOneWrong: 1,
@@ -305,14 +284,13 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Score is 2/4 = 50%
-        XCTAssertEqual(result.score, "2 / 4")
-        XCTAssertEqual(result.scorePercentage, 50.0)
-        XCTAssertEqual(result.formattedPercentageScore, "50 %")
+        #expect(result.score == "2 / 4")
+        #expect(result.scorePercentage == 50.0)
+        #expect(result.formattedPercentageScore == "50 %")
     }
 
-    func test_score_multiAnswerWithAnyWrong_countsAsIncorrect() {
-        // Given: A multi-answer question with one correct and one wrong
+    @Test("multi-answer with any wrong counts as incorrect")
+    func score_multiAnswerWithAnyWrong_countsAsIncorrect() {
         let question = TestDataFactory.makeMultiAnswerQuestion(correctIndices: [0, 1])
         let oneCorrectOneWrong = TestDataFactory.makeOneCorrectOneWrongQuestion(from: question)
 
@@ -325,15 +303,14 @@ final class ExamResultViewModelTests: XCTestCase {
         )
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: Score is 0/1 (any wrong = entire question wrong)
-        XCTAssertEqual(result.score, "0 / 1")
-        XCTAssertEqual(result.prompt, "Your score is below the 75% pass mark")
+        #expect(result.score == "0 / 1")
+        #expect(result.prompt == "Your score is below the 75% pass mark")
     }
 
     // MARK: - Initialization Tests
 
-    func test_init_setsExamIdFromExam() {
-        // Given: An exam with specific ID
+    @Test("init sets examId from exam")
+    func init_setsExamIdFromExam() {
         let exam = AttemptedExam(
             examId: 42,
             questions: [],
@@ -342,20 +319,17 @@ final class ExamResultViewModelTests: XCTestCase {
             duration: 0
         )
 
-        // When: Result is created
         let result = ExamResultViewModel(exam: exam)
 
-        // Then: examId is set
-        XCTAssertEqual(result.examId, 42)
+        #expect(result.examId == 42)
     }
 
-    func test_init_generatesUniqueId() {
-        // Given: Two results from same exam
+    @Test("init generates unique ID")
+    func init_generatesUniqueId() {
         let exam = TestDataFactory.makeAttemptedExam()
         let result1 = ExamResultViewModel(exam: exam)
         let result2 = ExamResultViewModel(exam: exam)
 
-        // Then: IDs are unique
-        XCTAssertNotEqual(result1.id, result2.id)
+        #expect(result1.id != result2.id)
     }
 }
