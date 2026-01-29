@@ -25,6 +25,7 @@ protocol Repository {
 	func loadMockExam(with withId: Int) async throws -> Exam
 
 	func save(exam: AttemptedExam) async throws
+	func save(result: ExamResultViewModel) async throws
 
 	func reset()
 }

@@ -40,7 +40,7 @@ class MenuViewModel: ObservableObject {
 	}
 
 	func loadExams() async {
-		if let viewModels = try? await repository.loadMockExams().map(ExamViewModel.init) {
+		if let viewModels = try? await repository.loadMockExams().map({ ExamViewModel(exam: $0) }) {
 			mockExamsViewModels = viewModels
 		}
 

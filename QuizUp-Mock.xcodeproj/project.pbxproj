@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -81,6 +81,16 @@
 		64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		64A2C6282F2BC32B0068FE07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64ADD34B272CA9E9003F043D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 64ADD352272CA9E9003F043D;
+			remoteInfo = "Life In The UK Prep";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		641C198429C553F00018EE3D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 		641C198629C613160018EE3D /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -112,6 +122,7 @@
 		64A09CB32D540DDB00029CDC /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		64A09CB62D540E6A00029CDC /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		64A09CDF2D67CE8900029CDC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		64A2C6242F2BC32B0068FE07 /* QuizUp-MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QuizUp-MockTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -158,7 +169,18 @@
 		64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeBackHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		64A2C6252F2BC32B0068FE07 /* QuizUp-MockTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "QuizUp-MockTests"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		64A2C6212F2BC32B0068FE07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64ADD350272CA9E9003F043D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -291,6 +313,7 @@
 			children = (
 				64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */,
 				64ADD355272CA9E9003F043D /* QuizUp-Mock */,
+				64A2C6252F2BC32B0068FE07 /* QuizUp-MockTests */,
 				64ADD354272CA9E9003F043D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -299,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				64ADD353272CA9E9003F043D /* Life In The UK Prep.app */,
+				64A2C6242F2BC32B0068FE07 /* QuizUp-MockTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -428,6 +452,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		64A2C6232F2BC32B0068FE07 /* QuizUp-MockTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64A2C62C2F2BC32B0068FE07 /* Build configuration list for PBXNativeTarget "QuizUp-MockTests" */;
+			buildPhases = (
+				64A2C6202F2BC32B0068FE07 /* Sources */,
+				64A2C6212F2BC32B0068FE07 /* Frameworks */,
+				64A2C6222F2BC32B0068FE07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				64A2C6292F2BC32B0068FE07 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				64A2C6252F2BC32B0068FE07 /* QuizUp-MockTests */,
+			);
+			name = "QuizUp-MockTests";
+			packageProductDependencies = (
+			);
+			productName = "QuizUp-MockTests";
+			productReference = 64A2C6242F2BC32B0068FE07 /* QuizUp-MockTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		64ADD352272CA9E9003F043D /* Life In The UK Prep */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 64ADD361272CA9EF003F043D /* Build configuration list for PBXNativeTarget "Life In The UK Prep" */;
@@ -453,9 +500,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1310;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					64A2C6232F2BC32B0068FE07 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 64ADD352272CA9E9003F043D;
+					};
 					64ADD352272CA9E9003F043D = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -475,11 +526,19 @@
 			projectRoot = "";
 			targets = (
 				64ADD352272CA9E9003F043D /* Life In The UK Prep */,
+				64A2C6232F2BC32B0068FE07 /* QuizUp-MockTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		64A2C6222F2BC32B0068FE07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64ADD351272CA9E9003F043D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -518,6 +577,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		64A2C6202F2BC32B0068FE07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64ADD34F272CA9E9003F043D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -592,7 +658,66 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		64A2C6292F2BC32B0068FE07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 64ADD352272CA9E9003F043D /* Life In The UK Prep */;
+			targetProxy = 64A2C6282F2BC32B0068FE07 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		64A2C62A2F2BC32B0068FE07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 33XQUS4CME;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.edwin.neurofocus.QuizUp-MockTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life In The UK Prep.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Life In The UK Prep";
+			};
+			name = Debug;
+		};
+		64A2C62B2F2BC32B0068FE07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 33XQUS4CME;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.edwin.neurofocus.QuizUp-MockTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life In The UK Prep.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Life In The UK Prep";
+			};
+			name = Release;
+		};
 		64ADD35F272CA9EF003F043D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -788,6 +913,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		64A2C62C2F2BC32B0068FE07 /* Build configuration list for PBXNativeTarget "QuizUp-MockTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64A2C62A2F2BC32B0068FE07 /* Debug */,
+				64A2C62B2F2BC32B0068FE07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		64ADD34E272CA9E9003F043D /* Build configuration list for PBXProject "QuizUp-Mock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

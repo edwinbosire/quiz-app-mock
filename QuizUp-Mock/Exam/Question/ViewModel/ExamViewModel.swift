@@ -17,7 +17,7 @@ protocol QuestionOwner {
 class ExamViewModel: Identifiable {
 	let id: UUID = UUID()
 	var examId: Int { exam.examId }
-	private let repository: ExamRepository = .shared
+	private let repository: Repository
 
 	private var refreshTask: Task<Void, Error>?
 	var progress: Int = 0 {
@@ -65,7 +65,8 @@ class ExamViewModel: Identifiable {
 	var viewState: ViewState = .loading
 
 
-	init(exam: Exam) {
+	init(exam: Exam, repository: Repository = ExamRepository.shared) {
+		self.repository = repository
 		self.exam = AttemptedExam(from: exam)
 		progress = 0
 		examStatus = .started
@@ -93,12 +94,12 @@ class ExamViewModel: Identifiable {
 		return self
 	}
 
-	static func viewDidLoad(_ examId: Int) async -> ExamViewModel? {
-		guard let mockExam = try? await ExamRepository.shared.loadMockExam(with: examId) else {
+	static func viewDidLoad(_ examId: Int, repository: Repository = ExamRepository.shared) async -> ExamViewModel? {
+		guard let mockExam = try? await repository.loadMockExam(with: examId) else {
 			return nil
 		}
 
-		let viewModel = ExamViewModel(exam: mockExam)
+		let viewModel = ExamViewModel(exam: mockExam, repository: repository)
 		viewModel.viewState = .content
 		return viewModel
 	}
