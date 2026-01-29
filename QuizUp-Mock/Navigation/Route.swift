@@ -28,8 +28,11 @@ enum Destination: Hashable, Equatable {
 	case monetization
 }
 
+protocol RouterProtocol: ObservableObject {
+	func navigate(to destination: Destination, navigationType: NavigationType)
+}
 
-class Router: ObservableObject {
+class Router: RouterProtocol {
 	@Published var path: NavigationPath = NavigationPath()
 	@Published var destination: Destination = .mainMenu
 	@Published var showSheet: Bool = false

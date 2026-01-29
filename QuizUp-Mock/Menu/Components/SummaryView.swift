@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Observation
 
 struct SummaryView: View {
 	@Environment(\.featureFlags) var featureFlags
@@ -29,11 +30,10 @@ struct SummaryView: View {
 		.padding(.top)
 		.clipShape(RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 20))
 		.shadow(color: .black.opacity(0.09), radius: 4, x:0.0, y: 2)
-		.onAppear {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-				averageScore = 75.5
-				readingProgress = menuViewModel.handbookViewModel.totalProgress
-			}
+		.task {
+			try? await Task.sleep(nanoseconds: UInt64(3e+9))
+			averageScore = 75.5
+			readingProgress = menuViewModel.handbookViewModel.totalProgress
 		}
 	}
 
@@ -48,7 +48,7 @@ struct SummaryView: View {
 				.frame(height: 150)
 
 		}
-		.buttonStyle(ScoreButtonStyle())
+		.buttonStyle(RaisedButtonStyle(color: Color.pink))
 	}
 
 	@ViewBuilder
@@ -61,48 +61,29 @@ struct SummaryView: View {
 				.frame(maxWidth: .infinity)
 				.frame(height: 150)
 		}
-		.buttonStyle(HandbookButtonStyle())
+		.buttonStyle(RaisedButtonStyle(color: Color.teal))
 
 	}
 }
 
-struct HandbookButtonStyle: ButtonStyle {
+struct RaisedButtonStyle: ButtonStyle {
+	let color: Color
 
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
+			.offset(y: configuration.isPressed ? 4.0 : 0.0)
 			.background(
-				RoundedRectangle(cornerRadius: CornerRadius)
-					.fill(Color.teal.darken)
-					.overlay {
-						RoundedRectangle(cornerRadius: CornerRadius)
-							.fill(Color.teal.lighten)
-							.offset(y: configuration.isPressed ? 4.0 : -4.0)
-					}
-					.scaleEffect(configuration.isPressed ? 0.99 : 1.0)
+				ZStack {
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(color.darken)
+						.offset(y: 4)
 
+					RoundedRectangle(cornerRadius: CornerRadius)
+						.fill(color.lighten)
+						.offset(y: configuration.isPressed ? 4.0 : 0.0)
+				}
 			)
 			.foregroundStyle(PastelTheme.title)
-			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
-	}
-}
-
-struct ScoreButtonStyle: ButtonStyle {
-
-	func makeBody(configuration: Configuration) -> some View {
-		configuration.label
-			.background(
-				RoundedRectangle(cornerRadius: CornerRadius)
-					.fill(Color.pink.darken)
-					.overlay {
-						RoundedRectangle(cornerRadius: CornerRadius)
-							.fill(Color.pink.lighten)
-							.offset(y: configuration.isPressed ? 4.0 : -4.0)
-					}
-					.scaleEffect(configuration.isPressed ? 0.99 : 1.0)
-
-			)
-			.foregroundStyle(PastelTheme.title)
-			.clipShape(RoundedRectangle(cornerRadius: CornerRadius))
 	}
 }
 
@@ -135,8 +116,19 @@ struct CountingText: View, Animatable {
 	}
 }
 
+#if DEBUG
 #Preview {
+	@Previewable @State var router = MockRouter()
+
 	SummaryView()
 		.background(PastelTheme.background.ignoresSafeArea())
 		.environmentObject(MenuViewModel.shared)
+		.environment(router)
 }
+
+@Observable
+final class MockRouter {
+	func navigate(to destination: Destination, navigationType: NavigationType = .push) {
+	}
+}
+#endif

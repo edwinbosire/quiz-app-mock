@@ -42,6 +42,7 @@ struct ProgressReport: View {
 				}
 			}
 		}
+		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
 			toolBarBackButton()
@@ -192,8 +193,6 @@ struct ProgressReportRow: View {
 	let index: Int
 	var body: some View {
 		HStack {
-			//			Image(systemName: "newspaper")
-
 			VStack(alignment: .leading, spacing: 5.0) {
 				Text("Practice Test \(index)")
 					.font(.title3)
@@ -232,10 +231,6 @@ struct ProgressReportRow: View {
 				.fontWeight(.semibold)
 				.foregroundColor(PastelTheme.title)
 
-
-			//			Image(systemName: "chevron.right")
-			//				.font(.title)
-
 		}
 		.padding()
 		.background(
@@ -249,8 +244,6 @@ struct ProgressReportRow: View {
 				}
 		)
 		.clipShape(RoundedRectangle(cornerRadius: CornerRadius, style: .continuous))
-
-
 	}
 }
 
