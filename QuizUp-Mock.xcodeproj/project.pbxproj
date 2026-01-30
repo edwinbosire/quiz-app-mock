@@ -346,7 +346,7 @@
 				64ADD35A272CA9EF003F043D /* Assets.xcassets */,
 				64ADD35C272CA9EF003F043D /* Preview Content */,
 			);
-			path = "QuizUp-Mock";
+			path = Quizie;
 			sourceTree = "<group>";
 		};
 		64ADD35C272CA9EF003F043D /* Preview Content */ = {
@@ -847,7 +847,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = "\"QuizUp-Mock/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Quizie/Preview Content\"";
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -883,7 +883,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = "\"QuizUp-Mock/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Quizie/Preview Content\"";
 				DEVELOPMENT_TEAM = 33XQUS4CME;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
