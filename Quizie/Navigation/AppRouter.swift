@@ -69,6 +69,17 @@ struct RouterView<Content: View>: View {
 				ProgressReport()
 			case .progressReportDetail(let progressReport):
 				ProgressReportDetailView(result: progressReport)
+			// Flashcards
+			case .flashcardsHome:
+				FlashcardsHomeView()
+			case .flashcardsReview:
+				ReviewSessionView()
+			case .flashcardCreate:
+				CreateFlashcardView()
+			case .flashcardsBrowse:
+				BrowseFlashcardsView()
+			case .flashcardDetail(let card):
+				FlashcardDetailView(card: card)
 		}
 
 	}

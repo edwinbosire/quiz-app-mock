@@ -39,7 +39,8 @@ struct LandingPage: View {
 					.staggered(0.1)
 				HandbookView(handbookViewModel: menuViewModel.handbookViewModel)
 					.staggered(0.3)
-
+				FlashcardsMenuCard()
+					.staggered(0.35)
 				PracticeExamList()
 					.staggered(0.4)
 			}

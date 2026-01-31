@@ -37,6 +37,7 @@
 		64A09CB42D540DDB00029CDC /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB32D540DDB00029CDC /* AppRouter.swift */; };
 		64A09CB72D540E6A00029CDC /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CB62D540E6A00029CDC /* Route.swift */; };
 		64A09CE02D67CE9100029CDC /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A09CDF2D67CE8900029CDC /* Colors.swift */; };
+		64A2C7EE2F2D8B000068FE07 /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A2C7ED2F2D8B000068FE07 /* TextFieldStyle.swift */; };
 		64AB586029CF9290000B8ECC /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB585F29CF9290000B8ECC /* HintView.swift */; };
 		64ADD357272CA9E9003F043D /* QuizUp_MockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */; };
 		64ADD359272CA9E9003F043D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADD358272CA9E9003F043D /* ContentView.swift */; };
@@ -77,6 +78,7 @@
 		64E42B402D852D480012ED02 /* javascript.js in Resources */ = {isa = PBXBuildFile; fileRef = 64E42B3F2D852D480012ED02 /* javascript.js */; };
 		64E42B422D852DF20012ED02 /* css.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E42B412D852DF10012ED02 /* css.swift */; };
 		64E42B442D853C450012ED02 /* javascript2.js in Resources */ = {isa = PBXBuildFile; fileRef = 64E42B432D853C450012ED02 /* javascript2.js */; };
+		64FC00012F2C00010000FC01 /* FlashcardsMenuCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC00022F2C00020000FC02 /* FlashcardsMenuCard.swift */; };
 		64FD1A3429EA0F8900E86BE7 /* PracticeExamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */; };
 		64FD1A3629EA105A00E86BE7 /* WelcomeBackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */; };
 /* End PBXBuildFile section */
@@ -123,6 +125,7 @@
 		64A09CB62D540E6A00029CDC /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		64A09CDF2D67CE8900029CDC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		64A2C6242F2BC32B0068FE07 /* QuizUp-MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QuizUp-MockTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64A2C7ED2F2D8B000068FE07 /* TextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyle.swift; sourceTree = "<group>"; };
 		64AB585F29CF9290000B8ECC /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		64ADD353272CA9E9003F043D /* Life In The UK Prep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life In The UK Prep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizUp_MockApp.swift; sourceTree = "<group>"; };
@@ -165,12 +168,14 @@
 		64E42B3F2D852D480012ED02 /* javascript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = javascript.js; sourceTree = "<group>"; };
 		64E42B412D852DF10012ED02 /* css.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = css.swift; sourceTree = "<group>"; };
 		64E42B432D853C450012ED02 /* javascript2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = javascript2.js; sourceTree = "<group>"; };
+		64FC00022F2C00020000FC02 /* FlashcardsMenuCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsMenuCard.swift; sourceTree = "<group>"; };
 		64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeExamList.swift; sourceTree = "<group>"; };
 		64FD1A3529EA105A00E86BE7 /* WelcomeBackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeBackHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		64A2C6252F2BC32B0068FE07 /* QuizUp-MockTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "QuizUp-MockTests"; sourceTree = "<group>"; };
+		64FC00002F2C00000000FC00 /* Flashcards */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Flashcards; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +256,7 @@
 				64ADD364272DFA81003F043D /* Color.swift */,
 				6455B10029C38A84008B6F39 /* RoundedCornerShape.swift */,
 				64A09CA52D4C2D6300029CDC /* Sequence.swift */,
+				64A2C7ED2F2D8B000068FE07 /* TextFieldStyle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -312,7 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */,
-				64ADD355272CA9E9003F043D /* QuizUp-Mock */,
+				64ADD355272CA9E9003F043D /* Quizie */,
 				64A2C6252F2BC32B0068FE07 /* QuizUp-MockTests */,
 				64ADD354272CA9E9003F043D /* Products */,
 			);
@@ -327,7 +333,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		64ADD355272CA9E9003F043D /* QuizUp-Mock */ = {
+		64ADD355272CA9E9003F043D /* Quizie */ = {
 			isa = PBXGroup;
 			children = (
 				64ADD356272CA9E9003F043D /* QuizUp_MockApp.swift */,
@@ -335,6 +341,7 @@
 				64A09CB52D540E3C00029CDC /* Navigation */,
 				6455B0FF29C241B5008B6F39 /* Menu */,
 				6455B0FC29C24198008B6F39 /* Exam */,
+				64FC00002F2C00000000FC00 /* Flashcards */,
 				64B7EDEC29C6B6E5001F6717 /* Monitization */,
 				64B7EDED29C6B6F5001F6717 /* SettingsView */,
 				64B7EDE129C6A0BF001F6717 /* Handbook */,
@@ -426,6 +433,7 @@
 				64FD1A3329EA0F8900E86BE7 /* PracticeExamList.swift */,
 				64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */,
 				64B5BA522A04744200875667 /* SearchResultsView.swift */,
+				64FC00022F2C00020000FC02 /* FlashcardsMenuCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -487,6 +495,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				64FC00002F2C00000000FC00 /* Flashcards */,
 			);
 			name = "Life In The UK Prep";
 			productName = "QuizUp-Mock";
@@ -646,6 +657,7 @@
 				6455B0F429BF3EB8008B6F39 /* ResultsView.swift in Sources */,
 				6455B0F229BF25FA008B6F39 /* QuestionDTO.swift in Sources */,
 				641C198729C613160018EE3D /* View+Extension.swift in Sources */,
+				64A2C7EE2F2D8B000068FE07 /* TextFieldStyle.swift in Sources */,
 				64B5BA512A0191CF00875667 /* FeatureFlags.swift in Sources */,
 				64B5BA532A04744200875667 /* SearchResultsView.swift in Sources */,
 				64E42B3A2D8516EC0012ED02 /* Highlighter.swift in Sources */,
@@ -653,6 +665,7 @@
 				64C5047F29EA1F0D00DCEDA3 /* SummaryView.swift in Sources */,
 				64A09CAE2D4DA7E200029CDC /* FrameReader.swift in Sources */,
 				64B5BA4D29FD669000875667 /* Handbook.swift in Sources */,
+				64FC00012F2C00010000FC01 /* FlashcardsMenuCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,7 +872,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -895,7 +908,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

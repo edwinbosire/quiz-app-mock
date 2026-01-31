@@ -54,6 +54,23 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 	@Published var bookmarked: Bool = false {
 		didSet {
 			question.bookmark()
+			if bookmarked {
+				createFlashcardFromQuestion()
+			}
+		}
+	}
+
+	private let flashcardsRepository: FlashcardsRepository
+
+	private func createFlashcardFromQuestion() {
+		let flashcard = Flashcard.fromQuestion(
+			question.question,
+			explanation: question.hint,
+			topic: "Bookmarked"
+		)
+
+		Task {
+			try? await flashcardsRepository.saveCard(flashcard)
 		}
 	}
 
@@ -63,11 +80,18 @@ class QuestionViewModel: ObservableObject, @preconcurrency Identifiable {
 		selectedChoices.count == answers.count
 	}
 
-	init(question: AttemptedQuestion, owner: QuestionOwner? = nil, selectedChoices: [Choice: AttemptedQuestion.State] = [:], index: Int = 0) {
+	init(
+		question: AttemptedQuestion,
+		owner: QuestionOwner? = nil,
+		selectedChoices: [Choice: AttemptedQuestion.State] = [:],
+		index: Int = 0,
+		flashcardsRepository: FlashcardsRepository = .shared
+	) {
 		self.question = question
 		self.owner = owner
 		self.selectedChoices = selectedChoices
 		self.index = index
+		self.flashcardsRepository = flashcardsRepository
 	}
 
 	func state(for answer: Choice) -> AttemptedQuestion.State {

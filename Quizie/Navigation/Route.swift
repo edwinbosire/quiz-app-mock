@@ -26,6 +26,12 @@ enum Destination: Hashable, Equatable {
 	case progressReportDetail(result: ExamResultViewModel)
 	case settings
 	case monetization
+	// Flashcards
+	case flashcardsHome
+	case flashcardsReview
+	case flashcardCreate
+	case flashcardsBrowse
+	case flashcardDetail(Flashcard)
 }
 
 protocol RouterProtocol: AnyObject {
