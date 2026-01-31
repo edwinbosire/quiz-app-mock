@@ -47,16 +47,14 @@ struct FlashcardsMenuCard: View {
             }
         } label: {
             HStack(spacing: 20) {
-				Spacer()
                 DueCardsIndicator()
-				Spacer()
+				Divider()
                 StreakIndicator()
-				Spacer()
             }
             .frame(maxWidth: .infinity)
             .frame(height: 120)
         }
-        .buttonStyle(RaisedButtonStyle(color: Color.indigo))
+		.buttonStyle(RaisedButtonStyle(color: PastelTheme.rowBackground))
         .padding(.horizontal)
         .padding(.bottom)
         .task {
@@ -77,6 +75,7 @@ struct FlashcardsMenuCard: View {
             Text(dueCount == 0 ? "All caught up!" : "Cards due")
                 .font(.subheadline)
                 .opacity(0.9)
+				.frame(maxWidth: .infinity)
         }
         .foregroundStyle(.white)
     }
@@ -95,6 +94,7 @@ struct FlashcardsMenuCard: View {
             Text("Day streak")
                 .font(.subheadline)
                 .opacity(0.9)
+				.frame(maxWidth: .infinity)
         }
         .foregroundStyle(.white)
     }
