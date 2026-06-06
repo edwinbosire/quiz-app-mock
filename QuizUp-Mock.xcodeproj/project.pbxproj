@@ -61,6 +61,7 @@
 		64B7EDE929C6AD01001F6717 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDE829C6AD01001F6717 /* SettingsView.swift */; };
 		64B7EDEB29C6B5A8001F6717 /* MonitizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDEA29C6B5A8001F6717 /* MonitizationView.swift */; };
 		64B7EDEF29C6C4B3001F6717 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */; };
+		64C37AE52F78083C009C85F1 /* HandbookReader_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C37AE42F78083C009C85F1 /* HandbookReader_new.swift */; };
 		64C5047F29EA1F0D00DCEDA3 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5047E29EA1F0D00DCEDA3 /* SummaryView.swift */; };
 		64C5048129EA1FF500DCEDA3 /* HandbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5048029EA1FF500DCEDA3 /* HandbookView.swift */; };
 		64E374962DC1855F00155124 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E374952DC1855F00155124 /* BarChart.swift */; };
@@ -90,6 +91,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 64ADD352272CA9E9003F043D;
 			remoteInfo = "Life In The UK Prep";
+		};
+		64C37B1F2F78092C009C85F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64C37AEF2F780929009C85F1;
+			remoteInfo = QuizieHandbookReader;
+		};
+		64C37B212F78092C009C85F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64C37AFC2F78092B009C85F1;
+			remoteInfo = QuizieHandbookReaderTests;
+		};
+		64C37B232F78092C009C85F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64C37B062F78092B009C85F1;
+			remoteInfo = QuizieHandbookReaderUITests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -150,6 +172,8 @@
 		64B7EDE829C6AD01001F6717 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		64B7EDEA29C6B5A8001F6717 /* MonitizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitizationView.swift; sourceTree = "<group>"; };
 		64B7EDEE29C6C4B3001F6717 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		64C37AE42F78083C009C85F1 /* HandbookReader_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandbookReader_new.swift; sourceTree = "<group>"; };
+		64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuizieHandbookReader.xcodeproj; path = QuizieHandbookReader/QuizieHandbookReader.xcodeproj; sourceTree = SOURCE_ROOT; };
 		64C5047E29EA1F0D00DCEDA3 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		64C5048029EA1FF500DCEDA3 /* HandbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandbookView.swift; sourceTree = "<group>"; };
 		64DE9A7229CF99CB009AC656 /* Life-In-The-UK-Prep-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Life-In-The-UK-Prep-Info.plist"; sourceTree = "<group>"; };
@@ -367,8 +391,10 @@
 		64B7EDE129C6A0BF001F6717 /* Handbook */ = {
 			isa = PBXGroup;
 			children = (
+				64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */,
 				64B7EDDF29C6A083001F6717 /* HandbookMainMenu.swift */,
 				64B5BA4029F7A9A600875667 /* HandbookReader.swift */,
+				64C37AE42F78083C009C85F1 /* HandbookReader_new.swift */,
 				64B5BA542A05E55500875667 /* TopicProgressView.swift */,
 				642205D929CD2FD900BD663D /* HTMLView.swift */,
 				64E42B412D852DF10012ED02 /* css.swift */,
@@ -414,6 +440,16 @@
 				64B7EDE829C6AD01001F6717 /* SettingsView.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		64C37B1A2F78092C009C85F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				64C37B202F78092C009C85F1 /* QuizieHandbookReader.app */,
+				64C37B222F78092C009C85F1 /* QuizieHandbookReaderTests.xctest */,
+				64C37B242F78092C009C85F1 /* QuizieHandbookReaderUITests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		64C5048229EA29CC00DCEDA3 /* ViewModel */ = {
@@ -534,6 +570,12 @@
 			mainGroup = 64ADD34A272CA9E9003F043D;
 			productRefGroup = 64ADD354272CA9E9003F043D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 64C37B1A2F78092C009C85F1 /* Products */;
+					ProjectRef = 64C37B192F78092C009C85F1 /* QuizieHandbookReader.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				64ADD352272CA9E9003F043D /* Life In The UK Prep */,
@@ -541,6 +583,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		64C37B202F78092C009C85F1 /* QuizieHandbookReader.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = QuizieHandbookReader.app;
+			remoteRef = 64C37B1F2F78092C009C85F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		64C37B222F78092C009C85F1 /* QuizieHandbookReaderTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = QuizieHandbookReaderTests.xctest;
+			remoteRef = 64C37B212F78092C009C85F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		64C37B242F78092C009C85F1 /* QuizieHandbookReaderUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = QuizieHandbookReaderUITests.xctest;
+			remoteRef = 64C37B232F78092C009C85F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		64A2C6222F2BC32B0068FE07 /* Resources */ = {
@@ -607,6 +673,7 @@
 				64B5BA4329F9C1E200875667 /* ResultsViewModel.swift in Sources */,
 				64B5BA4129F7A9A600875667 /* HandbookReader.swift in Sources */,
 				64B5BA552A05E55500875667 /* TopicProgressView.swift in Sources */,
+				64C37AE52F78083C009C85F1 /* HandbookReader_new.swift in Sources */,
 				64A09CA62D4C2D6300029CDC /* Sequence.swift in Sources */,
 				64B5BA4529F9C58100875667 /* PreviewModel.swift in Sources */,
 				64B5FF8E29CB9652001F22E8 /* ExamRepository.swift in Sources */,

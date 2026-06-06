@@ -21,7 +21,6 @@ struct HandbookReader: View {
 				HandbookTopicReader(topic: topic, fontSize: $fontSize).tag(ndx)
 			}
 		}
-		.ignoresSafeArea(.all)
 		.tabViewStyle(.page(indexDisplayMode: .never))
 		.navigationBarTitle(
 			Text(chapter.title.components(separatedBy: ":").first ?? ""),
@@ -72,18 +71,18 @@ struct  HandbookTopicReader: View {
 	@State var scrollProgress: Double = .zero
 	@StateObject private var highlightManager = HighlightManager()
 
+	var title: String {
+		"<H1>\(topic.title) </H1>"
+	}
+
 	var body: some View {
-		ZStack(alignment: .leading) {
-			let title = "<H1>\(topic.title) </H1>"
-							HTMLView(html: "\(title) \(topic.content)", chapterId: topic.id, fontSize: $fontSize, scrollProgress: $scrollProgress, highlightManager: highlightManager)
-								.frame(maxWidth: .infinity ,maxHeight: .infinity)
-								.edgesIgnoringSafeArea(.bottom)
-//			HTMLFormattedText(text: "\(title) \(topic.content)")
-//				.frame(maxWidth: .infinity ,maxHeight: .infinity)
-//				.edgesIgnoringSafeArea(.bottom)
-
-
-		}
+		HTMLView(html: "\(title) \(topic.content)",
+				 chapterId: topic.id,
+				 fontSize: $fontSize,
+				 scrollProgress: $scrollProgress,
+				 highlightManager: highlightManager)
+		.frame(maxWidth: .infinity)
+		.edgesIgnoringSafeArea(.bottom)
 		.onChange(of: scrollProgress) { _, newValue in
 			if UserDefaults.standard.double(forKey: topic.title) < newValue {
 				UserDefaults.standard.set(newValue, forKey: topic.title)
